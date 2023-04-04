@@ -1,0 +1,144 @@
+/* @font-face {
+  font-family: CodePro;
+  src: url("D:/Web Development/New folder/fnt/CodePro/CodePro/Commercial/OTF/CodeDemo-Light.otf");
+} */
+
+body {
+  height: 100vh;
+}
+#flexSwitchCheckChecked {
+  width: 5em;
+  height: 2em;
+  border-color: #0dcaf0;
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+}
+#flexSwitchCheckChecked:checked {
+  background-color: #0dcaf0;
+}
+/* #my-container {
+  font-family: CodePro, sans-serif;
+} */
+.heading {
+  border-bottom: solid;
+}
+#modalSignin {
+  margin-top: 10vh;
+}
+.left-padding {
+  padding-left: 5px !important;
+}
+.show-password {
+  margin-left: 30px !important;
+}
+.hidden-stuff {
+  padding-right: 0 !important;
+}
+.problem-msg {
+  margin-left: 5px;
+  color: #dc3545;
+}
+.my-active {
+  font-weight: 700 !important;
+}
+a {
+  color: #0dcaf0 !important;
+}
+#navbar {
+  width: 90%;
+}
+
+.b-example-divider {
+  height: 0.25rem;
+  border: solid rgba(0, 0, 0, 0.15);
+}
+
+.after-photo {
+  border-radius: 25px;
+  padding: 3rem;
+  position: sticky;
+}
+.img {
+  border-radius: 50% !important;
+  width: 12.5rem !important;
+  height: 12.5rem !important;
+  text-align: center;
+  object-fit: cover;
+  margin-top: -7rem;
+  border: solid 0.75rem;
+}
+.right {
+  border-radius: 25px;
+}
+.details {
+  font-size: medium;
+}
+.detail-key,
+.detail-value {
+  margin-bottom: 1rem;
+}
+.list-group-item {
+  border-radius: 1rem !important;
+}
+.edit-btn {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+.margin-left {
+  margin-left: 5rem !important;
+}
+.background {
+  height: 15rem;
+  border-radius: 25px;
+}
+.scroll-disable {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+.scroll-enable {
+  overflow: auto;
+}
+#edit-details-modal {
+  margin-top: 5rem !important;
+}
+/* ::-webkit-scrollbar {
+  color: #dc3545;
+  scrollbar-3dlight-color: #dc3545;
+} */
+#add-about-modal {
+  margin-top: 7rem !important;
+}
+textarea {
+  border-radius: 25px;
+  resize: vertical;
+  max-height: fit-content !important;
+}
+.section-edit-btn {
+  float: left;
+}
+.post-image {
+  border-radius: 25px;
+}
+.post {
+  border-radius: 25px !important;
+}
+.add-post-btn {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  z-index: 99;
+}
+.photo-post {
+  width: 3rem !important;
+  height: 3rem !important;
+  border: 0 !important;
+  margin: 0 1rem 1rem 0 !important;
+}
+.posts-container {
+  padding: 4rem 7rem 5rem 7rem !important;
+}
