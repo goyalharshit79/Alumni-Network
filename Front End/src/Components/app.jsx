@@ -170,7 +170,7 @@ function App() {
             theme={theme}
             color={color}
             btnTheme={btnTheme}
-            cookies={cookies}
+            user={cookies.user}
           />
         ) : (
           <></>
@@ -191,7 +191,7 @@ function App() {
             theme={theme}
             color={color}
             btnTheme={btnTheme}
-            cookies={cookies}
+            user={cookies.user}
           />
         ) : (
           <></>

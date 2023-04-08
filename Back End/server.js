@@ -11,8 +11,9 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 mongoose.connect("mongodb://127.0.0.1:27017/alumniDB", {
   useNewUrlParser: true,
 });
@@ -21,6 +22,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/alumniDB", {
 const userSchema = {
   fName: String,
   lName: String,
+  pic: [],
   email: String,
   user: String,
   password: String,
@@ -62,7 +64,10 @@ const Alumni = mongoose.model("Alumni", alumniSchema);
 
 //making the schema for the posts
 const postSchema = {
+  postNumber: Number,
   email: String,
+  name: String,
+  title: String,
   about: String,
   image: [],
   comments: [],
@@ -77,6 +82,7 @@ app.post("/signup", (req, res) => {
         fName: req.body.fname,
         lName: req.body.lname,
         email: req.body.email,
+        pic: [],
         user: req.body.user,
         password: req.body.password,
         isFirst: false,
@@ -134,7 +140,6 @@ app.post("/signup", (req, res) => {
     }
   });
 });
-
 //handling a login request
 app.post("/login", (req, res) => {
   User.find(
@@ -242,8 +247,6 @@ app.post("/give-details", (req, res) => {
     });
   } else if (req.body.user === "Teacher") {
     Teacher.find({ email: req.body.email }, (err, detailsFound) => {
-      console.log(detailsFound);
-
       res.send({ msg: "900", details: detailsFound[0] });
     });
   } else if (req.body.user === "Alumni") {
@@ -251,6 +254,22 @@ app.post("/give-details", (req, res) => {
       res.send({ msg: "900", details: detailsFound[0] });
     });
   }
+});
+
+app.post("/get-user-pic", (req, res) => {
+  User.find({ email: req.body.email }, (err, userFound) => {
+    res.send({ msg: "900", pic: userFound[0].pic });
+  });
+});
+
+app.post("/update-user-pic", (req, res) => {
+  User.find({ email: req.body.email }, (err, userFound) => {
+    if (!err) {
+      userFound[0].pic = [req.body.pic];
+      userFound[0].save();
+      res.send({ msg: "900" });
+    }
+  });
 });
 
 //adds or edits the about section
@@ -383,6 +402,62 @@ app.post("/delete-section", (req, res) => {
   });
 });
 
+app.post("/add-post", (req, res) => {
+  var postNumber;
+  Post.find({}, (err, posts) => {
+    if (posts.length > 0) {
+      postNumber = posts[posts.length - 1].postNumber;
+    } else {
+      postNumber = 0;
+    }
+    User.find({ email: req.body.email }, (err, userFound) => {
+      const presentNumber = postNumber + 1;
+      const newPost = new Post({
+        postNumber: presentNumber,
+        email: req.body.email,
+        name: userFound[0].fName + " " + userFound[0].lName,
+        title: req.body.postTitle,
+        about: req.body.postAbout,
+        image: req.body.pics,
+      });
+      newPost.save();
+      res.send({ msg: "900" });
+    });
+  });
+});
+
+app.get("/get-posts", (req, res) => {
+  Post.find({}, (err, postsFound) => {
+    res.send({ msg: "900", posts: postsFound });
+  });
+});
+
+function restart() {
+  User.find({}, (err, users) => {
+    if (users.length === 0) {
+      const newUser = new User({
+        fName: "harshit",
+        lName: "goyal",
+        email: "goyalharshit79@gmail.com",
+        user: "Teacher",
+        password: "h",
+        isFirst: true,
+        pic: [],
+      });
+      const userDetails = new Teacher({
+        email: "goyalharshit79@gmail.com",
+        course: [],
+        subjectsTaught: [""],
+        qualifications: [""],
+        about: [""],
+        additionalDetails: [],
+      });
+      newUser.save();
+      userDetails.save();
+    }
+  });
+}
+restart();
 app.listen(8000, () => {
   console.log("The server is running on port 8000");
 });

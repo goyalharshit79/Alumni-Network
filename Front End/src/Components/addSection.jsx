@@ -5,7 +5,7 @@ function AddSection(props) {
     if (!additionDetailReqd) {
       checkTitle();
     }
-  }, [additionDetailReqd, checkTitle]);
+  });
   useEffect(() => {
     props.sectionFrom === "edit"
       ? (document.getElementById("title").value = props.whichSection)
@@ -41,20 +41,25 @@ function AddSection(props) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function checkTitle(e) {
+    var title;
     if (e) {
-      var title = e.target.value;
+      title = e.target.value;
     } else {
       title = props.whichSection;
     }
     props.userDetails.additionalDetails.forEach((detail) => {
       const key = Object.keys(detail)[0];
       if (key === title) {
+        console.log("title: ", title);
+        console.log(detail[key]);
         setAdditionalDetailReqd(detail[key]);
       } else {
         setAdditionalDetailReqd("");
       }
     });
   }
+  console.log(props.whichSection);
+  console.log(additionDetailReqd);
   return (
     <>
       <div

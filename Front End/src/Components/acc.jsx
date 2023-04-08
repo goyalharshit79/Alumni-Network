@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 
 function Acc(props) {
+  const [profilePic, setProfilePic] = useState();
+  useEffect(() => {
+    if (!profilePic) {
+      getPhoto();
+    }
+  });
   function deleteSection(e) {
     const address = "http://localhost:8000";
     e.preventDefault();
@@ -25,7 +31,51 @@ function Acc(props) {
   function handleSectionEdit(section) {
     props.handleAddSection(section, "edit");
   }
-
+  function getPhoto() {
+    const address = "http://localhost:8000";
+    const reqPayload = {
+      email: props.userDetails.email,
+    };
+    fetch(address + "/get-user-pic", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqPayload),
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.msg === "900") {
+          setProfilePic(data.pic);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+  function handleAddPic(e) {
+    const pic = e.target.files;
+    const reader = new FileReader();
+    reader.readAsDataURL(pic[0]);
+    reader.onload = () => {
+      const address = "http://localhost:8000";
+      const reqPayload = {
+        email: props.userDetails.email,
+        pic: reader.result,
+      };
+      fetch(address + "/update-user-pic", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqPayload),
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.msg === "900") {
+            setProfilePic(data.pic);
+          }
+        })
+        .catch((err) => console.log(err));
+    };
+  }
+  console.log(profilePic);
   return (
     <>
       <div id="my-container" className="scroll-enable">
@@ -38,11 +88,33 @@ function Acc(props) {
 
             {/* div containing image */}
             <div className="col-md-3 text-center">
-              <img
-                alt="Your"
-                src="debate4.jpg"
-                className={"img border-" + props.theme}
+              <input
+                className="form-control mb-3 visually-hidden"
+                type="file"
+                id="files"
+                name="files"
+                accept="image/*"
+                onChange={handleAddPic}
               />
+              <label htmlFor="files">
+                {profilePic ? (
+                  profilePic.length ? (
+                    <img
+                      className={"img-placeholder border-" + props.theme}
+                      src={profilePic}
+                      alt="Your Pic"
+                    />
+                  ) : (
+                    <div
+                      className={"img-placeholder border-" + props.theme}
+                    ></div>
+                  )
+                ) : (
+                  <div
+                    className={"img-placeholder border-" + props.theme}
+                  ></div>
+                )}
+              </label>
             </div>
             <div className="col-md-1"></div>
             <div className="col-md-8">
