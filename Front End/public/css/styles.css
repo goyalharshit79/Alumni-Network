@@ -1,7 +1,23 @@
-/* @font-face {
-  font-family: CodePro;
-  src: url("D:/Web Development/New folder/fnt/CodePro/CodePro/Commercial/OTF/CodeDemo-Light.otf");
-} */
+@font-face {
+  font-family: Roboto;
+  src: url("RobotoSerif-Thin.ttf");
+}
+:root {
+  --bg-color: #ecf2d5;
+
+  --main-text-color: #012611;
+  --sec-text-color: #03401d;
+
+  --main-btn-color: #012611;
+  --main-btn-hover-bg-color: #012611;
+  --main-btn-hover-color: #ecf2d5;
+  --main-btn-hover-border-color: #012611;
+
+  --sec-btn-color: #cef2bd;
+  --sec-btn-hover-color: #012611;
+  --sec-btn-hover-bg-color: #cef2bd;
+  --sec-btn-hover-border-color: #cef2bd;
+}
 
 body {
   height: 100vh;
@@ -17,9 +33,7 @@ body {
 #flexSwitchCheckChecked:checked {
   background-color: #0dcaf0;
 }
-/* #my-container {
-  font-family: CodePro, sans-serif;
-} */
+
 .heading {
   border-bottom: solid;
 }
@@ -176,4 +190,50 @@ textarea {
   border: 0 !important;
   margin: 0 1rem 0 0 !important;
   background-color: grey;
+}
+
+/* utility classes */
+
+.bg-color {
+  background-color: var(--bg-color) !important;
+}
+.text-color-main {
+  color: var(--main-text-color);
+}
+.text-color-sec {
+  color: var(--sec-text-color);
+}
+.btn-color-1 {
+  --bs-btn-color: var(--main-btn-color) !important;
+  --bs-btn-border-color: var(--main-btn-color) !important;
+  --bs-btn-hover-color: var(--main-btn-hover-color) !important;
+  --bs-btn-hover-bg: var(--main-btn-hover-bg-color) !important;
+  --bs-btn-hover-border-color: var(--main-btn-hover-border-color) !important;
+}
+.btn-color-2 {
+  font-weight: bold !important;
+  --bs-btn-color: var(--sec-btn-color) !important;
+  --bs-btn-border-color: var(--sec-btn-color) !important;
+  --bs-btn-hover-color: var(--sec-btn-hover-color) !important;
+  --bs-btn-hover-bg: var(--sec-btn-hover-bg-color) !important;
+  --bs-btn-hover-border-color: var(--sec-btn-hover-border-color) !important;
+}
+.close {
+  color: white !important;
+}
+.my-input {
+  border: 0 !important;
+  color: var(--sec-text-color) !important;
+}
+.my-input:focus {
+  outline: var(--sec-text-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(3, 64, 29, 0.25) !important;
+}
+.form-check-input:checked {
+  background-color: var(--sec-text-color) !important;
+  border-color: var(--sec-text-color) !important;
+}
+.modal {
+  --bs-modal-border-color: transparent !important;
+  --bs-modal-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }

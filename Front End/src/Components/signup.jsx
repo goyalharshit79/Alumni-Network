@@ -116,12 +116,12 @@ function SignUp(props) {
       role="dialog"
     >
       <div className="modal-dialog" role="document">
-        <div className={"modal-content rounded-4 shadow bg-" + props.theme}>
+        <div className="modal-content bg-color rounded-4 shadow">
           <div className="modal-header p-5 pb-4 border-bottom-0">
             <h2 className={"fw-bold mb-0 text-" + props.color}>Sign Up</h2>
             <button
               type="button"
-              className={"btn-close btn-close-" + props.color}
+              className="btn-close"
               aria-label="Close"
               onClick={props.closeSignup}
             ></button>
@@ -132,7 +132,7 @@ function SignUp(props) {
                 <div className="col-md-6 form-floating mb-3 left-padding">
                   <input
                     type="text"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     id="floatingFname"
                     name="floatingFname"
                     placeholder="First Name"
@@ -142,7 +142,7 @@ function SignUp(props) {
                 <div className="col-md-6 form-floating mb-3 left-padding">
                   <input
                     type="text"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     id="floatingLname"
                     name="floatingLname"
                     placeholder="Last Name"
@@ -152,7 +152,7 @@ function SignUp(props) {
                 <div className="form-floating mb-3 left-padding">
                   <input
                     type="email"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     id="floatingEmail"
                     name="floatingEmail"
                     placeholder="Email address"
@@ -169,7 +169,7 @@ function SignUp(props) {
                 </div>
                 <div className="form-floating mb-3 left-padding">
                   <select
-                    className="form-control form-select rounded-3"
+                    className="form-control form-select rounded-3 my-input"
                     id="floatingUserType"
                     name="floatingUserType"
                   >
@@ -184,7 +184,7 @@ function SignUp(props) {
                 <div className="form-floating mb-3 left-padding">
                   <input
                     type="password"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     id="floatingPassword"
                     placeholder="Password"
                   />
@@ -193,7 +193,7 @@ function SignUp(props) {
                 <div className="form-floating mb-3 left-padding">
                   <input
                     type="password"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     id="floatingConfirmPassword"
                     name="floatingConfirmPassword"
                     placeholder="Confirm Password"
@@ -205,21 +205,21 @@ function SignUp(props) {
                 </div>
                 <div className="form-floating mb-3 left-padding">
                   <input
-                    className="form-check-input"
+                    className="form-check-input my-input"
                     type="checkbox"
                     id="show-password"
                     onClick={toggleShowPassword}
                   />
                   <label
                     htmlFor="show-password"
-                    className={"p-0 show-password text-" + props.color}
+                    className="p-0 show-password text-color-sec"
                   >
                     Show Password
                   </label>
                 </div>
 
                 <button
-                  className="w-100 mb-2 btn btn-lg rounded-3 btn-outline-info"
+                  className="btn btn-lg rounded-5 btn-color-1"
                   type="submit"
                 >
                   Sign up
