@@ -27,43 +27,19 @@ function LandingPage(props) {
     wantsToLogin ? (
       <div>
         <LogIn
-          theme={props.theme}
-          color={props.color}
           loggedIn={props.loggedIn}
           closeSignin={closeSignin}
           firstLogin={firstLogin}
         />
-        <Details
-          loginShow={loginShow}
-          theme={props.theme}
-          color={props.color}
-          btnTheme={props.btnTheme}
-          signupShow={signupShow}
-        />
+        <Details loginShow={loginShow} signupShow={signupShow} />
       </div>
     ) : (
-      <Details
-        loginShow={loginShow}
-        theme={props.theme}
-        color={props.color}
-        btnTheme={props.btnTheme}
-        signupShow={signupShow}
-      />
+      <Details loginShow={loginShow} signupShow={signupShow} />
     )
   ) : (
     <div>
-      <SignUp
-        theme={props.theme}
-        color={props.color}
-        closeSignup={closeSignup}
-      />
-      <Details
-        loginShow={loginShow}
-        theme={props.theme}
-        color={props.color}
-        btnTheme={props.btnTheme}
-        signupShow={signupShow}
-      />
+      <SignUp closeSignup={closeSignup} />
+      <Details loginShow={loginShow} signupShow={signupShow} />
     </div>
   );
 }

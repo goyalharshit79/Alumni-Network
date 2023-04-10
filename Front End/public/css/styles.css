@@ -1,9 +1,17 @@
 @font-face {
-  font-family: Roboto;
-  src: url("RobotoSerif-Thin.ttf");
+  font-family: CodePro;
+  src: url(CodePro-Trial-LightLC.woff2);
+}
+@font-face {
+  font-family: CodeNormal;
+  src: url(CodePro-Trial-NormalLC.woff);
+}
+@font-face {
+  font-family: Exo;
+  src: url(Exo2-Light.ttf);
 }
 :root {
-  --bg-color: #ecf2d5;
+  --bg-color: #cef2bd;
 
   --main-text-color: #012611;
   --sec-text-color: #03401d;
@@ -13,8 +21,8 @@
   --main-btn-hover-color: #ecf2d5;
   --main-btn-hover-border-color: #012611;
 
-  --sec-btn-color: #cef2bd;
-  --sec-btn-hover-color: #012611;
+  --sec-btn-color: #03401d;
+  --sec-btn-hover-color: #fff;
   --sec-btn-hover-bg-color: #cef2bd;
   --sec-btn-hover-border-color: #cef2bd;
 }
@@ -134,15 +142,17 @@ textarea {
   border-radius: 25px;
 }
 .post {
+  border: 0 !important;
   border-radius: 25px !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25) !important;
 }
 .add-post-btn {
   position: fixed;
   bottom: 2rem;
   left: 2rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50% !important;
+  width: 7rem;
+  height: 4rem;
+  border-radius: 50px !important;
   padding: 0 !important;
   z-index: 99;
 }
@@ -158,11 +168,7 @@ textarea {
 /* .post-title:focus {
   v-color: transparent !important;
 } */
-.create-post-input {
-  border-radius: 0 !important;
-  border-top: 0 !important;
-  border-right: 0 !important;
-  border-left: 0 !important;
+#create-post-input {
   border-bottom: solid grey !important;
 }
 .create-post-textarea {
@@ -190,20 +196,28 @@ textarea {
   border: 0 !important;
   margin: 0 1rem 0 0 !important;
   background-color: grey;
+  display: inline-block;
 }
-
+.cola {
+  width: 0.6em !important;
+  height: 0.6em !important;
+  margin-top: 0.25em !important;
+}
 /* utility classes */
 
 .bg-color {
   background-color: var(--bg-color) !important;
 }
 .text-color-main {
-  color: var(--main-text-color);
+  font-family: CodeNormal !important;
+  color: var(--main-text-color) !important;
 }
 .text-color-sec {
-  color: var(--sec-text-color);
+  font-family: Exo !important;
+  color: var(--sec-text-color) !important;
 }
 .btn-color-1 {
+  font-family: CodeNormal !important;
   --bs-btn-color: var(--main-btn-color) !important;
   --bs-btn-border-color: var(--main-btn-color) !important;
   --bs-btn-hover-color: var(--main-btn-hover-color) !important;
@@ -236,4 +250,9 @@ textarea {
 .modal {
   --bs-modal-border-color: transparent !important;
   --bs-modal-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.placeholder-image-name {
+  position: absolute;
+  top: 2rem;
 }

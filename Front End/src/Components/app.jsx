@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Home from "./home";
 import LandingPage from "./landing-page";
-import ThemeSwitch from "./theme-switch";
 import NavBar from "./navbar";
 import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "email",
-    "user",
-    "theme",
-  ]);
+  const [cookies, setCookie, removeCookie] = useCookies(["email", "user"]);
   const [isLoggedIn, setIsLoggedin] = useState(() => {
     if (cookies.user) {
       return true;
@@ -79,46 +74,6 @@ function App() {
       });
   }
 
-  // taking care of theme stuff
-  const [theme, setTheme] = useState(() => {
-    if (cookies.theme) {
-      return cookies.theme;
-    } else {
-      return "light";
-    }
-  });
-
-  const [color, setColor] = useState(() => {
-    if (theme === "light") {
-      return "black";
-    } else if (theme === "dark") {
-      return "white";
-    }
-  });
-  const [btnTheme, setBtnTheme] = useState(() => {
-    if (theme === "light") {
-      return "dark";
-    } else if (theme === "dark") {
-      return "light";
-    }
-  });
-  const [oppTheme, setOppTheme] = useState(() => {
-    if (theme === "light") {
-      return "light";
-    } else if (theme === "dark") {
-      return "dark";
-    }
-  });
-  function themeSetter(themeRecd, colorRecd, btnThemerecd, oppThemeRecd) {
-    setTheme(themeRecd);
-    setColor(colorRecd);
-    setBtnTheme(btnThemerecd);
-    setOppTheme(oppThemeRecd);
-  }
-  useEffect(() => {
-    setCookie("theme", theme);
-  }, [setCookie, theme]);
-  // theme stuff ends
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element) {
     if (element.innerHTML === "Account") {
@@ -145,9 +100,6 @@ function App() {
         {userDetails ? (
           <FirstLogin
             user={cookies.user}
-            theme={theme}
-            color={color}
-            btnTheme={btnTheme}
             closeFirstLogin={closeFirstLogin}
             updateDetails={updateDetails}
             from="firstLogin"
@@ -157,93 +109,33 @@ function App() {
           <></>
         )}
 
-        <NavBar
-          className="nav-bar"
-          theme={theme}
-          color={color}
-          btnTheme={btnTheme}
-          tabChange={goToTab}
-          logout={handleLogout}
-        />
-        {cookies.user ? (
-          <Home
-            theme={theme}
-            color={color}
-            btnTheme={btnTheme}
-            user={cookies.user}
-          />
-        ) : (
-          <></>
-        )}
+        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
+        {cookies.user ? <Home user={cookies.user} /> : <></>}
       </>
     ) : homeClicked ? (
       <>
-        <NavBar
-          className="nav-bar"
-          theme={theme}
-          color={color}
-          btnTheme={btnTheme}
-          tabChange={goToTab}
-          logout={handleLogout}
-        />
-        {cookies.user ? (
-          <Home
-            theme={theme}
-            color={color}
-            btnTheme={btnTheme}
-            user={cookies.user}
-          />
-        ) : (
-          <></>
-        )}
-        <ThemeSwitch theme={theme} themeSetter={themeSetter} />
+        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
+        {cookies.user ? <Home user={cookies.user} /> : <></>}
       </>
     ) : accountClicked ? (
       <>
-        <NavBar
-          className="nav-bar"
-          theme={theme}
-          color={color}
-          btnTheme={btnTheme}
-          tabChange={goToTab}
-          logout={handleLogout}
-        />
+        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
         <Account
-          theme={theme}
-          oppTheme={oppTheme}
-          color={color}
-          btnTheme={btnTheme}
           cookies={cookies}
           userDetails={userDetails}
           closeFirstLogin={closeFirstLogin}
           updateDetails={updateDetails}
         />
-        <ThemeSwitch theme={theme} themeSetter={themeSetter} />
       </>
     ) : (
       <>
-        <NavBar
-          className="nav-bar"
-          theme={theme}
-          color={color}
-          btnTheme={btnTheme}
-          tabChange={goToTab}
-          logout={handleLogout}
-        />
+        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
         Kuch gadbad hai
-        <ThemeSwitch theme={theme} themeSetter={themeSetter} />
       </>
     )
   ) : (
     <div>
-      <LandingPage
-        theme={theme}
-        color={color}
-        btnTheme={btnTheme}
-        loggedIn={loggedIn}
-        firstLogin={firstLogin}
-      />
-      <ThemeSwitch theme={theme} themeSetter={themeSetter} />
+      <LandingPage loggedIn={loggedIn} firstLogin={firstLogin} />
     </div>
   );
 }

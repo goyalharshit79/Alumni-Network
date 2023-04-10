@@ -18,20 +18,15 @@ function NavBar(props) {
   }
 
   return (
-    <div id="navBar">
+    <div id="navBar" className="text-color-sec">
       <nav
-        className={
-          "navbar pb-3 navbar-expand-lg bg-" +
-          props.theme +
-          " navbar-" +
-          props.theme
-        }
+        className="navbar navbar-expand-lg bg-color "
         aria-label="Offcanvas navbar large"
       >
         <div className="container-fluid">
-          <a className={"navbar-brand text-" + props.color} href="/#">
+          <span className="navbar-brand mb-0 text-color-main">
             Alumni Network
-          </a>
+          </span>
           <button
             className="navbar-toggler"
             type="button"
@@ -42,14 +37,14 @@ function NavBar(props) {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div
-            className={"offcanvas offcanvas-end text-bg-" + props.theme}
+            className="offcanvas offcanvas-end bg-color"
             tabIndex="-1"
             id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbar"
           >
             <div className="offcanvas-header">
               <h5
-                className={"offcanvas-title text-" + props.color}
+                className="offcanvas-title text-color-main"
                 id="offcanvasNavbar"
               >
                 Menu
@@ -57,16 +52,16 @@ function NavBar(props) {
               <button
                 type="button"
                 id="close-btn"
-                className={"btn-close btn-close-" + props.color}
+                className="btn-close"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               ></button>
             </div>
             <div className="offcanvas-body">
-              <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <ul className="navbar-nav  justify-content-end flex-grow-1 pe-3">
                 <li className="nav-item">
                   <a
-                    className={"nav-link my-active text-" + props.color}
+                    className="nav-link my-active text-color-sec"
                     aria-current="page"
                     href="/#"
                     onClick={tabChange}
@@ -76,7 +71,7 @@ function NavBar(props) {
                 </li>
                 <li className="nav-item">
                   <a
-                    className={"nav-link text-" + props.color}
+                    className="nav-link text-color-sec"
                     href="/#"
                     onClick={tabChange}
                   >
@@ -85,7 +80,7 @@ function NavBar(props) {
                 </li>
                 <li className="nav-item">
                   <a
-                    className={"nav-link text-" + props.color}
+                    className="nav-link text-color-sec"
                     href="/#"
                     onClick={props.logout}
                   >
@@ -95,15 +90,12 @@ function NavBar(props) {
               </ul>
               <form className="d-flex mt-3 mt-lg-0" role="search">
                 <input
-                  className="form-control me-2"
+                  className="form-control me-2 my-input"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button
-                  className={"btn btn-outline-" + props.btnTheme}
-                  type="submit"
-                >
+                <button className="btn btn-color-1 " type="submit">
                   Search
                 </button>
               </form>

@@ -15,11 +15,7 @@ function Carousel(props) {
   }, [props.post.postNumber]);
 
   return (
-    <div
-      id={"post" + props.post.postNumber}
-      className="carousel slide"
-      data-bs-ride="carousel"
-    >
+    <div id={"post" + props.post.postNumber} className="carousel slide">
       <div className="carousel-inner">
         {props.post.image.map((image) => {
           return (

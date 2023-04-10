@@ -69,14 +69,14 @@ function AddSection(props) {
         id="add-about-modal"
       >
         <div className="modal-dialog" role="document">
-          <div className={"modal-content rounded-4 shadow bg-" + props.theme}>
+          <div className="modal-content rounded-4 shadow bg-color">
             <div className="modal-header p-5 pb-4 border-bottom-0">
-              <h2 className={"fw-bold mb-0 text-" + props.color}>
+              <h2 className="fw-bold mb-0 text-color-main">
                 Add any section you like
               </h2>
               <button
                 type="button"
-                className={"btn-close btn-close-" + props.color}
+                className="btn-close"
                 aria-label="Close"
                 onClick={props.closeAddSection}
               ></button>
@@ -85,7 +85,7 @@ function AddSection(props) {
               <form onSubmit={handleAddSection}>
                 <div className="form-floating mb-3">
                   <input
-                    className="fw-bold form-control rounded-3"
+                    className="fw-bold form-control rounded-3 my-input"
                     type="text"
                     id="title"
                     name="title"
@@ -103,14 +103,14 @@ function AddSection(props) {
                     }
                     name="value"
                     id="value"
-                    className="form-control rounded-3"
+                    className="form-control rounded-3 my-input"
                     placeholder="About"
                   />
                   <label htmlFor="about">About</label>
                 </div>
                 <div className="row">
                   <button
-                    className="w-100 mb-2 btn btn-lg rounded-3 btn-outline-info"
+                    className="w-100 mb-2 btn btn-lg rounded-3 btn-color-1"
                     type="submit"
                   >
                     Submit

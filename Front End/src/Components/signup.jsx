@@ -118,7 +118,7 @@ function SignUp(props) {
       <div className="modal-dialog" role="document">
         <div className="modal-content bg-color rounded-4 shadow">
           <div className="modal-header p-5 pb-4 border-bottom-0">
-            <h2 className={"fw-bold mb-0 text-" + props.color}>Sign Up</h2>
+            <h2 className="fw-bold text-color-main mb-0 ">Sign Up</h2>
             <button
               type="button"
               className="btn-close"

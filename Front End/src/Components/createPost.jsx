@@ -46,26 +46,27 @@ function CreatePost(props) {
           <div className="col-md-10">
             <button
               type="button"
-              className={"btn-close create-post-close btn-close-" + props.color}
+              className="btn-close create-post-close my-input"
               aria-label="Close"
               onClick={props.closeCreatePost}
             ></button>
             <form onSubmit={handleAddPost}>
               <div className="row">
-                <div className="col-sm-12 form-floating mb-3">
+                <div className="col-sm-12 form-floating mb-2">
                   <input
-                    className="create-post-input form-control "
+                    className="my-input create-post-input form-control "
                     id="title"
                     name="title"
                     placeholder="Title of the Post"
                   />
                   <label htmlFor="title">Title of the Post</label>
                 </div>
+                <hr className="mb-2" />
                 <div className="col-sm-12 form-floating mb-3">
                   <textarea
                     name="about"
                     id="about"
-                    className="create-post-textarea form-control"
+                    className="my-input create-post-textarea form-control"
                     placeholder="About"
                   ></textarea>
                   <label htmlFor="about">About</label>
@@ -81,7 +82,7 @@ function CreatePost(props) {
                 />
                 <label
                   htmlFor="files"
-                  className="w-75 mx-auto btn btn-lg rounded-3 btn-outline-info mb-3"
+                  className="w-75 mx-auto btn btn-lg rounded-3 btn-color-2 mb-3"
                 >
                   Add Media
                 </label>
@@ -97,7 +98,7 @@ function CreatePost(props) {
                 })}
 
                 <button
-                  className="w-100 btn btn-lg rounded-3 btn-outline-info"
+                  className="w-100 btn btn-lg rounded-3 btn-color-1"
                   type="submit"
                 >
                   Add Post

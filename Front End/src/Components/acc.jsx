@@ -79,12 +79,10 @@ function Acc(props) {
   return (
     <>
       <div id="my-container" className="scroll-enable">
-        <div className={"container-fluid p-5 bg-" + props.theme}>
+        <div className="container-fluid p-5">
           <div className="row">
             {/* the background div */}
-            <div
-              className={"col-md-12 background w-100 bg-" + props.oppTheme}
-            ></div>
+            <div className="col-md-12 background w-100 bg-color"></div>
 
             {/* div containing image */}
             <div className="col-md-3 text-center">
@@ -100,19 +98,15 @@ function Acc(props) {
                 {profilePic ? (
                   profilePic.length ? (
                     <img
-                      className={"img-placeholder border-" + props.theme}
+                      className="img-placeholder border-white"
                       src={profilePic}
                       alt="Your Pic"
                     />
                   ) : (
-                    <div
-                      className={"img-placeholder border-" + props.theme}
-                    ></div>
+                    <div className="img-placeholder border-white"></div>
                   )
                 ) : (
-                  <div
-                    className={"img-placeholder border-" + props.theme}
-                  ></div>
+                  <div className="img-placeholder border-white"></div>
                 )}
               </label>
             </div>
@@ -120,7 +114,7 @@ function Acc(props) {
             <div className="col-md-8">
               <div className="row">
                 <button
-                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-outline-info"
+                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-color-2"
                   type="submit"
                   onClick={props.handleEditDetails}
                 >
@@ -129,7 +123,7 @@ function Acc(props) {
 
                 {/* <div className="col-md-1"></div> */}
                 <button
-                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-outline-info"
+                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-color-2"
                   type="submit"
                   onClick={props.handleAddAbout}
                 >
@@ -138,7 +132,7 @@ function Acc(props) {
                 {/* <div className="col-md-1"></div> */}
 
                 <button
-                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-outline-info"
+                  className="edit-btn mx-auto col-sm-3 btn btn-lg rounded-3 btn-color-2"
                   type="submit"
                   onClick={() => {
                     props.handleAddSection("add");
@@ -150,16 +144,9 @@ function Acc(props) {
             </div>
 
             {/* stuff after image */}
-            <div
-              className={
-                "col-md-3 text-center after-photo mb-3  bg-" +
-                props.oppTheme +
-                " text-" +
-                props.theme
-              }
-            >
+            <div className="col-md-3 text-center after-photo mb-3 bg-color text-color-sec">
               <div className="row">
-                <div className="col-sm-12 my-3">
+                <div className="col-sm-12 my-3 ">
                   First Name: {_.capitalize(props.cookies.user.fName)}
                 </div>
                 <div className="col-sm-12 my-3">
@@ -173,9 +160,9 @@ function Acc(props) {
 
             {/* stuff on the right */}
             <div className="col-md-1"></div>
-            <div className={"col-md-8 mb-3 p-4 right bg-" + props.oppTheme}>
-              <div className={"row text-center text-" + props.theme}>
-                <div className="col-md-12 h2 heading text-center">
+            <div className="col-md-8 mb-3 p-4 right bg-color">
+              <div className="row text-center text-color-sec">
+                <div className="col-md-12 h2 heading text-center text-color-main">
                   {props.cookies.user.user}
                 </div>
                 {props.keys.map((key) => {
@@ -211,15 +198,11 @@ function Acc(props) {
             {props.userDetails.about[0].length ? (
               <>
                 <div className="col-md-4"></div>
-                <div className={"col-md-8 mb-3 p-4 right bg-" + props.oppTheme}>
-                  <div
-                    className={
-                      "col-md-12 h2 heading text-center text-" + props.theme
-                    }
-                  >
+                <div className="col-md-8 mb-3 p-4 right bg-color">
+                  <div className="col-md-12 h2 heading text-center text-color-main">
                     About
                   </div>
-                  <div className={"text-" + props.theme}>
+                  <div className="text-color-sec">
                     {props.userDetails.about}
                   </div>
                 </div>
@@ -236,21 +219,12 @@ function Acc(props) {
                     return (
                       <>
                         <div className="col-md-4"></div>
-                        <div
-                          className={
-                            "col-md-8 mb-3 p-4 right bg-" + props.oppTheme
-                          }
-                        >
-                          <div
-                            className={
-                              "col-md-12 h2 heading text-center text-" +
-                              props.theme
-                            }
-                          >
-                            <div className="row">
+                        <div className="col-md-8 mb-3 p-4 right bg-color">
+                          <div className="col-md-12 h2 heading text-center textcolor-main">
+                            <div className="row mb-1">
                               <button
                                 id={Object.keys(detail)[0]}
-                                className="col-sm-1 section-edit-btn btn rounded-3 p-0 mb-1 btn-outline-info"
+                                className="col-sm-1 section-edit-btn btn rounded-3 p-0 btn-color-1"
                               >
                                 <ModeEditOutlineTwoToneIcon
                                   onClick={() => {
@@ -262,10 +236,7 @@ function Acc(props) {
                                 {_.startCase(Object.keys(detail)[0])}
                               </div>
                               <button
-                                className={
-                                  "col-sm-1 p-0 btn-close btn-close-" +
-                                  props.oppTheme
-                                }
+                                className="col-sm-1 p-0 cola btn-close"
                                 id={Object.keys(detail)[0]}
                                 aria-label="Close"
                                 onClick={deleteSection}
@@ -273,7 +244,7 @@ function Acc(props) {
                             </div>
                           </div>
 
-                          <div className={"text-" + props.theme}>
+                          <div className="text-color-sec">
                             {detail[Object.keys(detail)[0]].length > 1 ? (
                               detail[Object.keys(detail)[0]].map((det) => {
                                 return (

@@ -53,11 +53,11 @@ function Home(props) {
             ) : (
               <>
                 <button
-                  className="add-post-btn btn btn-outline-info"
+                  className="add-post-btn btn btn-color-2 "
                   type="submit"
                   onClick={handleCreatePost}
                 >
-                  +
+                  Create Post
                 </button>
                 {posts ? (
                   <>

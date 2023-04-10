@@ -31,12 +31,12 @@ function AddAbout(props) {
         id="add-about-modal"
       >
         <div className="modal-dialog" role="document">
-          <div className={"modal-content rounded-4 shadow bg-" + props.theme}>
+          <div className="modal-content rounded-4 shadow bg-color">
             <div className="modal-header p-5 pb-4 border-bottom-0">
-              <h2 className={"fw-bold mb-0 text-" + props.color}>About Me</h2>
+              <h2 className="mb-0 text-color-main">About Me</h2>
               <button
                 type="button"
-                className={"btn-close btn-close-" + props.color}
+                className="btn-close"
                 aria-label="Close"
                 onClick={props.closeAddAbout}
               ></button>
@@ -48,14 +48,14 @@ function AddAbout(props) {
                     defaultValue={props.userDetails.about}
                     name="about"
                     id="about"
-                    className="form-control rounded-3"
+                    className="form-control my-input rounded-3"
                     placeholder="About"
                   ></textarea>
                   <label htmlFor="about">About</label>
                 </div>
                 <div className="row">
                   <button
-                    className="w-100 mb-2 btn btn-lg rounded-3 btn-outline-info"
+                    className="w-100 mb-2 btn btn-lg rounded-3 btn-color-1"
                     type="submit"
                   >
                     Submit

@@ -66,19 +66,12 @@ function Account(props) {
     <>
       <FirstLogin
         user={props.cookies.user}
-        theme={props.theme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         closeFirstLogin={closeEditDetails}
         updateDetails={props.updateDetails}
         userDetails={props.userDetails}
         from={"account"}
       />
       <Acc
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         cookies={props.cookies}
         userDetails={props.userDetails}
         closeFirstLogin={props.closeFirstLogin}
@@ -92,20 +85,12 @@ function Account(props) {
   ) : addAbout ? (
     <>
       <AddAbout
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         cookies={props.cookies}
         closeAddAbout={closeAddAbout}
         updateDetails={props.updateDetails}
         userDetails={props.userDetails}
       />
       <Acc
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         cookies={props.cookies}
         userDetails={props.userDetails}
         closeFirstLogin={props.closeFirstLogin}
@@ -119,10 +104,6 @@ function Account(props) {
   ) : addSection ? (
     <>
       <AddSection
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         closeAddSection={closeAddSection}
         updateDetails={props.updateDetails}
         userDetails={props.userDetails}
@@ -130,10 +111,6 @@ function Account(props) {
         whichSection={whichSection}
       />
       <Acc
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         cookies={props.cookies}
         userDetails={props.userDetails}
         closeFirstLogin={props.closeFirstLogin}
@@ -147,10 +124,6 @@ function Account(props) {
   ) : (
     <>
       <Acc
-        theme={props.theme}
-        oppTheme={props.oppTheme}
-        color={props.color}
-        btnTheme={props.btnTheme}
         cookies={props.cookies}
         userDetails={props.userDetails}
         closeFirstLogin={props.closeFirstLogin}

@@ -37,29 +37,39 @@ function Post(props) {
           <div className="row mb-5">
             <div className="col-md-3"></div>
 
-            <div className="card p-3 post col-md-6">
+            <div className="card p-3 post bg-color col-md-6">
               <div className="row">
                 <div className="col-sm-12 mb-1">
                   {profilePics[post.postNumber] ? (
-                    <img
-                      alt="Your"
-                      src={profilePics[post.postNumber]}
-                      className={"img photo-post  border-" + props.theme}
-                    />
+                    profilePics[post.postNumber].length ? (
+                      <>
+                        <img
+                          alt="Your"
+                          src={profilePics[post.postNumber]}
+                          className="img photo-post"
+                        />
+                        <span className="h6 text-color-main">
+                          {_.startCase(post.name)}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <div className="img photo-post-placeholder" />
+                        <span className="h6 placeholder-image-name text-color-main">
+                          {_.startCase(post.name)}
+                        </span>
+                      </>
+                    )
                   ) : (
-                    <div
-                      className={
-                        "img photo-post-placeholder  border-" + props.theme
-                      }
-                    ></div>
+                    <></>
                   )}
-
-                  <span className="h6">{_.startCase(post.name)}</span>
                 </div>
                 <div className="col-sm-12 mb-1">
-                  <span className="h6">{_.startCase(post.title)}</span>
+                  <span className="h6 text-color-main">
+                    {_.startCase(post.title)}
+                  </span>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-sm-12 text-color-sec">
                   <p>{_.startCase(post.about)}</p>
                 </div>
 

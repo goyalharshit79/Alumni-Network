@@ -30,7 +30,7 @@ function LogIn(props) {
   }
   return (
     <div
-      className="modal bg-transparent d-block py-5"
+      className="modal bg-transparent text-color-sec d-block py-5"
       tabIndex="-1"
       role="dialog"
       id="modalSignin"

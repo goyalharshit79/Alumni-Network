@@ -62,16 +62,16 @@ function FirstLogin(props) {
       id="edit-details-modal"
     >
       <div className="modal-dialog" role="document">
-        <div className={"modal-content rounded-4 shadow bg-" + props.theme}>
+        <div className="modal-content rounded-4 shadow bg-color">
           <div className="modal-header p-5 pb-4 border-bottom-0">
-            <h2 className={"fw-bold mb-0 text-" + props.color}>
+            <h2 className="mb-0 text-color-main">
               {props.from === "firstLogin"
-                ? "Please fill the following details to continue"
+                ? "Please input the following details to continue"
                 : "Edit User Details"}
             </h2>
             <button
               type="button"
-              className={"btn-close btn-close-" + props.color}
+              className="btn-close"
               aria-label="Close"
               onClick={props.closeFirstLogin}
             ></button>
@@ -84,7 +84,7 @@ function FirstLogin(props) {
                     <div className="col-md-12 form-floating mb-3 left-padding">
                       <input
                         defaultValue={props.userDetails[key]}
-                        className="form-control rounded-3 "
+                        className="form-control my-input rounded-3 "
                         id={key}
                         name={key}
                         placeholder={key}
@@ -94,7 +94,7 @@ function FirstLogin(props) {
                   );
                 })}
                 <button
-                  className="w-100 mb-2 btn btn-lg rounded-3 btn-outline-info"
+                  className="w-100 mb-2 btn btn-lg rounded-3 btn-color-1"
                   type="submit"
                 >
                   Submit
