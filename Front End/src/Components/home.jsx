@@ -11,7 +11,6 @@ function Home(props) {
     setDimensions();
   });
   useEffect(() => {
-    console.log("gonna get posts");
     getPosts();
   }, []);
 

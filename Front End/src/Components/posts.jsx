@@ -29,7 +29,6 @@ function Post(props) {
       })
       .catch((err) => console.log(err));
   }
-  console.log(profilePics);
   return (
     <>
       {props.posts.map((post) => {

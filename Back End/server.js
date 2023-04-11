@@ -432,6 +432,72 @@ app.get("/get-posts", (req, res) => {
   });
 });
 
+app.get("/get-users", (req, res) => {
+  const users = [];
+  User.find({}, (err, usersFound) => {
+    usersFound.forEach((user) => {
+      users.push({
+        name: user.fName + " " + user.lName,
+        email: user.email,
+        pic: user.pic,
+        user: user.user,
+      });
+    });
+    res.send({ msg: "900", users: users });
+  });
+});
+
+app.post("/search-user", (req, res) => {
+  var user = req.body.userSearched.split(" ");
+  var usersFound = [];
+
+  User.find({ fName: user }, (err, userFoundFName) => {
+    userFoundFName.forEach((userFound) => {
+      usersFound.push(userFound);
+    });
+    User.find({ lName: user }, (err, userFoundLName) => {
+      userFoundLName.forEach((userFound) => {
+        usersFound.push(userFound);
+      });
+      User.find({ email: user }, (err, userFoundEmail) => {
+        userFoundEmail.forEach((userFound) => {
+          usersFound.push(userFound);
+        });
+        User.find({ user: user }, (err, userFoundType) => {
+          userFoundType.forEach((userFound) => {
+            usersFound.push(userFound);
+          });
+          if (usersFound.length >= 1) {
+            usersFound = filterUsersFound(usersFound);
+            res.send({ msg: "900", usersFound: usersFound });
+          } else if (usersFound.length === 0) {
+            res.send({ msg: "901" });
+          } else {
+            res.send({ msg: "902" });
+          }
+        });
+      });
+    });
+  });
+});
+
+function filterUsersFound(usersFound) {
+  const filteredUsers = [];
+  for (let i = 0; i < usersFound.length; i++) {
+    const currentUser = usersFound[i];
+    let isUserThere = false;
+    filteredUsers.forEach((user) => {
+      if (currentUser.email === user.email) {
+        isUserThere = true;
+      }
+    });
+    if (!isUserThere) {
+      filteredUsers.push(currentUser);
+    }
+  }
+  return filteredUsers;
+}
+
 function restart() {
   User.find({}, (err, users) => {
     if (users.length === 0) {
@@ -458,6 +524,7 @@ function restart() {
   });
 }
 restart();
+
 app.listen(8000, () => {
   console.log("The server is running on port 8000");
 });

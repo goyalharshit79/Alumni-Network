@@ -75,7 +75,6 @@ function Acc(props) {
         .catch((err) => console.log(err));
     };
   }
-  console.log(profilePic);
   return (
     <>
       <div id="my-container" className="scroll-enable">

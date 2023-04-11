@@ -256,3 +256,11 @@ textarea {
   position: absolute;
   top: 2rem;
 }
+.nav-link {
+  cursor: pointer !important;
+}
+.explore-search {
+  position: absolute;
+  right: 5rem;
+  margin-bottom: 1rem;
+}

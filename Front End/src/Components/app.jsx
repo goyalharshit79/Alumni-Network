@@ -5,6 +5,7 @@ import NavBar from "./navbar";
 import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
+import Explore from "./explore";
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(["email", "user"]);
@@ -19,6 +20,8 @@ function App() {
   const [userDetails, setUserDetails] = useState();
   const [accountClicked, setAccountClicked] = useState(false);
   const [homeClicked, setHomeClicked] = useState(true);
+  const [exploreClicked, setExploreClicked] = useState(false);
+  const [usersFound, setUsersFound] = useState();
   //login and cookie stuff
   useEffect(() => {
     if (isLoggedIn && !cookies.user) {
@@ -75,13 +78,22 @@ function App() {
   }
 
   //changing the tab as per tab clicked in the nav bar
-  function goToTab(element) {
-    if (element.innerHTML === "Account") {
+  function goToTab(element, data) {
+    if (element === "Account") {
       setHomeClicked(false);
       setAccountClicked(true);
-    } else if (element.innerHTML === "Home") {
+    } else if (element === "Home") {
       setHomeClicked(true);
       setAccountClicked(false);
+    } else if (element === "Explore") {
+      if (data) {
+        setUsersFound(data);
+      } else {
+        setUsersFound();
+      }
+      setHomeClicked(false);
+      setAccountClicked(false);
+      setExploreClicked(true);
     }
   }
   //logout function
@@ -90,7 +102,7 @@ function App() {
     removeCookie("email");
     setIsLoggedin(false);
   }
-  //closing the first login modal
+  //closing the firstLogin modal
   function closeFirstLogin() {
     setFirstLogin(false);
   }
@@ -127,10 +139,20 @@ function App() {
           updateDetails={updateDetails}
         />
       </>
+    ) : exploreClicked ? (
+      <>
+        <NavBar
+          from="Explore"
+          className="nav-bar"
+          tabChange={goToTab}
+          logout={handleLogout}
+        />
+        <Explore users={usersFound} />
+      </>
     ) : (
       <>
         <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
-        Kuch gadbad hai
+        kuch gadbag hai
       </>
     )
   ) : (
