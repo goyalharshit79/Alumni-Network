@@ -8,7 +8,11 @@ import FirstLogin from "./firstLogin";
 import Explore from "./explore";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["email", "user"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "email",
+    "user",
+    "page",
+  ]);
   const [isLoggedIn, setIsLoggedin] = useState(() => {
     if (cookies.user) {
       return true;
@@ -16,11 +20,35 @@ function App() {
       return false;
     }
   });
+  useEffect(() => {
+    if (!cookies.page) {
+      setCookie("page", "Home");
+    }
+  });
   const [isFirstLogin, setFirstLogin] = useState(false);
   const [userDetails, setUserDetails] = useState();
-  const [accountClicked, setAccountClicked] = useState(false);
-  const [homeClicked, setHomeClicked] = useState(true);
-  const [exploreClicked, setExploreClicked] = useState(false);
+  const [accountClicked, setAccountClicked] = useState(() => {
+    if (cookies.page === "Account") {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const [homeClicked, setHomeClicked] = useState(() => {
+    if (cookies.page === "Home") {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const [exploreClicked, setExploreClicked] = useState(() => {
+    if (cookies.page === "Explore") {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
   const [usersFound, setUsersFound] = useState();
   //login and cookie stuff
   useEffect(() => {
@@ -29,7 +57,7 @@ function App() {
     }
   });
   useEffect(() => {
-    if (!userDetails && cookies.user) {
+    if (cookies.user && !userDetails) {
       updateDetails();
     }
   });
@@ -76,21 +104,24 @@ function App() {
         }
       });
   }
-
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
       setHomeClicked(false);
       setAccountClicked(true);
+      setExploreClicked(true);
+      setCookie("page", "Account");
     } else if (element === "Home") {
       setHomeClicked(true);
       setAccountClicked(false);
+      setCookie("page", "Home");
     } else if (element === "Explore") {
       if (data) {
         setUsersFound(data);
       } else {
         setUsersFound();
       }
+      setCookie("page", "Explore");
       setHomeClicked(false);
       setAccountClicked(false);
       setExploreClicked(true);
@@ -130,15 +161,23 @@ function App() {
         {cookies.user ? <Home user={cookies.user} /> : <></>}
       </>
     ) : accountClicked ? (
-      <>
-        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
-        <Account
-          cookies={cookies}
-          userDetails={userDetails}
-          closeFirstLogin={closeFirstLogin}
-          updateDetails={updateDetails}
-        />
-      </>
+      userDetails ? (
+        <>
+          <NavBar
+            className="nav-bar"
+            tabChange={goToTab}
+            logout={handleLogout}
+          />
+          <Account
+            cookies={cookies}
+            userDetails={userDetails}
+            closeFirstLogin={closeFirstLogin}
+            updateDetails={updateDetails}
+          />
+        </>
+      ) : (
+        <></>
+      )
     ) : exploreClicked ? (
       <>
         <NavBar
