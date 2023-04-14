@@ -3,12 +3,12 @@
   src: url(CodePro-Trial-LightLC.woff2);
 }
 @font-face {
-  font-family: CodeNormal;
-  src: url(CodePro-Trial-NormalLC.woff);
+  font-family: Roboto;
+  src: url(fonts/RobotoSerif-Regular.ttf);
 }
 @font-face {
   font-family: Exo;
-  src: url(Exo2-Light.ttf);
+  src: url(fonts/Exo2-Light.ttf);
 }
 :root {
   --bg-color: #cef2bd;
@@ -119,7 +119,7 @@ a {
   overflow-x: hidden;
 }
 .scroll-enable {
-  overflow: auto;
+  overflow: auto !important;
 }
 #edit-details-modal {
   margin-top: 5rem !important;
@@ -203,13 +203,16 @@ textarea {
   height: 0.6em !important;
   margin-top: 0.25em !important;
 }
+.user-searched {
+  cursor: pointer !important;
+}
 /* utility classes */
 
 .bg-color {
   background-color: var(--bg-color) !important;
 }
 .text-color-main {
-  font-family: CodeNormal !important;
+  font-family: Roboto !important;
   color: var(--main-text-color) !important;
 }
 .text-color-sec {
@@ -217,7 +220,8 @@ textarea {
   color: var(--sec-text-color) !important;
 }
 .btn-color-1 {
-  font-family: CodeNormal !important;
+  font-family: Roboto !important;
+  font-weight: bold !important;
   --bs-btn-color: var(--main-btn-color) !important;
   --bs-btn-border-color: var(--main-btn-color) !important;
   --bs-btn-hover-color: var(--main-btn-hover-color) !important;
@@ -254,7 +258,7 @@ textarea {
 
 .placeholder-image-name {
   position: absolute;
-  top: 2rem;
+  top: 1.7rem;
 }
 .nav-link {
   cursor: pointer !important;

@@ -45,7 +45,7 @@ function NavBar(props) {
       })
       .catch((err) => console.log(err));
   }
-  return props.from === "Explore" ? (
+  return (
     <>
       <div id="navBar" className="text-color-sec">
         <nav
@@ -121,89 +121,19 @@ function NavBar(props) {
                     </span>
                   </li>
                 </ul>
-              </div>
-            </div>
-          </div>
-        </nav>
-        <div className="b-example-divider"></div>
-      </div>
-    </>
-  ) : (
-    <>
-      <div id="navBar" className="text-color-sec">
-        <nav
-          className="navbar navbar-expand-lg bg-color "
-          aria-label="Offcanvas navbar large"
-        >
-          <div className="container-fluid">
-            <span className="navbar-brand mb-0 text-color-main">
-              Alumni Network
-            </span>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasNavbar"
-              aria-controls="offcanvasNavbar"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="offcanvas offcanvas-end bg-color"
-              tabIndex="-1"
-              id="offcanvasNavbar"
-              aria-labelledby="offcanvasNavbar"
-            >
-              <div className="offcanvas-header">
-                <h5
-                  className="offcanvas-title text-color-main"
-                  id="offcanvasNavbar"
-                >
-                  Menu
-                </h5>
-                <button
-                  type="button"
-                  id="close-btn"
-                  className="btn-close"
-                  data-bs-dismiss="offcanvas"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="offcanvas-body">
-                <ul className="navbar-nav  justify-content-end flex-grow-1 pe-3">
-                  <li className="nav-item">
-                    <span
-                      className="nav-link text-color-sec"
-                      onClick={tabChange}
-                    >
-                      Home
-                    </span>
-                  </li>
-                  <li className="nav-item">
-                    <span
-                      className="nav-link text-color-sec"
-                      onClick={tabChange}
-                    >
-                      Explore
-                    </span>
-                  </li>
-                  <li className="nav-item">
-                    <span
-                      className="nav-link text-color-sec"
-                      onClick={tabChange}
-                    >
-                      Account
-                    </span>
-                  </li>
-                  <li className="nav-item">
-                    <span
-                      className="nav-link text-color-sec"
-                      onClick={props.logout}
-                    >
-                      Log Out
-                    </span>
-                  </li>
-                </ul>
+                <form className="d-flex mt-3 mt-lg-0" onSubmit={searchUser}>
+                  <input
+                    className="form-control me-2 my-input"
+                    type="search"
+                    id="userSearched"
+                    name="userSearched"
+                    placeholder="Search"
+                    aria-label="Search"
+                  />
+                  <button className="btn rounded-3 btn-color-1" type="submit">
+                    Search
+                  </button>
+                </form>
               </div>
             </div>
           </div>

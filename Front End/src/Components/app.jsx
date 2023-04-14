@@ -5,14 +5,20 @@ import NavBar from "./navbar";
 import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
-import Explore from "./explore";
-
+import $ from "jquery";
+import ExplorePage from "./explore-page";
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([
     "email",
     "user",
     "page",
   ]);
+  useEffect(() => {
+    if (cookies.userAccount) {
+      console.log("falsing");
+      setCookie("userAccount", false);
+    }
+  }, []);
   const [isLoggedIn, setIsLoggedin] = useState(() => {
     if (cookies.user) {
       return true;
@@ -48,7 +54,6 @@ function App() {
       return false;
     }
   });
-
   const [usersFound, setUsersFound] = useState();
   //login and cookie stuff
   useEffect(() => {
@@ -131,12 +136,31 @@ function App() {
   function handleLogout() {
     removeCookie("user");
     removeCookie("email");
+    removeCookie("page");
     setIsLoggedin(false);
+    setUserDetails();
   }
   //closing the firstLogin modal
   function closeFirstLogin() {
     setFirstLogin(false);
   }
+  //setting the body's dimensions subtracting the navbar
+  useEffect(() => {
+    setDimensions();
+  });
+  const setDimensions = () => {
+    const window = $("html").innerHeight();
+    // console.log(window);
+    const nav = $("#navBar").outerHeight();
+    // console.log(nav);
+    $("#my-container").outerHeight(window - nav);
+    // console.log(window - nav);
+  };
+  function cookiesUserAccount() {
+    setCookie("userAccount", true);
+  }
+  console.log(cookies);
+  console.log(homeClicked, accountClicked, exploreClicked);
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
@@ -179,20 +203,32 @@ function App() {
         <></>
       )
     ) : exploreClicked ? (
-      <>
-        <NavBar
-          from="Explore"
-          className="nav-bar"
-          tabChange={goToTab}
-          logout={handleLogout}
-        />
-        <Explore users={usersFound} />
-      </>
+      userDetails ? (
+        <>
+          <NavBar
+            from="Explore"
+            className="nav-bar"
+            tabChange={goToTab}
+            logout={handleLogout}
+          />
+          <ExplorePage
+            cookiesUserAccount={cookiesUserAccount}
+            users={usersFound}
+            cookies={cookies}
+          />
+        </>
+      ) : (
+        <>
+          <NavBar
+            className="nav-bar"
+            tabChange={goToTab}
+            logout={handleLogout}
+          />
+          kuch gadbag hai
+        </>
+      )
     ) : (
-      <>
-        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
-        kuch gadbag hai
-      </>
+      <></>
     )
   ) : (
     <div>

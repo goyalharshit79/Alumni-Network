@@ -23,6 +23,7 @@ function AddSection(props) {
         email: props.userDetails.email,
         title: data.get("title"),
         value: data.get("value"),
+        from: props.sectionFrom,
       };
 
       fetch(address + "/add-section", {
@@ -41,7 +42,8 @@ function AddSection(props) {
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function checkTitle(e) {
-    var title;
+    let title;
+    let titleFound = false;
     if (e) {
       title = e.target.value;
     } else {
@@ -50,16 +52,16 @@ function AddSection(props) {
     props.userDetails.additionalDetails.forEach((detail) => {
       const key = Object.keys(detail)[0];
       if (key === title) {
+        titleFound = true;
         console.log("title: ", title);
         console.log(detail[key]);
         setAdditionalDetailReqd(detail[key]);
-      } else {
-        setAdditionalDetailReqd("");
       }
     });
+    if (!titleFound) {
+      setAdditionalDetailReqd("");
+    }
   }
-  console.log(props.whichSection);
-  console.log(additionDetailReqd);
   return (
     <>
       <div

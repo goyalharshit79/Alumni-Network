@@ -302,17 +302,33 @@ app.post("/add-section", (req, res) => {
     if (userFound[0].user === "Student") {
       Student.find({ email: req.body.email }, (err, detailsFound) => {
         const details = [];
-        detailsFound[0].additionalDetails.forEach((det) => {
-          if (Object.keys(det)[0] !== req.body.title) {
-            console.log("exists");
-            details.push(det);
+        if (req.body.from === "edit") {
+          for (let i = 0; i < detailsFound[0].additionalDetails.length; i++) {
+            const det = detailsFound[0].additionalDetails[i];
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            } else {
+              console.log("hmm");
+              const values = [];
+              req.body.value.split(",").forEach((value) => {
+                values.push(_.trimStart(value));
+              });
+              details.push({ [_.camelCase(req.body.title)]: values });
+              console.log(details);
+            }
           }
-        });
-        const values = [];
-        req.body.value.split(",").forEach((value) => {
-          values.push(_.trimStart(value));
-        });
-        details.push({ [_.camelCase(req.body.title)]: values });
+        } else {
+          detailsFound[0].additionalDetails.forEach((det) => {
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            }
+          });
+          const values = [];
+          req.body.value.split(",").forEach((value) => {
+            values.push(_.trimStart(value));
+          });
+          details.push({ [_.camelCase(req.body.title)]: values });
+        }
 
         detailsFound[0].additionalDetails = details;
         detailsFound[0].save();
@@ -321,17 +337,33 @@ app.post("/add-section", (req, res) => {
     } else if (userFound[0].user === "Teacher") {
       Teacher.find({ email: req.body.email }, (err, detailsFound) => {
         const details = [];
-        detailsFound[0].additionalDetails.forEach((det) => {
-          if (Object.keys(det)[0] !== req.body.title) {
-            details.push(det);
+        if (req.body.from === "edit") {
+          for (let i = 0; i < detailsFound[0].additionalDetails.length; i++) {
+            const det = detailsFound[0].additionalDetails[i];
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            } else {
+              console.log("hmm");
+              const values = [];
+              req.body.value.split(",").forEach((value) => {
+                values.push(_.trimStart(value));
+              });
+              details.push({ [_.camelCase(req.body.title)]: values });
+              console.log(details);
+            }
           }
-        });
-        const values = [];
-        req.body.value.split(",").forEach((value) => {
-          values.push(_.trimStart(value));
-        });
-        details.push({ [_.camelCase(req.body.title)]: values });
-        console.log(details, values);
+        } else {
+          detailsFound[0].additionalDetails.forEach((det) => {
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            }
+          });
+          const values = [];
+          req.body.value.split(",").forEach((value) => {
+            values.push(_.trimStart(value));
+          });
+          details.push({ [_.camelCase(req.body.title)]: values });
+        }
 
         detailsFound[0].additionalDetails = details;
         detailsFound[0].save();
@@ -340,16 +372,33 @@ app.post("/add-section", (req, res) => {
     } else if (userFound[0].user === "Alumni") {
       Alumni.find({ email: req.body.email }, (err, detailsFound) => {
         const details = [];
-        detailsFound[0].additionalDetails.forEach((det) => {
-          if (Object.keys(det)[0] !== req.body.title) {
-            details.push(det);
+        if (req.body.from === "edit") {
+          for (let i = 0; i < detailsFound[0].additionalDetails.length; i++) {
+            const det = detailsFound[0].additionalDetails[i];
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            } else {
+              console.log("hmm");
+              const values = [];
+              req.body.value.split(",").forEach((value) => {
+                values.push(_.trimStart(value));
+              });
+              details.push({ [_.camelCase(req.body.title)]: values });
+              console.log(details);
+            }
           }
-        });
-        const values = [];
-        req.body.value.split(",").forEach((value) => {
-          values.push(_.trimStart(value));
-        });
-        details.push({ [_.camelCase(req.body.title)]: values });
+        } else {
+          detailsFound[0].additionalDetails.forEach((det) => {
+            if (Object.keys(det)[0] !== req.body.title) {
+              details.push(det);
+            }
+          });
+          const values = [];
+          req.body.value.split(",").forEach((value) => {
+            values.push(_.trimStart(value));
+          });
+          details.push({ [_.camelCase(req.body.title)]: values });
+        }
 
         detailsFound[0].additionalDetails = details;
         detailsFound[0].save();
@@ -478,6 +527,36 @@ app.post("/search-user", (req, res) => {
         });
       });
     });
+  });
+});
+
+app.post("/get-user", (req, res) => {
+  User.find({ email: req.body.email }, (err, userFound) => {
+    if (userFound[0].user === "Student") {
+      Student.find({ email: req.body.email }, (err, userDetailsFound) => {
+        res.send({
+          msg: "900",
+          user: userFound[0],
+          userDetails: userDetailsFound[0],
+        });
+      });
+    } else if (userFound[0].user === "Teacher") {
+      Teacher.find({ email: req.body.email }, (err, userDetailsFound) => {
+        res.send({
+          msg: "900",
+          user: userFound[0],
+          userDetails: userDetailsFound[0],
+        });
+      });
+    } else if (userFound[0].user === "Alumni") {
+      alumni.find({ email: req.body.email }, (err, userDetailsFound) => {
+        res.send({
+          msg: "900",
+          user: userFound[0],
+          userDetails: userDetailsFound[0],
+        });
+      });
+    }
   });
 });
 

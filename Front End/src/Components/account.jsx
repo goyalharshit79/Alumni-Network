@@ -6,9 +6,6 @@ import AddAbout from "./addAbout";
 import AddSection from "./addSection";
 
 function Account(props) {
-  useEffect(() => {
-    setDimensions();
-  });
   const [editDetails, setEditDetails] = useState(false);
   const [addAbout, setAddAbout] = useState(false);
   const [addSection, setAddSection] = useState(false);
@@ -30,14 +27,7 @@ function Account(props) {
       return toFilter;
     });
   }, [props.userDetails]);
-  const setDimensions = () => {
-    const window = $("html").innerHeight();
-    // console.log(window);
-    const nav = $("#navBar").outerHeight();
-    // console.log(nav);
-    $("#my-container").outerHeight(window - nav);
-    // console.log(window - nav);
-  };
+
   function handleEditDetails() {
     setEditDetails(true);
   }
@@ -71,16 +61,18 @@ function Account(props) {
         userDetails={props.userDetails}
         from={"account"}
       />
-      <Acc
-        cookies={props.cookies}
-        userDetails={props.userDetails}
-        closeFirstLogin={props.closeFirstLogin}
-        updateDetails={props.updateDetails}
-        handleEditDetails={handleEditDetails}
-        handleAddAbout={handleAddAbout}
-        handleAddSection={handleAddSection}
-        keys={keys}
-      />
+      <div className="scroll-enable">
+        <Acc
+          cookies={props.cookies}
+          userDetails={props.userDetails}
+          closeFirstLogin={props.closeFirstLogin}
+          updateDetails={props.updateDetails}
+          handleEditDetails={handleEditDetails}
+          handleAddAbout={handleAddAbout}
+          handleAddSection={handleAddSection}
+          keys={keys}
+        />
+      </div>
     </>
   ) : addAbout ? (
     <>
