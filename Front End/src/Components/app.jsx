@@ -6,19 +6,17 @@ import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
 import $ from "jquery";
-import ExplorePage from "./explore-page";
+import Explore from "./explore";
+import Acc from "./acc";
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([
+    "userClicked",
     "email",
     "user",
     "page",
   ]);
-  useEffect(() => {
-    if (cookies.userAccount) {
-      console.log("falsing");
-      setCookie("userAccount", false);
-    }
-  }, []);
+
   const [isLoggedIn, setIsLoggedin] = useState(() => {
     if (cookies.user) {
       return true;
@@ -33,6 +31,7 @@ function App() {
   });
   const [isFirstLogin, setFirstLogin] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [userClicked, setUserClicked] = useState();
   const [accountClicked, setAccountClicked] = useState(() => {
     if (cookies.page === "Account") {
       return true;
@@ -105,6 +104,7 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.msg === "900") {
+          console.log(data.user);
           setCookie("user", data.user);
         }
       });
@@ -115,8 +115,10 @@ function App() {
       setHomeClicked(false);
       setAccountClicked(true);
       setExploreClicked(true);
+      removeCookie("userClicked");
       setCookie("page", "Account");
     } else if (element === "Home") {
+      removeCookie("userClicked");
       setHomeClicked(true);
       setAccountClicked(false);
       setCookie("page", "Home");
@@ -127,6 +129,7 @@ function App() {
         setUsersFound();
       }
       setCookie("page", "Explore");
+      removeCookie("userClicked");
       setHomeClicked(false);
       setAccountClicked(false);
       setExploreClicked(true);
@@ -156,11 +159,29 @@ function App() {
     $("#my-container").outerHeight(window - nav);
     // console.log(window - nav);
   };
-  function cookiesUserAccount() {
-    setCookie("userAccount", true);
+
+  //explore page functions
+  function handleUserClicked(email) {
+    const address = "http://localhost:8000";
+    const reqData = {
+      email: email,
+    };
+    fetch(address + "/get-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqData),
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.msg === "900") {
+          setCookie("userClicked", data.user);
+          setUserDetails(data.userDetails);
+        }
+      });
   }
-  console.log(cookies);
-  console.log(homeClicked, accountClicked, exploreClicked);
+  // console.log(cookies);
+  // console.log(homeClicked, accountClicked, exploreClicked);
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
@@ -203,7 +224,7 @@ function App() {
         <></>
       )
     ) : exploreClicked ? (
-      userDetails ? (
+      cookies.userClicked ? (
         <>
           <NavBar
             from="Explore"
@@ -211,11 +232,7 @@ function App() {
             tabChange={goToTab}
             logout={handleLogout}
           />
-          <ExplorePage
-            cookiesUserAccount={cookiesUserAccount}
-            users={usersFound}
-            cookies={cookies}
-          />
+          <Acc user={cookies.userClicked} from="explore" />
         </>
       ) : (
         <>
@@ -224,7 +241,11 @@ function App() {
             tabChange={goToTab}
             logout={handleLogout}
           />
-          kuch gadbag hai
+          <Explore
+            loggedInUser={cookies.email}
+            users={usersFound}
+            userClicked={handleUserClicked}
+          />
         </>
       )
     ) : (

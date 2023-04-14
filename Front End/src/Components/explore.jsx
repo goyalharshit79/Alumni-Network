@@ -8,7 +8,7 @@ function Explore(props) {
 
   function getUsers() {
     const address = "http://localhost:8000";
-    fetch(address + "/get-users", {
+    fetch(address + "/get-all-users", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
       mode: "cors",
@@ -16,7 +16,13 @@ function Explore(props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.msg === "900") {
-          setUsers(data.users);
+          const allUsers = [];
+          data.users.forEach((user) => {
+            if (props.loggedInUser !== user.email) {
+              allUsers.push(user);
+            }
+          });
+          setUsers(allUsers);
         }
       });
   }

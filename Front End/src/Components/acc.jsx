@@ -4,9 +4,15 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 
 function Acc(props) {
   const [profilePic, setProfilePic] = useState();
+  const [user, setUser] = useState();
   useEffect(() => {
     if (!profilePic) {
       getPhoto();
+    }
+  });
+  useEffect(() => {
+    if (!user) {
+      getUserDetails();
     }
   });
   function deleteSection(e) {
@@ -33,9 +39,14 @@ function Acc(props) {
   }
   function getPhoto() {
     const address = "http://localhost:8000";
-    const reqPayload = {
-      email: props.userDetails.email,
-    };
+    if (props.from === "explore") {
+      var reqPayload = {
+        email: props.user,
+      };
+    } else {
+      var reqPayload = { email: props.userDetails.email };
+    }
+
     fetch(address + "/get-user-pic", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,6 +58,23 @@ function Acc(props) {
         if (data.msg === "900") {
           setProfilePic(data.pic);
         }
+      })
+      .catch((err) => console.log(err));
+  }
+  function getUserDetails() {
+    const address = "http://localhost:8000";
+    const reqPayload = {
+      email: props.user,
+    };
+    fetch(address + "/retain-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqPayload),
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data.user);
       })
       .catch((err) => console.log(err));
   }
@@ -75,8 +103,53 @@ function Acc(props) {
         .catch((err) => console.log(err));
     };
   }
+  console.log(user);
   return props.from === "explore" ? (
-    <></>
+    user ? (
+      <>
+        <div id="my-container" className="scroll-enable">
+          <div className="container-fluid p-5">
+            <div className="row">
+              {/* the background div */}
+              <div className="col-md-12 background w-100 bg-color"></div>
+
+              {/* div containing image */}
+              <div className="col-md-3 text-center">
+                <div>
+                  {profilePic ? (
+                    profilePic.length ? (
+                      <img
+                        className="img-placeholder border-white"
+                        src={profilePic}
+                        alt="Your Pic"
+                      />
+                    ) : (
+                      <div className="img-placeholder border-white"></div>
+                    )
+                  ) : (
+                    <div className="img-placeholder border-white"></div>
+                  )}
+                </div>
+                {/* stuff after image */}
+                <div className="col-md-3 text-center after-photo mb-3 bg-color text-color-sec">
+                  <div className="row">
+                    <div className="col-sm-12 my-3 ">
+                      First Name: {_.capitalize(user.fName)}
+                    </div>
+                    <div className="col-sm-12 my-3">
+                      Last Name: {_.capitalize(user.lName)}
+                    </div>
+                    <div className="col-sm-12 my-3">Email : {user.email}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <></>
+    )
   ) : (
     // if its opened to show the users own account
 

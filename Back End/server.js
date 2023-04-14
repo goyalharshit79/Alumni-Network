@@ -160,7 +160,7 @@ app.post("/login", (req, res) => {
   );
 });
 
-//retaining the session
+//retaining the session and getting the user data whenever needed
 app.post("/retain-session", (req, res) => {
   User.find({ email: req.body.email }, (err, userFound) => {
     const user = {
@@ -481,7 +481,7 @@ app.get("/get-posts", (req, res) => {
   });
 });
 
-app.get("/get-users", (req, res) => {
+app.get("/get-all-users", (req, res) => {
   const users = [];
   User.find({}, (err, usersFound) => {
     usersFound.forEach((user) => {
@@ -536,7 +536,7 @@ app.post("/get-user", (req, res) => {
       Student.find({ email: req.body.email }, (err, userDetailsFound) => {
         res.send({
           msg: "900",
-          user: userFound[0],
+          user: userFound[0].email,
           userDetails: userDetailsFound[0],
         });
       });
@@ -544,15 +544,15 @@ app.post("/get-user", (req, res) => {
       Teacher.find({ email: req.body.email }, (err, userDetailsFound) => {
         res.send({
           msg: "900",
-          user: userFound[0],
+          user: userFound[0].email,
           userDetails: userDetailsFound[0],
         });
       });
     } else if (userFound[0].user === "Alumni") {
-      alumni.find({ email: req.body.email }, (err, userDetailsFound) => {
+      Alumni.find({ email: req.body.email }, (err, userDetailsFound) => {
         res.send({
           msg: "900",
-          user: userFound[0],
+          user: userFound[0].email,
           userDetails: userDetailsFound[0],
         });
       });
