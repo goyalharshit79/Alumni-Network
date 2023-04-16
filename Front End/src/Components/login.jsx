@@ -56,6 +56,7 @@ function LogIn(props) {
                   id="floatingInput"
                   name="email"
                   placeholder="name@example.com"
+                  required
                 />
                 <label htmlFor="floatingInput">Email address</label>
               </div>
@@ -66,6 +67,7 @@ function LogIn(props) {
                   id="floatingPassword"
                   name="password"
                   placeholder="Password"
+                  required
                 />
                 <label htmlFor="floatingPassword">Password</label>
               </div>

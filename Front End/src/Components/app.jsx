@@ -190,7 +190,6 @@ function App() {
       getClickedUserDetails();
     }
   });
-  console.log(userClicked);
   // handleLogout();
   // console.log(homeClicked, accountClicked, exploreClicked);
   return isLoggedIn ? (
