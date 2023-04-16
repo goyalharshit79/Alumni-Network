@@ -11,22 +11,6 @@ function Account(props) {
   const [addSection, setAddSection] = useState(false);
   const [sectionFrom, setSectionFrom] = useState("add");
   const [whichSection, setWhichSection] = useState();
-  const [keys, setKeys] = useState([]);
-  useEffect(() => {
-    setKeys(() => {
-      var toFilter = Object.keys(props.userDetails);
-      toFilter = toFilter.filter((key) => {
-        return (
-          key !== "__v" &&
-          key !== "_id" &&
-          key !== "email" &&
-          key !== "about" &&
-          key !== "additionalDetails"
-        );
-      });
-      return toFilter;
-    });
-  }, [props.userDetails]);
 
   function handleEditDetails() {
     setEditDetails(true);
@@ -70,7 +54,7 @@ function Account(props) {
           handleEditDetails={handleEditDetails}
           handleAddAbout={handleAddAbout}
           handleAddSection={handleAddSection}
-          keys={keys}
+          // keys={keys}
         />
       </div>
     </>
@@ -90,7 +74,7 @@ function Account(props) {
         handleEditDetails={handleEditDetails}
         handleAddAbout={handleAddAbout}
         handleAddSection={handleAddSection}
-        keys={keys}
+        // keys={keys}
       />
     </>
   ) : addSection ? (
@@ -110,7 +94,7 @@ function Account(props) {
         handleEditDetails={handleEditDetails}
         handleAddAbout={handleAddAbout}
         handleAddSection={handleAddSection}
-        keys={keys}
+        // keys={keys}
       />
     </>
   ) : (
@@ -123,7 +107,7 @@ function Account(props) {
         handleEditDetails={handleEditDetails}
         handleAddAbout={handleAddAbout}
         handleAddSection={handleAddSection}
-        keys={keys}
+        // keys={keys}
       />
     </>
   );

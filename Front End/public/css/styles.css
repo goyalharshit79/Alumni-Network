@@ -26,7 +26,10 @@
   --sec-btn-hover-bg-color: #cef2bd;
   --sec-btn-hover-border-color: #cef2bd;
 }
-
+#my-container {
+  height: calc(100vh - 40px);
+  overflow: auto;
+}
 body {
   height: 100vh;
 }
@@ -118,9 +121,9 @@ a {
   overflow-y: hidden;
   overflow-x: hidden;
 }
-.scroll-enable {
+/* .scroll-enable {
   overflow: auto !important;
-}
+} */
 #edit-details-modal {
   margin-top: 5rem !important;
 }
@@ -176,7 +179,7 @@ textarea {
   height: 10rem !important;
 }
 
-.create-post-close {
+.create-post-cl ose {
   float: right;
 }
 .img-placeholder {
@@ -206,6 +209,61 @@ textarea {
 .user-searched {
   cursor: pointer !important;
 }
+.section-header {
+  position: relative;
+}
+.section-menu-container {
+  position: absolute;
+  right: 0;
+  bottom: 5px;
+  height: 40px;
+  width: 40px !important;
+  border-radius: 50px;
+  cursor: pointer;
+}
+/* .section-menu-container:hover {
+  background-color: rgb(240, 234, 234);
+} */
+
+.section-menu {
+  object-fit: cover;
+  height: 25px;
+  width: auto;
+}
+.options {
+  background-color: white;
+  border-radius: 25px;
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  padding: 1rem;
+  flex: 12;
+  top: 1.5rem;
+  right: 0;
+}
+.show-dropdown {
+  position: absolute;
+  inset: 0px auto auto 0px;
+  margin: 0px;
+  transform: translate3d(93.6px, 40px, 0px);
+}
+.options-item {
+  display: flex;
+  padding: 0.5rem;
+  border-radius: 12.5px;
+  width: 100% !important;
+  height: 100% !important;
+  font-family: Exo !important;
+  font-size: medium;
+  cursor: pointer;
+}
+.options-item:first-of-type {
+  margin: 0 0 0.5rem 0;
+}
+.options-item:hover {
+  background-color: rgb(239, 234, 234);
+}
+
 /* utility classes */
 
 .bg-color {

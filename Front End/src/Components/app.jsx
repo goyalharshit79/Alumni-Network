@@ -104,7 +104,6 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         if (data.msg === "900") {
-          console.log(data.user);
           setCookie("user", data.user);
         }
       });
@@ -130,6 +129,7 @@ function App() {
       }
       setCookie("page", "Explore");
       removeCookie("userClicked");
+      setUserClicked();
       setHomeClicked(false);
       setAccountClicked(false);
       setExploreClicked(true);
@@ -148,23 +148,27 @@ function App() {
     setFirstLogin(false);
   }
   //setting the body's dimensions subtracting the navbar
-  useEffect(() => {
-    setDimensions();
-  });
-  const setDimensions = () => {
-    const window = $("html").innerHeight();
-    // console.log(window);
-    const nav = $("#navBar").outerHeight();
-    // console.log(nav);
-    $("#my-container").outerHeight(window - nav);
-    // console.log(window - nav);
-  };
+  // useEffect(() => {
+  //   setDimensions();
+  // });
+  // const setDimensions = () => {
+  //   const window = $("html").innerHeight();
+  //   // console.log(window);
+  //   const nav = $("#navBar").outerHeight();
+  //   // console.log(nav);
+  //   $("#my-container").outerHeight(window - nav);
+  //   // console.log(window - nav);
+  // };
 
   //explore page functions
   function handleUserClicked(email) {
+    console.log("putin mail");
+    setCookie("userClicked", email);
+  }
+  function getClickedUserDetails() {
     const address = "http://localhost:8000";
     const reqData = {
-      email: email,
+      email: cookies.userClicked,
     };
     fetch(address + "/get-user", {
       method: "POST",
@@ -176,11 +180,18 @@ function App() {
       .then((data) => {
         if (data.msg === "900") {
           setCookie("userClicked", data.user);
-          setUserDetails(data.userDetails);
+          setUserClicked(data.userDetails);
         }
       });
   }
-  // console.log(cookies);
+  useEffect(() => {
+    if (cookies.userClicked && !userClicked) {
+      console.log("putin");
+      getClickedUserDetails();
+    }
+  });
+  console.log(userClicked);
+  // handleLogout();
   // console.log(homeClicked, accountClicked, exploreClicked);
   return isLoggedIn ? (
     isFirstLogin ? (
@@ -232,7 +243,11 @@ function App() {
             tabChange={goToTab}
             logout={handleLogout}
           />
-          <Acc user={cookies.userClicked} from="explore" />
+          <Acc
+            user={cookies.userClicked}
+            userClicked={userClicked}
+            from="explore"
+          />
         </>
       ) : (
         <>
