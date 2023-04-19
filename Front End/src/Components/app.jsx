@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
 import $ from "jquery";
 import Explore from "./explore";
+
 import Acc from "./acc";
 
 function App() {
