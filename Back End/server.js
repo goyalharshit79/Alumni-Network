@@ -70,9 +70,16 @@ const postSchema = {
   title: String,
   about: String,
   image: [],
-  comments: [],
 };
 const Post = mongoose.model("Post", postSchema);
+const commentSchema = {
+  postId: String,
+  commentId: String,
+  commentor: String,
+  comment: String,
+  reply: [],
+};
+const Comment = mongoose.model("Comment", commentSchema);
 
 //handling a signup request
 app.post("/signup", (req, res) => {
@@ -258,7 +265,11 @@ app.post("/give-details", (req, res) => {
 
 app.post("/get-user-pic", (req, res) => {
   User.find({ email: req.body.email }, (err, userFound) => {
-    res.send({ msg: "900", pic: userFound[0].pic });
+    res.send({
+      msg: "900",
+      pic: userFound[0].pic,
+      name: userFound[0].fName + " " + userFound[0].lName,
+    });
   });
 });
 
@@ -481,6 +492,95 @@ app.get("/get-posts", (req, res) => {
   });
 });
 
+app.post("/add-comment", async (req, res) => {
+  try {
+    const newComment = new Comment({
+      postId: req.body.postId,
+      commentor: req.body.email,
+      comment: req.body.newComment,
+      reply: [],
+    });
+    newComment.save();
+    res.send({ msg: "900", comment: newComment });
+  } catch (err) {
+    res.send({ msg: "901" });
+  }
+});
+
+app.post("/delete-comment", async (req, res) => {
+  try {
+    await Comment.deleteOne({ _id: req.body.commentId });
+    await Comment.deleteMany({ commentId: req.body.commentId });
+    res.send({ msg: "900" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/get-comments", (req, res) => {
+  Comment.find({ postId: req.body.postId }, (err, commentsFound) => {
+    if (!err) {
+      res.send({ msg: "900", comments: commentsFound });
+    }
+  });
+});
+
+app.post("/add-reply", async (req, res) => {
+  try {
+    const newReply = new Comment({
+      commentId: req.body.commentId,
+      commentor: req.body.email,
+      comment: req.body.reply,
+      reply: [],
+    });
+    newReply.save();
+    res.send({ msg: "900" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/get-reply", async (req, res) => {
+  console.log(req.body);
+  try {
+    const replies = await Comment.find({ commentId: req.body.commentId });
+
+    res.send({ msg: "900", replies: replies });
+  } catch (error) {
+    console.log(error);
+  }
+});
+app.post("/get-reply-details", async (req, res) => {
+  try {
+    const user = await User.find({ email: req.body.commentor });
+    res.send({
+      msg: "900",
+      details: {
+        name: user[0].fName + " " + user[0].lName,
+        pic: user[0].pic,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+async function getReplyDetails(reply) {
+  try {
+    console.log("email: ", reply.commentor);
+    User.find({ email: reply.commentor }, (err, currentUser) => {
+      const replyDetails = {
+        [reply._id]: {
+          name: currentUser[0].fName + " " + currentUser[0].lName,
+          pic: currentUser[0].pic,
+        },
+      };
+      console.log("in functon: ", replyDetails);
+      return replyDetails;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 app.get("/get-all-users", (req, res) => {
   const users = [];
   User.find({}, (err, usersFound) => {

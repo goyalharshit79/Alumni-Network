@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import Carousel from "./carousel";
+import Comment from "./comment";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 
 function Post(props) {
   const [profilePics, setProfilePics] = useState();
-
+  const [showComment, setShowComment] = useState([]);
   function getPhoto(post) {
     const address = "http://localhost:8000";
     const reqPayload = {
@@ -29,6 +31,36 @@ function Post(props) {
       })
       .catch((err) => console.log(err));
   }
+  function handleLike() {
+    console.log(" i wanna like");
+  }
+  function handleShowCommentSection(postId) {
+    var alreadyOpen = false;
+    if (postId) {
+      showComment.forEach((element) => {
+        if (element === postId) {
+          alreadyOpen = true;
+        }
+      });
+    }
+    if (alreadyOpen) {
+      setShowComment((prev) => {
+        prev = prev.filter((id) => {
+          return id !== postId;
+        });
+        return prev;
+      });
+    } else {
+      setShowComment((prev) => {
+        if (prev) {
+          return [...prev, postId];
+        } else {
+          return postId;
+        }
+      });
+    }
+  }
+  //socket.io stuff
   return (
     <>
       {props.posts.map((post) => {
@@ -80,7 +112,6 @@ function Post(props) {
                   <></>
                 ) : (
                   <>
-                    {" "}
                     <img
                       className="col-sm-12  post-image"
                       src={post.image}
@@ -89,7 +120,52 @@ function Post(props) {
                   </>
                 )}
 
-                <div className="col-sm-12">Comments Section</div>
+                <div className="col-sm-12 mt-2">
+                  <div className="row mx-auto">
+                    <img
+                      src="thumbUp.svg"
+                      className="like-btn col-sm-3"
+                      onClick={handleLike}
+                      alt=""
+                    />
+                    <img
+                      src="comment.svg"
+                      className="comment-btn col-sm-3"
+                      onClick={() => {
+                        handleShowCommentSection(post._id);
+                      }}
+                      alt=""
+                    />
+                  </div>
+                </div>
+
+                {/* comment stuff */}
+                {showComment ? (
+                  showComment.map((id) => {
+                    return (
+                      <>
+                        {id === post._id ? (
+                          <div
+                            className="add-comment-section col-sm-12"
+                            id={post._id}
+                          >
+                            <Comment
+                              showOptions={props.showOptions}
+                              handleShowOptions={props.handleShowOptions}
+                              getPosts={props.getPosts}
+                              user={props.user}
+                              post={post}
+                            />
+                          </div>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    );
+                  })
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
             <div className="col-md-3"></div>

@@ -20,6 +20,7 @@ function CreatePost(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        props.getPosts();
         props.closeCreatePost();
       });
   }

@@ -6,6 +6,7 @@ import CreatePost from "./createPost";
 function Home(props) {
   const [createPost, setCreatePost] = useState(false);
   const [posts, setPosts] = useState();
+  const [showOptions, setShowOptions] = useState();
 
   useEffect(() => {
     setDimensions();
@@ -29,6 +30,7 @@ function Home(props) {
     setCreatePost(false);
   }
   function getPosts() {
+    console.log("i was cakked");
     const address = "http://localhost:8000";
 
     fetch(address + "/get-posts", {
@@ -41,14 +43,28 @@ function Home(props) {
         setPosts(data.posts);
       });
   }
-
+  function handleShowOptions(id) {
+    setShowOptions(id);
+  }
   return (
     <>
-      <div id="my-container" className="scroll-enable">
+      <div
+        id="my-container"
+        className="scroll-enable"
+        onClick={(e) => {
+          if (e.target.id !== "options") {
+            setShowOptions();
+          }
+        }}
+      >
         <div className="container-fluid posts-container">
           {props.user.user === "Teacher" ? (
             createPost ? (
-              <CreatePost user={props.user} closeCreatePost={closeCreatePost} />
+              <CreatePost
+                user={props.user}
+                closeCreatePost={closeCreatePost}
+                getPosts={getPosts}
+              />
             ) : (
               <>
                 <button
@@ -60,7 +76,13 @@ function Home(props) {
                 </button>
                 {posts ? (
                   <>
-                    <Post user={props.user} posts={posts} />
+                    <Post
+                      showOptions={showOptions}
+                      handleShowOptions={handleShowOptions}
+                      getPosts={getPosts}
+                      user={props.user}
+                      posts={posts}
+                    />
                   </>
                 ) : (
                   <></>

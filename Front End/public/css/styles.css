@@ -230,6 +230,24 @@ textarea {
   height: 25px;
   width: auto;
 }
+.comment-section-container {
+  height: 40px;
+  width: 40px !important;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.comment-menu {
+  object-fit: cover;
+  height: 25px;
+  width: auto;
+  cursor: pointer;
+}
+.reply-menu {
+  object-fit: cover;
+  height: 15px;
+  width: auto;
+  cursor: pointer;
+}
 .options {
   background-color: white;
   border-radius: 25px;
@@ -241,11 +259,30 @@ textarea {
   top: 1.5rem;
   right: 0;
 }
+.comment-options {
+  background-color: white;
+  border-radius: 25px;
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  right: 0.5rem;
+  flex: 12;
+}
 .show-dropdown {
   position: absolute;
   inset: 0px auto auto 0px;
   margin: 0px;
   transform: translate3d(93.6px, 40px, 0px);
+}
+.comment-options-item {
+  padding: 0.5rem;
+  border-radius: 12.5px;
+  width: 100% !important;
+  height: 100% !important;
+  font-family: Exo !important;
+  font-size: medium;
+  cursor: pointer;
+  display: flex;
 }
 .options-item {
   display: flex;
@@ -263,7 +300,53 @@ textarea {
 .options-item:hover {
   background-color: rgb(239, 234, 234);
 }
+.comment-options-item:hover {
+  background-color: rgb(239, 234, 234);
+}
+.comment-btn {
+  border-radius: 25px !important;
+  margin-top: 0.5rem;
+  float: right;
+}
 
+.comment-input,
+.reply-input {
+  border-radius: 25px !important;
+}
+.reply-input {
+  height: 55px !important;
+}
+.comment-submit {
+  border-radius: 25px !important;
+}
+.first-to-reply {
+  font-style: italic !important;
+}
+.comment-img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.reply-img {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.like-btn {
+  width: 2.25rem !important;
+  cursor: pointer;
+  padding-right: 0 !important;
+}
+.comment-btn {
+  width: 2.25rem !important;
+  cursor: pointer;
+  padding-right: 0 !important;
+}
+.show-replies {
+  font-size: small !important;
+}
 /* utility classes */
 
 .bg-color {
