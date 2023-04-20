@@ -43,6 +43,8 @@ function App() {
   const [homeClicked, setHomeClicked] = useState(() => {
     if (cookies.page === "Home") {
       return true;
+    } else if (!cookies.page) {
+      return true;
     } else {
       return false;
     }
