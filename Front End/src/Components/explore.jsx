@@ -31,7 +31,6 @@ function Explore(props) {
       getUsers();
     }
   });
-
   function showUserAccount(e) {
     var email;
     if (e.target.id) {
@@ -41,7 +40,6 @@ function Explore(props) {
     }
     props.userClicked(email);
   }
-
   useEffect(() => {
     if (props.users) {
       setUsersFound(props.users);
