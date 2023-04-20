@@ -97,7 +97,6 @@ export default function Comment(props) {
   function handleShowAllComments() {
     setShowAllComments(true);
   }
-
   function handleDeleteComment(commentId) {
     const address = "http://localhost:8000";
     const reqPayload = {
@@ -137,7 +136,9 @@ export default function Comment(props) {
             name="addComment"
             placeholder="Add a comment"
           />
-          <label htmlFor="addComment">Add a comment</label>
+          <label htmlFor="addComment" className="mx-2">
+            Add a comment
+          </label>
         </div>
         <button
           className="btn btn-color-1  col-sm-2 comment-submit"

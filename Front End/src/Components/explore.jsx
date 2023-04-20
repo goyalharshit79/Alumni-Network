@@ -116,33 +116,17 @@ function Explore(props) {
                 >
                   <div className="row">
                     <div className="col-sm-12">
-                      {user.pic.length ? (
-                        <>
-                          <img
-                            alt="Your"
-                            src={user.pic}
-                            className="img photo-post"
-                          />
-                          <span className="text-color-main">
-                            {user.fName
-                              ? _.startCase(user.fName + " " + user.lName)
-                              : _.startCase(user.name)}
-                            {" (" + _.startCase(user.user) + ")"}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <>
-                            <div className="img photo-post-placeholder" />
-                            <span className="placeholder-image-name text-color-main">
-                              {user.fName
-                                ? _.startCase(user.fName + " " + user.lName)
-                                : _.startCase(user.name)}
-                              {" (" + _.startCase(user.user) + ")"}
-                            </span>
-                          </>
-                        </>
-                      )}
+                      <img
+                        alt="Your"
+                        src={user.pic.length ? user.pic : "defaultPic.jpg"}
+                        className="img photo-post"
+                      />
+                      <span className="text-color-main">
+                        {user.fName
+                          ? _.startCase(user.fName + " " + user.lName)
+                          : _.startCase(user.name)}
+                        {" (" + _.startCase(user.user) + ")"}
+                      </span>
                     </div>
                     <div className="col-sm-2"></div>
                     <div className="col-sm-10">
@@ -193,33 +177,19 @@ function Explore(props) {
                 >
                   <div className="row">
                     <div className="col-sm-12">
-                      {user.pic.length ? (
-                        <>
-                          <img
-                            alt="Your"
-                            src={user.pic}
-                            className="img photo-post"
-                          />
-                          <span className="text-color-main">
-                            {_.startCase(user.name) +
-                              " (" +
-                              _.startCase(user.user) +
-                              ")"}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <>
-                            <div className="img photo-post-placeholder" />
-                            <span className="placeholder-image-name text-color-main">
-                              {_.startCase(user.name) +
-                                " (" +
-                                _.startCase(user.user) +
-                                ")"}
-                            </span>
-                          </>
-                        </>
-                      )}
+                      <>
+                        <img
+                          alt="Your"
+                          src={user.pic.length ? user.pic : "defaultPic.jpg"}
+                          className="img photo-post"
+                        />
+                        <span className="text-color-main">
+                          {_.startCase(user.name) +
+                            " (" +
+                            _.startCase(user.user) +
+                            ")"}
+                        </span>
+                      </>
                     </div>
                     <div className="col-sm-2"></div>
                     <div className="col-sm-10">

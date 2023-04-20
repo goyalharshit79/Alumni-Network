@@ -182,7 +182,8 @@ textarea {
 .create-post-cl ose {
   float: right;
 }
-.img-placeholder {
+.img-placeholder,
+.img-placeholder-view {
   border-radius: 50% !important;
   width: 12.5rem !important;
   height: 12.5rem !important;
@@ -191,6 +192,8 @@ textarea {
   margin-top: -7rem;
   background-color: grey;
   border: solid 0.75rem;
+}
+.img-placeholder {
   cursor: pointer;
 }
 .photo-post-placeholder {
@@ -221,9 +224,9 @@ textarea {
   border-radius: 50px;
   cursor: pointer;
 }
-/* .section-menu-container:hover {
+.section-menu-container:hover {
   background-color: rgb(240, 234, 234);
-} */
+}
 
 .section-menu {
   object-fit: cover;
@@ -311,7 +314,7 @@ textarea {
 
 .comment-input,
 .reply-input {
-  border-radius: 25px !important;
+  border-radius: 15px !important;
 }
 .reply-input {
   height: 55px !important;

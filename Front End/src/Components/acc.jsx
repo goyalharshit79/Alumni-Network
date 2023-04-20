@@ -153,9 +153,7 @@ function Acc(props) {
       setShowOptions(false);
     }
   }
-  // console.log(user);
-  // console.log(keys);
-  // console.log(userDetails);
+
   return props.from === "explore" ? (
     user ? (
       <div id="my-container" className="scroll-enable">
@@ -167,15 +165,11 @@ function Acc(props) {
             {/* div containing image */}
             <div className="col-md-3 text-center">
               {profilePic ? (
-                profilePic.length ? (
-                  <img
-                    className="img-placeholder border-white"
-                    src={profilePic}
-                    alt="Your Pic"
-                  />
-                ) : (
-                  <div className="img-placeholder mx-auto border-white"></div>
-                )
+                <img
+                  className="img-placeholder-view border-white"
+                  src={profilePic.length ? profilePic : "defaultPic.jpg"}
+                  alt="Your Pic"
+                />
               ) : (
                 <div className="img-placeholder mx-auto border-white"></div>
               )}
@@ -335,15 +329,11 @@ function Acc(props) {
             />
             <label htmlFor="files">
               {profilePic ? (
-                profilePic.length ? (
-                  <img
-                    className="img-placeholder border-white"
-                    src={profilePic}
-                    alt="Your Pic"
-                  />
-                ) : (
-                  <div className="img-placeholder mx-auto border-white"></div>
-                )
+                <img
+                  className="img-placeholder border-white"
+                  src={profilePic.length ? profilePic : "defaultPic.jpg"}
+                  alt="Your Pic"
+                />
               ) : (
                 <div className="img-placeholder mx-auto border-white"></div>
               )}

@@ -102,7 +102,6 @@ export default function CommentReply(props) {
       })
       .catch((err) => console.log(err));
   }
-  console.log(replyDetails);
   return (
     <>
       {wantsToReply === props.comment._id ? (
@@ -122,7 +121,9 @@ export default function CommentReply(props) {
                 className="form-control reply-input my-input"
                 placeholder="Add a Reply"
               />
-              <label htmlFor="addReply">Add a Reply</label>
+              <label htmlFor="addReply" className="mx-2">
+                Add a Reply
+              </label>
             </div>
             <button
               type="submit"
@@ -199,6 +200,8 @@ export default function CommentReply(props) {
                             {_.startCase(replyDetails[reply._id].name)}
                           </span>
                           <div className="col-sm-4"></div>
+
+                          {/* options stuff to delete the reply */}
                           <div className="col-sm-1">
                             {props.user.user === "Teacher" ||
                             props.comment.commentor === props.user.email ||
@@ -242,7 +245,6 @@ export default function CommentReply(props) {
                               <></>
                             )}
                           </div>
-                          {/* options stuff to delete reply */}
 
                           {/* displaying the reply */}
 
