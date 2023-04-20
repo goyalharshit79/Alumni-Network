@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import Options from "./options";
 import CommentReply from "./commentReply";
 
 export default function Comment(props) {
@@ -121,8 +120,7 @@ export default function Comment(props) {
       })
       .catch((err) => console.log(err));
   }
-  // console.log("logged in : ", props.user.email);
-  // console.log("commentor: ", comments);
+
   return (
     <>
       <form
@@ -164,7 +162,13 @@ export default function Comment(props) {
                             <>
                               <div className="col-sm-1 comment-img-container">
                                 <img
-                                  src={commentPic[comment._id]}
+                                  src={
+                                    commentPic[comment._id]
+                                      ? commentPic[comment._id].length
+                                        ? commentPic[comment._id]
+                                        : "defaultPic.jpg"
+                                      : null
+                                  }
                                   className="comment-img"
                                   alt=""
                                 />
@@ -256,9 +260,15 @@ export default function Comment(props) {
                     <div className="row mb-3">
                       {commentPic && commentorName ? (
                         <>
-                          <div className="col-sm-1 comment-img-container">
+                          <div className="col-sm-1">
                             <img
-                              src={commentPic[comment._id]}
+                              src={
+                                commentPic[comment._id]
+                                  ? commentPic[comment._id].length
+                                    ? commentPic[comment._id]
+                                    : "defaultPic.jpg"
+                                  : null
+                              }
                               className="comment-img"
                               alt=""
                             />

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import _ from "lodash";
 import Carousel from "./carousel";
 import Comment from "./comment";
-import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
 
 function Post(props) {
   const [profilePics, setProfilePics] = useState();
@@ -60,7 +59,25 @@ function Post(props) {
       });
     }
   }
-  //socket.io stuff
+  function handleDeletePost(postId) {
+    const address = "http://localhost:8000";
+    const reqPayload = {
+      postId: postId,
+    };
+    fetch(address + "/delte-post", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reqPayload),
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.msg === "900") {
+          props.getPosts();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <>
       {props.posts.map((post) => {
@@ -70,31 +87,71 @@ function Post(props) {
 
             <div className="card p-3 post bg-color col-md-6">
               <div className="row">
-                <div className="col-sm-12 mb-1">
+                <div className="col-sm-11 mb-1">
                   {profilePics[post.postNumber] ? (
-                    profilePics[post.postNumber].length ? (
-                      <>
+                    <>
+                      <img
+                        alt="Your"
+                        src={
+                          profilePics[post.postNumber].length
+                            ? profilePics[post.postNumber]
+                            : "defaultPic.jpg"
+                        }
+                        className="img photo-post"
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <span className="h6 text-color-main">
+                    {_.startCase(post.name)}
+                  </span>
+                </div>
+
+                {/* option for the post */}
+
+                <div className="col-sm-1 mt-2">
+                  {props.user.user === "Teacher" ||
+                  props.user.email === post.email ? (
+                    <>
+                      <div
+                        className={"comment-menu-container ms-3" + post._id}
+                        onClick={() => {
+                          props.handleShowOptions(post._id);
+                        }}
+                      >
                         <img
-                          alt="Your"
-                          src={profilePics[post.postNumber]}
-                          className="img photo-post"
+                          src="3 dots.png"
+                          className="comment-menu "
+                          id="options"
+                          alt="menu"
+                          onClick={() => {
+                            props.handleShowOptions(post._id);
+                          }}
                         />
-                        <span className="h6 text-color-main">
-                          {_.startCase(post.name)}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <div className="img photo-post-placeholder" />
-                        <span className="h6 placeholder-image-name text-color-main">
-                          {_.startCase(post.name)}
-                        </span>
-                      </>
-                    )
+                        {props.showOptions === post._id ? (
+                          <>
+                            <div className="comment-options ">
+                              <span
+                                className="comment-options-item"
+                                onClick={() => {
+                                  handleDeletePost(post._id);
+                                }}
+                              >
+                                Delete
+                              </span>
+                            </div>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </>
                   ) : (
                     <></>
                   )}
                 </div>
+
                 <div className="col-sm-12 mb-1">
                   <span className="h6 text-color-main">
                     {_.startCase(post.title)}
@@ -104,6 +161,7 @@ function Post(props) {
                   <p>{_.startCase(post.about)}</p>
                 </div>
 
+                {/* the media added intot the post */}
                 {post.image.length > 1 ? (
                   <>
                     <Carousel post={post} />
@@ -120,6 +178,7 @@ function Post(props) {
                   </>
                 )}
 
+                {/* liking the posts */}
                 <div className="col-sm-12 mt-2">
                   <div className="row mx-auto">
                     <img

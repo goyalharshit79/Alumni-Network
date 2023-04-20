@@ -5,7 +5,6 @@ import NavBar from "./navbar";
 import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
-import $ from "jquery";
 import Explore from "./explore";
 
 import Acc from "./acc";

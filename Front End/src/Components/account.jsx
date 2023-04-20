@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import $ from "jquery";
+import React, { useState } from "react";
 import FirstLogin from "./firstLogin";
 import Acc from "./acc";
 import AddAbout from "./addAbout";

@@ -492,6 +492,23 @@ app.get("/get-posts", (req, res) => {
   });
 });
 
+app.post("/delte-post", async (req, res) => {
+  try {
+    // this will delete all the replies to all the comments of the post
+    const comments = await Comment.find({ postId: req.body.postId });
+    comments.forEach(async (comment) => {
+      await Comment.deleteMany({ commentId: comment._id });
+    });
+    // this will delete all the comments of the post
+    await Comment.deleteMany({ postId: req.body.postId });
+    // and finally this will delete the post
+    await Post.deleteOne({ _id: req.body.postId });
+    res.send({ msg: "900" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.post("/add-comment", async (req, res) => {
   try {
     const newComment = new Comment({

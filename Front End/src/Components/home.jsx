@@ -30,7 +30,6 @@ function Home(props) {
     setCreatePost(false);
   }
   function getPosts() {
-    console.log("i was cakked");
     const address = "http://localhost:8000";
 
     fetch(address + "/get-posts", {
