@@ -541,7 +541,6 @@ app.post("/add-reply", async (req, res) => {
 });
 
 app.post("/get-reply", async (req, res) => {
-  console.log(req.body);
   try {
     const replies = await Comment.find({ commentId: req.body.commentId });
 
@@ -550,6 +549,7 @@ app.post("/get-reply", async (req, res) => {
     console.log(error);
   }
 });
+
 app.post("/get-reply-details", async (req, res) => {
   try {
     const user = await User.find({ email: req.body.commentor });
@@ -558,29 +558,14 @@ app.post("/get-reply-details", async (req, res) => {
       details: {
         name: user[0].fName + " " + user[0].lName,
         pic: user[0].pic,
+        email: user[0].email,
       },
     });
   } catch (error) {
     console.log(error);
   }
 });
-async function getReplyDetails(reply) {
-  try {
-    console.log("email: ", reply.commentor);
-    User.find({ email: reply.commentor }, (err, currentUser) => {
-      const replyDetails = {
-        [reply._id]: {
-          name: currentUser[0].fName + " " + currentUser[0].lName,
-          pic: currentUser[0].pic,
-        },
-      };
-      console.log("in functon: ", replyDetails);
-      return replyDetails;
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
+
 app.get("/get-all-users", (req, res) => {
   const users = [];
   User.find({}, (err, usersFound) => {

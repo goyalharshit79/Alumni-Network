@@ -121,8 +121,8 @@ export default function Comment(props) {
       })
       .catch((err) => console.log(err));
   }
-  console.log("logged in : ", props.user.user);
-  console.log("commentor: ", comments);
+  // console.log("logged in : ", props.user.email);
+  // console.log("commentor: ", comments);
   return (
     <>
       <form
@@ -174,48 +174,52 @@ export default function Comment(props) {
                               </span>
                               <div className="col-sm-5"></div>
                               {/* the options menu for deleting which will only be visible if the logged in user is the commentor or the teacher*/}
-                              {props.user.user === "Teacher" ||
-                              props.user.email === comment.commentor ? (
-                                <>
-                                  <div
-                                    className={
-                                      "comment-menu-container col-sm-1 " +
-                                      comment._id
-                                    }
-                                    onClick={() => {
-                                      props.handleShowOptions(comment._id);
-                                    }}
-                                  >
-                                    <img
-                                      src="3 dots.png"
-                                      className="comment-menu "
-                                      id="options"
-                                      alt="menu"
+                              <div className="col-sm-1">
+                                {props.user.user === "Teacher" ||
+                                props.user.email === comment.commentor ? (
+                                  <>
+                                    <div
+                                      className={
+                                        "comment-menu-container ms-3" +
+                                        comment._id
+                                      }
                                       onClick={() => {
                                         props.handleShowOptions(comment._id);
                                       }}
-                                    />
-                                    {props.showOptions === comment._id ? (
-                                      <>
-                                        <div className="comment-options ">
-                                          <span
-                                            className="comment-options-item"
-                                            onClick={() => {
-                                              handleDeleteComment(comment._id);
-                                            }}
-                                          >
-                                            Delete
-                                          </span>
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <></>
-                                    )}
-                                  </div>
-                                </>
-                              ) : (
-                                <></>
-                              )}
+                                    >
+                                      <img
+                                        src="3 dots.png"
+                                        className="comment-menu "
+                                        id="options"
+                                        alt="menu"
+                                        onClick={() => {
+                                          props.handleShowOptions(comment._id);
+                                        }}
+                                      />
+                                      {props.showOptions === comment._id ? (
+                                        <>
+                                          <div className="comment-options ">
+                                            <span
+                                              className="comment-options-item"
+                                              onClick={() => {
+                                                handleDeleteComment(
+                                                  comment._id
+                                                );
+                                              }}
+                                            >
+                                              Delete
+                                            </span>
+                                          </div>
+                                        </>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
                             </>
                           ) : (
                             getCommentPic(comment)
@@ -264,48 +268,49 @@ export default function Comment(props) {
                           </span>
                           <div className="col-sm-5"></div>
                           {/* the options menu for deleting which will only be visible if the logged in user is the commentor or the teacher*/}
-                          {props.user.user === "Teacher" ||
-                          props.user.email === comment.commentor ? (
-                            <>
-                              <div
-                                className={
-                                  "comment-menu-container col-sm-1 " +
-                                  comment._id
-                                }
-                                onClick={() => {
-                                  props.handleShowOptions(comment._id);
-                                }}
-                              >
-                                <img
-                                  src="3 dots.png"
-                                  className="comment-menu "
-                                  id="options"
-                                  alt="menu"
+                          <div className="col-sm-1">
+                            {props.user.user === "Teacher" ||
+                            props.user.email === comment.commentor ? (
+                              <>
+                                <div
+                                  className={
+                                    "comment-menu-container ms-3" + comment._id
+                                  }
                                   onClick={() => {
                                     props.handleShowOptions(comment._id);
                                   }}
-                                />
-                                {props.showOptions === comment._id ? (
-                                  <>
-                                    <div className="comment-options ">
-                                      <span
-                                        className="comment-options-item"
-                                        onClick={() => {
-                                          handleDeleteComment(comment._id);
-                                        }}
-                                      >
-                                        Delete
-                                      </span>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <></>
-                                )}
-                              </div>
-                            </>
-                          ) : (
-                            <></>
-                          )}
+                                >
+                                  <img
+                                    src="3 dots.png"
+                                    className="comment-menu "
+                                    id="options"
+                                    alt="menu"
+                                    onClick={() => {
+                                      props.handleShowOptions(comment._id);
+                                    }}
+                                  />
+                                  {props.showOptions === comment._id ? (
+                                    <>
+                                      <div className="comment-options ">
+                                        <span
+                                          className="comment-options-item"
+                                          onClick={() => {
+                                            handleDeleteComment(comment._id);
+                                          }}
+                                        >
+                                          Delete
+                                        </span>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </div>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
                         </>
                       ) : (
                         getCommentPic(comment)
@@ -342,7 +347,13 @@ export default function Comment(props) {
                       <>
                         <div className="col-sm-1">
                           <img
-                            src={commentPic[comment._id]}
+                            src={
+                              commentPic[comment._id]
+                                ? commentPic[comment._id].length
+                                  ? commentPic[comment._id]
+                                  : "defaultPic.jpg"
+                                : null
+                            }
                             className="comment-img"
                             alt=""
                           />
@@ -353,48 +364,49 @@ export default function Comment(props) {
                         <div className="col-sm-5"></div>
 
                         {/* the options menu for deleting which will only be visible if the logged in user is the commentor or the teacher*/}
-                        {props.user.user === "Teacher" ||
-                        props.user.email === comment.commentor ? (
-                          <>
-                            <div
-                              className={
-                                "comment-menu-container ms-3 col-sm-1 " +
-                                comment._id
-                              }
-                              onClick={() => {
-                                props.handleShowOptions(comment._id);
-                              }}
-                            >
-                              <img
-                                src="3 dots.png"
-                                className="comment-menu "
-                                id="options"
-                                alt="menu"
+                        <div className="col-sm-1">
+                          {props.user.user === "Teacher" ||
+                          props.user.email === comment.commentor ? (
+                            <>
+                              <div
+                                className={
+                                  "comment-menu-container ms-3" + comment._id
+                                }
                                 onClick={() => {
                                   props.handleShowOptions(comment._id);
                                 }}
-                              />
-                              {props.showOptions === comment._id ? (
-                                <>
-                                  <div className="comment-options ">
-                                    <span
-                                      className="comment-options-item"
-                                      onClick={() => {
-                                        handleDeleteComment(comment._id);
-                                      }}
-                                    >
-                                      Delete
-                                    </span>
-                                  </div>
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                            </div>
-                          </>
-                        ) : (
-                          <></>
-                        )}
+                              >
+                                <img
+                                  src="3 dots.png"
+                                  className="comment-menu "
+                                  id="options"
+                                  alt="menu"
+                                  onClick={() => {
+                                    props.handleShowOptions(comment._id);
+                                  }}
+                                />
+                                {props.showOptions === comment._id ? (
+                                  <>
+                                    <div className="comment-options ">
+                                      <span
+                                        className="comment-options-item"
+                                        onClick={() => {
+                                          handleDeleteComment(comment._id);
+                                        }}
+                                      >
+                                        Delete
+                                      </span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
                       </>
                     ) : (
                       getCommentPic(comment)

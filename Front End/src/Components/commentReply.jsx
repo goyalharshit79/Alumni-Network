@@ -102,6 +102,7 @@ export default function CommentReply(props) {
       })
       .catch((err) => console.log(err));
   }
+  console.log(replyDetails);
   return (
     <>
       {wantsToReply === props.comment._id ? (
@@ -174,75 +175,100 @@ export default function CommentReply(props) {
                 </a>
               </>
             )}
-
-            {replies.map((reply) => {
-              return (
-                <>
-                  {replyDetails[reply._id] ? (
+            {replies.length ? (
+              <>
+                {replies.map((reply) => {
+                  return (
                     <>
-                      <div className="col-sm-1"></div>
-                      <div className="col-sm-1 mt-2">
-                        <img
-                          src={replyDetails[reply._id].pic}
-                          className="reply-img"
-                          alt=""
-                        />
-                      </div>
+                      {replyDetails[reply._id] ? (
+                        <>
+                          <div className="col-sm-1"></div>
+                          <div className="col-sm-1 mt-2">
+                            <img
+                              src={
+                                replyDetails[reply._id].pic
+                                  ? replyDetails[reply._id].pic
+                                  : "defaultPic.jpg"
+                              }
+                              className="reply-img"
+                              alt=""
+                            />
+                          </div>
 
-                      <span className="col-sm-4 mt-2 text-color-sec fw-bold">
-                        {_.startCase(replyDetails[reply._id].name)}
-                      </span>
+                          <span className="col-sm-4 mt-2 text-color-sec fw-bold">
+                            {_.startCase(replyDetails[reply._id].name)}
+                          </span>
+                          <div className="col-sm-4"></div>
+                          <div className="col-sm-1">
+                            {props.user.user === "Teacher" ||
+                            props.comment.commentor === props.user.email ||
+                            props.user.email ===
+                              replyDetails[reply._id].email ? (
+                              <>
+                                <div
+                                  className=" mt-2 ms-4"
+                                  onClick={() => {
+                                    props.handleShowOptions(reply._id);
+                                  }}
+                                >
+                                  <img
+                                    src="3 dots.png"
+                                    className="reply-menu "
+                                    id="options"
+                                    alt="menu"
+                                    onClick={() => {
+                                      props.handleShowOptions(reply._id);
+                                    }}
+                                  />
+                                  {props.showOptions === reply._id ? (
+                                    <>
+                                      <div className="comment-options ">
+                                        <span
+                                          className="comment-options-item"
+                                          onClick={() => {
+                                            handleDeleteReply(reply._id);
+                                          }}
+                                        >
+                                          Delete
+                                        </span>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </div>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                          {/* options stuff to delete reply */}
 
-                      {/* options stuff to delete reply */}
-                      <div className="col-sm-4"></div>
-                      <div
-                        className=" mt-2 ms-4 col-sm-1 "
-                        onClick={() => {
-                          props.handleShowOptions(reply._id);
-                        }}
-                      >
-                        <img
-                          src="3 dots.png"
-                          className="reply-menu "
-                          id="options"
-                          alt="menu"
-                          onClick={() => {
-                            props.handleShowOptions(reply._id);
-                          }}
-                        />
-                        {props.showOptions === reply._id ? (
-                          <>
-                            <div className="comment-options ">
-                              <span
-                                className="comment-options-item"
-                                onClick={() => {
-                                  handleDeleteReply(reply._id);
-                                }}
-                              >
-                                Delete
-                              </span>
-                            </div>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
+                          {/* displaying the reply */}
 
-                      {/* displaying the reply */}
+                          <div className="col-sm-1"></div>
+                          <div className="col-sm-1"></div>
 
-                      <div className="col-sm-1"></div>
-                      <div className="col-sm-1"></div>
-
-                      <span className="col-sm-10 text-color-sec">
-                        {_.startCase(reply.comment)}
-                      </span>
+                          <span className="col-sm-11 text-color-sec">
+                            {_.startCase(reply.comment)}
+                          </span>
+                        </>
+                      ) : (
+                        getReplyDetails(reply)
+                      )}
                     </>
-                  ) : (
-                    getReplyDetails(reply)
-                  )}
-                </>
-              );
-            })}
+                  );
+                })}
+              </>
+            ) : (
+              <>
+                <div className="col-sm-1"></div>
+
+                <span className="col-sm-10 first-to-reply text-color-sec">
+                  Be the first to reply...
+                </span>
+              </>
+            )}
           </>
         ) : (
           getReply(props.comment._id)

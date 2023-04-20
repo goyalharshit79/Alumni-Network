@@ -93,7 +93,13 @@ function Home(props) {
             <>
               {posts ? (
                 <>
-                  <Post user={props.user} posts={posts} />
+                  <Post
+                    showOptions={showOptions}
+                    handleShowOptions={handleShowOptions}
+                    getPosts={getPosts}
+                    user={props.user}
+                    posts={posts}
+                  />
                 </>
               ) : (
                 <></>
