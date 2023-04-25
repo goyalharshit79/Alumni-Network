@@ -72,6 +72,8 @@ const postSchema = {
   image: [],
 };
 const Post = mongoose.model("Post", postSchema);
+
+//making schema for comment and reply
 const commentSchema = {
   postId: String,
   commentId: String,
@@ -80,6 +82,25 @@ const commentSchema = {
   reply: [],
 };
 const Comment = mongoose.model("Comment", commentSchema);
+
+//making schema for chats
+const conversationSchema = new mongoose.Schema(
+  {
+    members: Array,
+  },
+  { timestamps: true }
+);
+const Conversation = mongoose.model("Conversation", conversationSchema);
+
+const messageSchema = new mongoose.Schema(
+  {
+    conversationId: String,
+    sender: String,
+    text: String,
+  },
+  { timestamps: true }
+);
+const Message = mongoose.model("Message", messageSchema);
 
 //handling a signup request
 app.post("/signup", (req, res) => {
@@ -168,16 +189,21 @@ app.post("/login", (req, res) => {
 });
 
 //retaining the session and getting the user data whenever needed
-app.post("/retain-session", (req, res) => {
-  User.find({ email: req.body.email }, (err, userFound) => {
+app.post("/retain-session", async (req, res) => {
+  try {
+    const userFound = await User.find({ email: req.body.email });
     const user = {
       fName: userFound[0].fName,
       lName: userFound[0].lName,
       email: userFound[0].email,
       user: userFound[0].user,
+      userId: userFound[0]._id,
     };
-    res.send({ msg: "900", user: user });
-  });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500);
+  }
 });
 
 //checking if the user has logged in for the first time
@@ -660,6 +686,53 @@ app.post("/get-user", (req, res) => {
       });
     }
   });
+});
+
+app.post("/new-conversation", async (req, res) => {
+  const newConversation = new Conversation({
+    members: [req.body.senderId, req.body.receiverId],
+  });
+
+  try {
+    const savedConversation = await newConversation.save();
+    res.status(200).json(savedConversation);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+app.get("/conversation/:userId", async (req, res) => {
+  try {
+    const conversations = await Conversation.find({
+      members: { $in: req.params.userId },
+    });
+    res.status(200).json(conversations);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+app.post("/new-message", async (req, res) => {
+  const newMessage = new Message(req.body);
+
+  try {
+    const savedMessage = await newMessage.save();
+    res.status(200).json(savedMessage);
+    console.log(savedMessage);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+app.get("/get-messages/:conversationId", async (req, res) => {
+  try {
+    const messages = await Message.find({
+      conversationId: req.params.conversationId,
+    });
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 function filterUsersFound(usersFound) {

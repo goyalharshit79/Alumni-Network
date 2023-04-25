@@ -1,8 +1,26 @@
 import React from "react";
 import Conversation from "./conversation";
 import Message from "./message";
+import { useState, useEffect } from "react";
 
-export default function Chat() {
+export default function Chat(props) {
+  const [conversations, setConversations] = useState([]);
+  // getting the conversations of the logged in user
+  useEffect(() => {
+    const getConversation = async () => {
+      const address = "http://localhost:8000/conversation/" + props.user.userId;
+      fetch(address, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    };
+    getConversation();
+  }, [props.user]);
   return (
     <>
       <div className="chat-page-container ">
@@ -35,9 +53,6 @@ export default function Chat() {
             <div className="chat-top">
               <Message />
               <Message own={true} />
-              <Message />
-              <Message />
-              <Message />
               <Message />
               <Message />
               <Message />

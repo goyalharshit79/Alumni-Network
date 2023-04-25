@@ -113,9 +113,7 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.msg === "900") {
-          setCookie("user", data.user);
-        }
+        setCookie("user", data);
       });
   }
   //changing the tab as per tab clicked in the nav bar
@@ -153,7 +151,6 @@ function App() {
       setCookie("page", "Chat");
     }
   }
-  console.log(cookies.page);
   //logout function
   function handleLogout() {
     removeCookie("user");
@@ -209,7 +206,6 @@ function App() {
       getClickedUserDetails();
     }
   });
-
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
@@ -283,7 +279,7 @@ function App() {
     ) : chatClicked ? (
       <>
         <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
-        <Chat />
+        <Chat user={cookies.user} />
       </>
     ) : (
       <></>
