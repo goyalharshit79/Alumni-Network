@@ -109,6 +109,14 @@ function NavBar(props) {
                       className="nav-link text-color-sec"
                       onClick={tabChange}
                     >
+                      Chat
+                    </span>
+                  </li>
+                  <li className="nav-item">
+                    <span
+                      className="nav-link text-color-sec"
+                      onClick={tabChange}
+                    >
                       Account
                     </span>
                   </li>

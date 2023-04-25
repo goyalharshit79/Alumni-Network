@@ -6,6 +6,7 @@ import Account from "./account";
 import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
 import Explore from "./explore";
+import Chat from "./chat";
 
 import Acc from "./acc";
 
@@ -50,6 +51,13 @@ function App() {
   });
   const [exploreClicked, setExploreClicked] = useState(() => {
     if (cookies.page === "Explore") {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  const [chatClicked, setChatClicked] = useState(() => {
+    if (cookies.page === "Chat") {
       return true;
     } else {
       return false;
@@ -115,13 +123,14 @@ function App() {
     if (element === "Account") {
       setHomeClicked(false);
       setAccountClicked(true);
-      setExploreClicked(true);
+      setExploreClicked(false);
       removeCookie("userClicked");
       setCookie("page", "Account");
     } else if (element === "Home") {
       removeCookie("userClicked");
       setHomeClicked(true);
       setAccountClicked(false);
+      setExploreClicked(false);
       setCookie("page", "Home");
     } else if (element === "Explore") {
       if (data) {
@@ -135,8 +144,16 @@ function App() {
       setHomeClicked(false);
       setAccountClicked(false);
       setExploreClicked(true);
+    } else if (element === "Chat") {
+      setChatClicked(true);
+      setHomeClicked(false);
+      setAccountClicked(false);
+      setExploreClicked(false);
+      removeCookie("userClicked");
+      setCookie("page", "Chat");
     }
   }
+  console.log(cookies.page);
   //logout function
   function handleLogout() {
     removeCookie("user");
@@ -192,8 +209,7 @@ function App() {
       getClickedUserDetails();
     }
   });
-  // handleLogout();
-  // console.log(homeClicked, accountClicked, exploreClicked);
+
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
@@ -264,6 +280,11 @@ function App() {
           />
         </>
       )
+    ) : chatClicked ? (
+      <>
+        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
+        <Chat />
+      </>
     ) : (
       <></>
     )
