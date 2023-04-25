@@ -178,7 +178,6 @@ function App() {
 
   //explore page functions
   function handleUserClicked(email) {
-    console.log("putin mail");
     setCookie("userClicked", email);
   }
   function getClickedUserDetails() {
@@ -186,7 +185,7 @@ function App() {
     const reqData = {
       email: cookies.userClicked,
     };
-    fetch(address + "/get-user", {
+    fetch(address + "/get-user-details", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqData),

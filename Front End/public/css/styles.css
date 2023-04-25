@@ -375,6 +375,7 @@ textarea {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .chat-top {
   padding: 1rem;
@@ -505,6 +506,13 @@ textarea {
 .chat-message-input:focus {
   outline: var(--sec-text-color) !important;
   box-shadow: 0 0 0 0.25rem rgba(206, 242, 189, 0.25) !important;
+}
+.before-conversation {
+  font-size: 3rem;
+  position: absolute;
+  top: 40%;
+  text-align: center;
+  cursor: default;
 }
 
 /* utility classes */

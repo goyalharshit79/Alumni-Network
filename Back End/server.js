@@ -658,7 +658,7 @@ app.post("/search-user", (req, res) => {
   });
 });
 
-app.post("/get-user", (req, res) => {
+app.post("/get-user-details", (req, res) => {
   User.find({ email: req.body.email }, (err, userFound) => {
     if (userFound[0].user === "Student") {
       Student.find({ email: req.body.email }, (err, userDetailsFound) => {
@@ -735,6 +735,14 @@ app.get("/get-messages/:conversationId", async (req, res) => {
   }
 });
 
+app.get("/get-user", async (req, res) => {
+  try {
+    const user = await User.find({ _id: req.query.userId });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 function filterUsersFound(usersFound) {
   const filteredUsers = [];
   for (let i = 0; i < usersFound.length; i++) {

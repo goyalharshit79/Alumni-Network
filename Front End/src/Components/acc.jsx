@@ -116,7 +116,7 @@ function Acc(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUser(data.user);
+        setUser(data);
       })
       .catch((err) => console.log(err));
   }
