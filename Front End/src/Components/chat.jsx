@@ -1,5 +1,6 @@
 import React from "react";
 import Conversation from "./conversation";
+import Message from "./message";
 
 export default function Chat() {
   return (
@@ -25,8 +26,33 @@ export default function Chat() {
         </div>
         <div className="chats-container">
           <div className="chats-wrapper">
-            <div className="chat-top"></div>
-            <div className="chat-bottom"></div>
+            <div className="current-contact">
+              <img className="conversation-img" src="debate4.jpg" alt="" />
+              <span className=" conversation-text fw-bold text-color-main">
+                Harshit Goyal
+              </span>
+            </div>
+            <div className="chat-top">
+              <Message />
+              <Message own={true} />
+              <Message />
+              <Message />
+              <Message />
+              <Message />
+              <Message />
+              <Message />
+              <Message />
+            </div>
+            <div className="chat-bottom">
+              <textarea
+                name="chatMessage"
+                id="chatMessage"
+                className="chat-message-input"
+              ></textarea>
+              <button className="chat-message-send btn btn-color-2">
+                Send
+              </button>
+            </div>
           </div>
         </div>
       </div>
