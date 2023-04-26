@@ -718,7 +718,6 @@ app.post("/new-message", async (req, res) => {
   try {
     const savedMessage = await newMessage.save();
     res.status(200).json(savedMessage);
-    console.log(savedMessage);
   } catch (error) {
     res.status(500).json(error);
   }

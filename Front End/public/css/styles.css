@@ -27,11 +27,11 @@
   --sec-btn-hover-border-color: #cef2bd;
 }
 #my-container {
-  height: calc(100vh - 40px);
+  height: calc(100vh - 60px);
   overflow: auto;
 }
 body {
-  height: 100vh;
+  height: 100%;
 }
 #flexSwitchCheckChecked {
   width: 5em;
@@ -354,9 +354,10 @@ textarea {
 
 /* chat page */
 .chat-page-container {
-  height: calc(100vh - 40px);
+  height: calc(100vh - 60px);
   display: flex;
 }
+
 .contacts-container {
   flex: 2;
   justify-content: center;

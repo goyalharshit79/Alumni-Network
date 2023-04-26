@@ -47,7 +47,7 @@ function NavBar(props) {
   }
   return (
     <>
-      <div id="navBar" className="text-color-sec">
+      <div id="navBar" className="text-color-sec scroll-disable">
         <nav
           className="navbar navbar-expand-lg bg-color "
           aria-label="Offcanvas navbar large"

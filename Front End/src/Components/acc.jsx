@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 // import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 
 function Acc(props) {
+  const scrollRef = useRef();
   const [profilePic, setProfilePic] = useState();
   const [user, setUser] = useState();
   const [showOptions, setShowOptions] = useState();
+  const [keys, setKeys] = useState([]);
+
+  //getting photo of the user
   useEffect(() => {
     if (!profilePic) {
       getPhoto();
     }
   });
+  //getting the details of the user
   useEffect(() => {
     if (!user) {
       getUser();
     }
   });
-  const [keys, setKeys] = useState([]);
-
+  //filetring the keys of the details to use as columns
   useEffect(() => {
     setKeys(() => {
       if (props.from === "explore") {
@@ -49,7 +53,11 @@ function Acc(props) {
       }
     });
   }, [props.userDetails, props.from, props.userClicked]);
-
+  //scrolling to the end of the page
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("running");
+  });
   function deleteSection(e) {
     const address = "http://localhost:8000";
     e.preventDefault();
@@ -156,7 +164,7 @@ function Acc(props) {
 
   return props.from === "explore" ? (
     user ? (
-      <div id="my-container" className="scroll-enable">
+      <div id="my-container" className="scroll-enable" ref={scrollRef}>
         <div className="container-fluid p-5">
           <div className="row">
             {/* the background div */}
@@ -310,7 +318,8 @@ function Acc(props) {
     <div
       id="my-container"
       onClick={handleCloseOptions}
-      className="scroll-enable"
+      // className="scroll-enable"
+      ref={scrollRef}
     >
       <div className="container-fluid p-5">
         <div className="row">

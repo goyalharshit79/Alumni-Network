@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 export default function Message(props) {
   const [sender, setSender] = useState();
+  const [currentTime, setCurrentTIme] = useState();
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -22,6 +24,14 @@ export default function Message(props) {
     };
     getUser();
   }, [props]);
+
+  // trying to do time
+  // useEffect(() => {
+  //   const time = new Date();
+  //   console.log(time);
+  //   console.log(props.message.createdAt);
+  //   console.log(typeof time);
+  // }, []);
   return (
     <div className={props.own ? "message own" : "message"}>
       <div className="message-top">
@@ -34,7 +44,7 @@ export default function Message(props) {
           {props.message.text}
         </span>
       </div>
-      <div className="message-bottom text-color-main">1 hour ago</div>
+      <div className="message-bottom text-color-main">{"1 hour ago"}</div>
     </div>
   );
 }
