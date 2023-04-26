@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 export default function Message(props) {
   const [sender, setSender] = useState();
-  const [currentTime, setCurrentTIme] = useState();
 
   useEffect(() => {
     const getUser = async () => {
@@ -25,16 +24,44 @@ export default function Message(props) {
     getUser();
   }, [props]);
 
-  // trying to do time
-  // useEffect(() => {
-  //   const time = new Date();
-  //   console.log(time);
-  //   console.log(props.message.createdAt);
-  //   console.log(typeof time);
-  // }, []);
   return (
     <div className={props.own ? "message own" : "message"}>
       <div className="message-top">
+        {/* options to delete the message */}
+        {props.own ? (
+          <>
+            <div>
+              <img
+                src="3 dots.png"
+                className="message-menu "
+                id="options"
+                alt="menu"
+                onClick={() => {
+                  props.handleShowOptions(props.message._id);
+                }}
+              />
+              {props.showOptions === props.message._id ? (
+                <>
+                  <div className="message-options ">
+                    <span
+                      className="comment-options-item"
+                      onClick={() => {
+                        props.handleDeleteMessage(props.message._id);
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+        {/* the message */}
         <img
           className="message-img"
           src={sender?.pic.length ? sender.pic : "defaultPic.jpg"}

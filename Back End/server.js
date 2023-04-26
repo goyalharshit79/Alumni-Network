@@ -742,6 +742,15 @@ app.get("/get-user", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+app.get("/delete-message", async (req, res) => {
+  try {
+    const deleteStatus = await Message.deleteOne({ _id: req.query.messageId });
+    res.status(200).json(deleteStatus);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 function filterUsersFound(usersFound) {
   const filteredUsers = [];
   for (let i = 0; i < usersFound.length; i++) {

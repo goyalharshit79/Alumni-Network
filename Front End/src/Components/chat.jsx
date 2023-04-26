@@ -10,6 +10,7 @@ export default function Chat(props) {
   const [currentConversation, setCurrentConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentChatter, setCurrentChatter] = useState();
+  const [showOptions, setShowOptions] = useState("hg");
 
   // getting the conversations of the logged in user
   useEffect(() => {
@@ -94,15 +95,45 @@ export default function Chat(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        setMessages([...messages, data]);
         document.getElementById("chatMessage").value = "";
       })
       .catch((err) => console.log(err));
   }
-  console.log(currentConversation);
-
+  // handling showing the options
+  function handleShowOptions(id) {
+    setShowOptions(id);
+  }
+  //deleting message
+  function handleDeleteMessage(messageId) {
+    const address =
+      "http://localhost:8000/delete-message?messageId=" + messageId;
+    fetch(address, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      mode: "cors",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMessages(() => {
+          const tempMessageHolder = messages.filter((m) => {
+            return m._id !== messageId;
+          });
+          return tempMessageHolder;
+        });
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <>
-      <div className="chat-page-container ">
+      <div
+        className="chat-page-container"
+        onClick={(e) => {
+          if (e.target.id !== "options") {
+            setShowOptions();
+          }
+        }}
+      >
         <div className="contacts-container">
           <div className="contacts-wrapper">
             <div className="form-floating">
@@ -158,7 +189,10 @@ export default function Chat(props) {
                     return (
                       <div ref={scrollRef}>
                         <Message
+                          handleDeleteMessage={handleDeleteMessage}
                           message={m}
+                          handleShowOptions={handleShowOptions}
+                          showOptions={showOptions}
                           own={m.sender === props?.user.userId ? true : false}
                         />
                       </div>

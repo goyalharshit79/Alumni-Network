@@ -246,7 +246,8 @@ textarea {
   width: auto;
   cursor: pointer;
 }
-.reply-menu {
+.reply-menu,
+.message-menu {
   object-fit: cover;
   height: 15px;
   width: auto;
@@ -263,15 +264,19 @@ textarea {
   top: 1.5rem;
   right: 0;
 }
-.comment-options {
+.comment-options,
+.message-options {
   background-color: white;
   border-radius: 25px;
   height: fit-content;
   width: fit-content;
   position: absolute;
-  right: 0.5rem;
   flex: 12;
 }
+.comment-options {
+  right: 0.5rem;
+}
+
 .show-dropdown {
   position: absolute;
   inset: 0px auto auto 0px;
@@ -468,7 +473,18 @@ textarea {
   margin-top: 2rem;
 }
 .message-top {
+  position: relative;
   display: flex;
+}
+.message-menu {
+  position: absolute;
+  left: 2.25rem;
+  top: 5px;
+}
+.message-options {
+  top: 2rem;
+  right: 4rem;
+  background-color: #cef2bd !important;
 }
 .message-img {
   width: 2rem;
