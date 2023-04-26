@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import Conversation from "./conversation";
 import Message from "./message";
 import { useState, useEffect } from "react";
 import _ from "lodash";
 
 export default function Chat(props) {
+  const scrollRef = useRef();
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -71,6 +72,11 @@ export default function Chat(props) {
     };
     getUser();
   }, [currentConversation, props]);
+  //scrolling to the end of the messages
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+  // function to send the messaged
   function handleSendMessage(e) {
     const address = "http://localhost:8000";
     e.preventDefault();
@@ -92,6 +98,8 @@ export default function Chat(props) {
       })
       .catch((err) => console.log(err));
   }
+  console.log(currentConversation);
+
   return (
     <>
       <div className="chat-page-container ">
@@ -148,10 +156,12 @@ export default function Chat(props) {
                 <div className="chat-top">
                   {messages.map((m) => {
                     return (
-                      <Message
-                        message={m}
-                        own={m.sender === props.user.userId ? true : false}
-                      />
+                      <div ref={scrollRef}>
+                        <Message
+                          message={m}
+                          own={m.sender === props?.user.userId ? true : false}
+                        />
+                      </div>
                     );
                   })}
                 </div>
