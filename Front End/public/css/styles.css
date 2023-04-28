@@ -383,6 +383,31 @@ textarea {
   flex-direction: column;
   position: relative;
 }
+.conversation {
+  position: relative;
+}
+.nav-item {
+  position: relative;
+}
+.unread-message,
+.unread-message-conversation {
+  font-size: 12px;
+  color: #cef2bd;
+  position: absolute;
+  padding: 2px 6px;
+  border-radius: 50%;
+  /* width: auto; */
+  /* height: 2px; */
+  background-color: #012611;
+}
+.unread-message {
+  top: -2px;
+  left: 30px;
+}
+.unread-message-conversation {
+  top: 25px;
+  right: 0;
+}
 .chat-top {
   padding: 1rem;
   overflow-y: scroll;

@@ -111,7 +111,7 @@ function NavBar(props) {
                     >
                       Chat
                     </span>
-                    <span>
+                    <span className="unread-message">
                       {props.unreadMessages.length &&
                         props.unreadMessages.length}
                     </span>

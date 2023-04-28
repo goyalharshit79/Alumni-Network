@@ -53,7 +53,9 @@ export default function Conversation(props) {
         <span className="conversation-text fw-bold text-color-main">
           {_.startCase(friend?.fName + " " + friend?.lName)}
         </span>
-        <div>{unreadMessages.length ? unreadMessages.length : <></>}</div>
+        <div className="unread-message-conversation">
+          {unreadMessages.length ? unreadMessages.length : <></>}
+        </div>
       </div>
     </>
   );
