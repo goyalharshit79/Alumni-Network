@@ -4,6 +4,7 @@ import _ from "lodash";
 
 export default function Conversation(props) {
   const [friend, setFriend] = useState();
+  const [unreadMessages, setUnreadMessages] = useState([]);
   useEffect(() => {
     const friendId = props.conversation.members.filter(
       (m) => m !== props.currentUser.userId
@@ -26,6 +27,18 @@ export default function Conversation(props) {
     };
     getUser();
   }, [props]);
+
+  useEffect(() => {
+    const filterUnreadMessages = async () => {
+      const um = props.unreadMessages.filter((um) => {
+        return um.conversationId === props.conversation._id;
+      });
+      setUnreadMessages(um);
+    };
+    filterUnreadMessages();
+  }, [props]);
+  // console.log(props.unreadMessages);
+  // console.log(props.conversation._id, unreadMessages);
   return (
     <>
       <div className="conversation">
@@ -40,6 +53,7 @@ export default function Conversation(props) {
         <span className="conversation-text fw-bold text-color-main">
           {_.startCase(friend?.fName + " " + friend?.lName)}
         </span>
+        <div>{unreadMessages.length ? unreadMessages.length : <></>}</div>
       </div>
     </>
   );

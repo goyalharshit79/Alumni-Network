@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const cors = require("cors");
+const { resolve } = require("path");
 
 const app = express();
 app.use(
@@ -518,7 +519,7 @@ app.get("/get-posts", (req, res) => {
   });
 });
 
-app.post("/delte-post", async (req, res) => {
+app.post("/delete-post", async (req, res) => {
   try {
     // this will delete all the replies to all the comments of the post
     const comments = await Comment.find({ postId: req.body.postId });
@@ -751,6 +752,24 @@ app.get("/delete-message", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+async function getMessages(id) {
+  const messages = await Message.find({ conversationId: id });
+  return messages;
+}
+
+app.get("/get-all-messages/:userId", async (req, res) => {
+  const conversations = await Conversation.find({
+    memers: { $in: req.param.userId },
+  });
+  res.status(200);
+  console.log(conversations);
+  let allMessages = [];
+  conversations.map((conv) => {});
+  console.log("all: ", allMessages);
+});
+
+//to search users
 function filterUsersFound(usersFound) {
   const filteredUsers = [];
   for (let i = 0; i < usersFound.length; i++) {

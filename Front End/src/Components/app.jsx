@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import FirstLogin from "./firstLogin";
 import Explore from "./explore";
 import Chat from "./chat";
-
+import axios from "axios";
 import Acc from "./acc";
 
 function App() {
@@ -64,6 +64,8 @@ function App() {
     }
   });
   const [usersFound, setUsersFound] = useState();
+  const [conversations, setConversations] = useState();
+  const [unreadMessages, setUnreadMessages] = useState([]);
   //login and cookie stuff
   useEffect(() => {
     if (isLoggedIn && !cookies.user) {
@@ -99,7 +101,6 @@ function App() {
         setUserDetails(data.details);
       });
   }
-
   function putCookies() {
     const address = "http://localhost:8000";
     const reqData = {
@@ -116,6 +117,39 @@ function App() {
         setCookie("user", data);
       });
   }
+
+  //handling the unread messages displaying stuff
+  useEffect(() => {
+    const getConversations = async () => {
+      const address =
+        "http://localhost:8000/conversation/" + cookies.user.userId;
+      const res = await axios.get(address);
+      setConversations(res.data);
+    };
+    getConversations();
+  }, [cookies]);
+  useEffect(() => {
+    const getAllMessages = async () => {
+      conversations.forEach(async (conv) => {
+        const address = "http://localhost:8000/get-messages/" + conv._id;
+        const res = await axios.get(address);
+        res.data.forEach((m) => {
+          let alreadyThere = false;
+          unreadMessages.forEach((um) => {
+            if (um._id === m._id) {
+              alreadyThere = true;
+            }
+          });
+          !alreadyThere &&
+            !m.read &&
+            setUnreadMessages((prev) => {
+              return [...prev, m];
+            });
+        });
+      });
+    };
+    getAllMessages();
+  }, [conversations, unreadMessages]);
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
@@ -220,18 +254,29 @@ function App() {
           <></>
         )}
 
-        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
+        <NavBar
+          unreadMessages={unreadMessages}
+          className="nav-bar"
+          tabChange={goToTab}
+          logout={handleLogout}
+        />
         {cookies.user ? <Home user={cookies.user} /> : <></>}
       </>
     ) : homeClicked ? (
       <>
-        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
+        <NavBar
+          unreadMessages={unreadMessages}
+          className="nav-bar"
+          tabChange={goToTab}
+          logout={handleLogout}
+        />
         {cookies.user ? <Home user={cookies.user} /> : <></>}
       </>
     ) : accountClicked ? (
       userDetails ? (
         <>
           <NavBar
+            unreadMessages={unreadMessages}
             className="nav-bar"
             tabChange={goToTab}
             logout={handleLogout}
@@ -250,6 +295,7 @@ function App() {
       cookies.userClicked ? (
         <>
           <NavBar
+            unreadMessages={unreadMessages}
             from="Explore"
             className="nav-bar"
             tabChange={goToTab}
@@ -264,6 +310,7 @@ function App() {
       ) : (
         <>
           <NavBar
+            unreadMessages={unreadMessages}
             className="nav-bar"
             tabChange={goToTab}
             logout={handleLogout}
@@ -277,8 +324,13 @@ function App() {
       )
     ) : chatClicked ? (
       <>
-        <NavBar className="nav-bar" tabChange={goToTab} logout={handleLogout} />
-        <Chat user={cookies.user} />
+        <NavBar
+          unreadMessages={unreadMessages}
+          className="nav-bar"
+          tabChange={goToTab}
+          logout={handleLogout}
+        />
+        <Chat unreadMessages={unreadMessages} user={cookies.user} />
       </>
     ) : (
       <></>

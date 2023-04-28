@@ -64,7 +64,7 @@ function Post(props) {
     const reqPayload = {
       postId: postId,
     };
-    fetch(address + "/delte-post", {
+    fetch(address + "/delete-post", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(reqPayload),

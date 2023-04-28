@@ -156,6 +156,7 @@ export default function Chat(props) {
                   }}
                 >
                   <Conversation
+                    unreadMessages={props.unreadMessages}
                     conversation={conversation}
                     currentUser={props.user}
                   />
