@@ -119,6 +119,7 @@ function App() {
   }
 
   //handling the unread messages displaying stuff
+  ////getting the conversations of the logged in user
   useEffect(() => {
     const getConversations = async () => {
       const address =
@@ -128,21 +129,26 @@ function App() {
     };
     getConversations();
   }, [cookies]);
+  ////getting and filtering all the messages of all the conversations to find out unread messages
   useEffect(() => {
+    console.log("-------------------------------------");
+
     const getAllMessages = async () => {
       conversations?.forEach(async (conv) => {
         const address = "http://localhost:8000/get-messages/" + conv._id;
         const res = await axios.get(address);
+        console.log(conv);
         res.data.forEach((m) => {
           let alreadyThere = false;
           unreadMessages.forEach((um) => {
             if (um._id === m._id) {
               alreadyThere = true;
+              console.log(m._id);
+              console.log("----");
             }
           });
-          // console.log("clld");
-          !m.read &&
-            !alreadyThere &&
+          !alreadyThere &&
+            !m.read &&
             m.sender !== cookies.user.userId &&
             setUnreadMessages((prev) => {
               return [...prev, m];
@@ -151,8 +157,9 @@ function App() {
       });
     };
     getAllMessages();
-  }, [conversations, unreadMessages, cookies]);
+  }, [conversations, cookies]);
   // console.log(unreadMessages);
+  ////when the user reads a msg, reducing it from the array of unread messages
   function markConversationRead(conv) {
     let updatedUnreadMessages = [];
     unreadMessages.forEach((um) => {
@@ -169,7 +176,7 @@ function App() {
     });
     setConversations(updatedConversations);
   }
-  // console.log("messages: ", unreadMessages);
+
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
