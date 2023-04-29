@@ -3,6 +3,7 @@ import Conversation from "./conversation";
 import Message from "./message";
 import { useState, useEffect } from "react";
 import _ from "lodash";
+import axios from "axios";
 
 export default function Chat(props) {
   const scrollRef = useRef();
@@ -10,8 +11,26 @@ export default function Chat(props) {
   const [currentConversation, setCurrentConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentChatter, setCurrentChatter] = useState();
-  const [showOptions, setShowOptions] = useState("hg");
+  const [showOptions, setShowOptions] = useState("");
+  const [areMessagesRead, setAreMessagesRead] = useState();
+  // const [currentChattersDetails, setCurrentChattersDetails] = useState({});
 
+  // useEffect(() => {
+  //   const getUserData = async () => {
+  //     currentConversation?.members.forEach(async (member) => {
+  //       const address = "http://localhost:8000/get-user?userId=" + member;
+  //       const res = await axios.get(address);
+  //       setCurrentChattersDetails((prev) => {
+  //         return {
+  //           ...prev,
+  //           [member]: res.data[0],
+  //         };
+  //       });
+  //     });
+  //   };
+  //   getUserData();
+  // }, [currentConversation]);
+  // console.log(currentChattersDetails);
   // getting the conversations of the logged in user
   useEffect(() => {
     const getConversation = async () => {
@@ -72,7 +91,7 @@ export default function Chat(props) {
       }
     };
     getUser();
-  }, [currentConversation, props]);
+  }, [currentConversation, props.user]);
   //scrolling to the end of the messages
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -124,6 +143,11 @@ export default function Chat(props) {
       })
       .catch((err) => console.log(err));
   }
+  function markRead(conv) {
+    setAreMessagesRead({ [conv._id]: true });
+    props.markConversationRead(conv);
+  }
+  // console.log(areMessagesRead);
   return (
     <>
       <div
@@ -156,7 +180,13 @@ export default function Chat(props) {
                   }}
                 >
                   <Conversation
-                    unreadMessages={props.unreadMessages}
+                    unreadMessages={
+                      areMessagesRead
+                        ? areMessagesRead[conversation._id]
+                          ? []
+                          : props.unreadMessages
+                        : props.unreadMessages
+                    }
                     conversation={conversation}
                     currentUser={props.user}
                   />
@@ -190,6 +220,8 @@ export default function Chat(props) {
                     return (
                       <div ref={scrollRef}>
                         <Message
+                          markRead={markRead}
+                          currentConversation={currentConversation}
                           handleDeleteMessage={handleDeleteMessage}
                           message={m}
                           handleShowOptions={handleShowOptions}

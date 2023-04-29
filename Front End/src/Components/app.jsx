@@ -130,7 +130,7 @@ function App() {
   }, [cookies]);
   useEffect(() => {
     const getAllMessages = async () => {
-      conversations.forEach(async (conv) => {
+      conversations?.forEach(async (conv) => {
         const address = "http://localhost:8000/get-messages/" + conv._id;
         const res = await axios.get(address);
         res.data.forEach((m) => {
@@ -140,8 +140,10 @@ function App() {
               alreadyThere = true;
             }
           });
-          !alreadyThere &&
-            !m.read &&
+          // console.log("clld");
+          !m.read &&
+            !alreadyThere &&
+            m.sender !== cookies.user.userId &&
             setUnreadMessages((prev) => {
               return [...prev, m];
             });
@@ -149,7 +151,25 @@ function App() {
       });
     };
     getAllMessages();
-  }, [conversations, unreadMessages]);
+  }, [conversations, unreadMessages, cookies]);
+  // console.log(unreadMessages);
+  function markConversationRead(conv) {
+    let updatedUnreadMessages = [];
+    unreadMessages.forEach((um) => {
+      if (um.conversationId !== conv._id) {
+        updatedUnreadMessages.push(um);
+      }
+    });
+    setUnreadMessages(updatedUnreadMessages);
+    let updatedConversations = [];
+    conversations.forEach((conversation) => {
+      if (conversation._id !== conv._id) {
+        updatedConversations.push(conversation);
+      }
+    });
+    setConversations(updatedConversations);
+  }
+  // console.log("messages: ", unreadMessages);
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
@@ -330,7 +350,11 @@ function App() {
           tabChange={goToTab}
           logout={handleLogout}
         />
-        <Chat unreadMessages={unreadMessages} user={cookies.user} />
+        <Chat
+          markConversationRead={markConversationRead}
+          unreadMessages={unreadMessages}
+          user={cookies.user}
+        />
       </>
     ) : (
       <></>

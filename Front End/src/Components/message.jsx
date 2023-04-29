@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Message(props) {
   const [sender, setSender] = useState();
@@ -8,20 +9,27 @@ export default function Message(props) {
       try {
         const address =
           "http://localhost:8000/get-user?userId=" + props.message.sender;
-        fetch(address, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          mode: "cors",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            setSender(data[0]);
-          });
+        const res = await axios.get(address);
+        setSender(res.data[0]);
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
+  }, [props]);
+  //marking the messages that have been read as read
+  useEffect(() => {
+    const markRead = async () => {
+      try {
+        // console.log("gonna call");
+        const address = "http://localhost:8000/mark-read/" + props.message._id;
+        const res = await axios.get(address);
+        res.data && props.markRead(props.currentConversation);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    !props.own && markRead();
   }, [props]);
 
   return (

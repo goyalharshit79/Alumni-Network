@@ -98,6 +98,7 @@ const messageSchema = new mongoose.Schema(
     conversationId: String,
     sender: String,
     text: String,
+    read: Boolean,
   },
   { timestamps: true }
 );
@@ -714,7 +715,12 @@ app.get("/conversation/:userId", async (req, res) => {
 });
 
 app.post("/new-message", async (req, res) => {
-  const newMessage = new Message(req.body);
+  let newMessage = new Message({
+    conversationId: req.body.conversationId,
+    sender: req.body.sender,
+    text: req.body.text,
+    read: false,
+  });
 
   try {
     const savedMessage = await newMessage.save();
@@ -729,6 +735,7 @@ app.get("/get-messages/:conversationId", async (req, res) => {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
     });
+    console.log(messages);
     res.status(200).json(messages);
   } catch (error) {
     res.status(500).json(error);
@@ -753,6 +760,22 @@ app.get("/delete-message", async (req, res) => {
   }
 });
 
+app.get("/mark-read/:messageId", async (req, res) => {
+  try {
+    const message = await Message.find({ _id: req.params.messageId });
+    if (message[0].read === false) {
+      message[0].read = true;
+      message[0].save();
+      res.status(200).json(true);
+    } else {
+      res.status(200).json(false);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//experimental stuff
 async function getMessages(id) {
   const messages = await Message.find({ conversationId: id });
   return messages;

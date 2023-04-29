@@ -111,10 +111,16 @@ function NavBar(props) {
                     >
                       Chat
                     </span>
-                    <span className="unread-message">
-                      {props.unreadMessages.length &&
-                        props.unreadMessages.length}
-                    </span>
+
+                    {props.unreadMessages.length ? (
+                      <>
+                        <span className="unread-message">
+                          {props.unreadMessages.length}
+                        </span>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </li>
                   <li className="nav-item">
                     <span

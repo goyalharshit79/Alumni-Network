@@ -406,7 +406,7 @@ textarea {
 }
 .unread-message-conversation {
   top: 25px;
-  right: 0;
+  right: 5px;
 }
 .chat-top {
   padding: 1rem;

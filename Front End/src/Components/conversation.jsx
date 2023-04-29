@@ -30,7 +30,7 @@ export default function Conversation(props) {
 
   useEffect(() => {
     const filterUnreadMessages = async () => {
-      const um = props.unreadMessages.filter((um) => {
+      const um = props.unreadMessages?.filter((um) => {
         return um.conversationId === props.conversation._id;
       });
       setUnreadMessages(um);
@@ -38,7 +38,7 @@ export default function Conversation(props) {
     filterUnreadMessages();
   }, [props]);
   // console.log(props.unreadMessages);
-  // console.log(props.conversation._id, unreadMessages);
+
   return (
     <>
       <div className="conversation">
@@ -53,9 +53,15 @@ export default function Conversation(props) {
         <span className="conversation-text fw-bold text-color-main">
           {_.startCase(friend?.fName + " " + friend?.lName)}
         </span>
-        <div className="unread-message-conversation">
-          {unreadMessages.length ? unreadMessages.length : <></>}
-        </div>
+        {unreadMessages?.length ? (
+          <>
+            <div className="unread-message-conversation">
+              {unreadMessages.length}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
