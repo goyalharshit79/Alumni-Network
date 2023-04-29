@@ -12,25 +12,7 @@ export default function Chat(props) {
   const [messages, setMessages] = useState([]);
   const [currentChatter, setCurrentChatter] = useState();
   const [showOptions, setShowOptions] = useState("");
-  const [areMessagesRead, setAreMessagesRead] = useState();
-  // const [currentChattersDetails, setCurrentChattersDetails] = useState({});
 
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     currentConversation?.members.forEach(async (member) => {
-  //       const address = "http://localhost:8000/get-user?userId=" + member;
-  //       const res = await axios.get(address);
-  //       setCurrentChattersDetails((prev) => {
-  //         return {
-  //           ...prev,
-  //           [member]: res.data[0],
-  //         };
-  //       });
-  //     });
-  //   };
-  //   getUserData();
-  // }, [currentConversation]);
-  // console.log(currentChattersDetails);
   // getting the conversations of the logged in user
   useEffect(() => {
     const getConversation = async () => {
@@ -144,7 +126,6 @@ export default function Chat(props) {
       .catch((err) => console.log(err));
   }
   function markRead(conv) {
-    setAreMessagesRead({ [conv._id]: true });
     props.markConversationRead(conv);
   }
   // console.log(areMessagesRead);
@@ -180,13 +161,7 @@ export default function Chat(props) {
                   }}
                 >
                   <Conversation
-                    unreadMessages={
-                      areMessagesRead
-                        ? areMessagesRead[conversation._id]
-                          ? []
-                          : props.unreadMessages
-                        : props.unreadMessages
-                    }
+                    unreadMessages={props.unreadMessages}
                     conversation={conversation}
                     currentUser={props.user}
                   />
