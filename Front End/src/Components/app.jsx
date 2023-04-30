@@ -183,6 +183,11 @@ function App() {
           return [...prev, data];
         });
     });
+    socket.current.on("updateDeleteMessage", (message) => {
+      setUnreadMessages((prev) => {
+        return prev.filter((m) => m._id !== message._id);
+      });
+    });
   }, []);
   useEffect(() => {
     if (isLoggedIn && cookies.user) {

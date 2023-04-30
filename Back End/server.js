@@ -763,12 +763,16 @@ app.get("/delete-message", async (req, res) => {
 app.get("/mark-read/:messageId", async (req, res) => {
   try {
     const message = await Message.find({ _id: req.params.messageId });
-    if (message[0].read === false) {
-      message[0].read = true;
-      message[0].save();
-      res.status(200).json(true);
+    if (message.length) {
+      if (message[0].read === false) {
+        message[0].read = true;
+        message[0].save();
+        res.status(200).json(true);
+      } else {
+        res.status(200).json(false);
+      }
     } else {
-      res.status(200).json(false);
+      res.status(200).json();
     }
   } catch (error) {
     res.status(500).json(error);
