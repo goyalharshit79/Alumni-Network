@@ -54,7 +54,7 @@ export default function Message(props) {
                     <span
                       className="comment-options-item"
                       onClick={() => {
-                        props.handleDeleteMessage(props.message._id);
+                        props.handleDeleteMessage(props.message);
                       }}
                     >
                       Delete

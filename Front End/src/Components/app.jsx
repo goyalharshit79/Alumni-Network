@@ -133,7 +133,6 @@ function App() {
     getConversations();
   }, [cookies]);
   ////getting and filtering all the messages of all the conversations to find out unread messages\
-  // handleLogout();
   useEffect(() => {
     const getAllMessages = async () => {
       conversations?.forEach(async (conv) => {
@@ -178,16 +177,22 @@ function App() {
   //socket stuff
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      data.sender !== cookies.user.userId &&
+        setUnreadMessages((prev) => {
+          return [...prev, data];
+        });
+    });
   }, []);
   useEffect(() => {
-    if (loggedIn && cookies.user) {
+    if (isLoggedIn && cookies.user) {
       socket.current.emit("addUser", cookies.user.userId);
       socket.current.on("getUsers", (users) => {
-        // console.log(users);
+        console.log(users);
         setOnlineUsers(users);
       });
     }
-  }, [cookies]);
+  }, [cookies, isLoggedIn]);
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
