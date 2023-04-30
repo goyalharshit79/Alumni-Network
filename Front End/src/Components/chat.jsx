@@ -4,14 +4,40 @@ import Message from "./message";
 import { useState, useEffect } from "react";
 import _ from "lodash";
 import { io } from "socket.io-client";
+import axios from "axios";
 
 export default function Chat(props) {
   const scrollRef = useRef();
+  const socket = useRef();
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentChatter, setCurrentChatter] = useState();
   const [showOptions, setShowOptions] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+
+  //socket stuff
+  ////setting the socket connection
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentConversation?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentConversation]);
+  //handling the deletion of a message
+  useEffect(() => {
+    socket.current.on("updateDeleteMessage", (message) => {
+      setMessages((prev) => {
+        return prev.filter((m) => m._id !== message._id);
+      });
+    });
+  }, []);
 
   // getting the conversations of the logged in user
   useEffect(() => {
@@ -79,7 +105,7 @@ export default function Chat(props) {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
   // function to send the messaged
-  function handleSendMessage(e) {
+  async function handleSendMessage(e) {
     const address = "http://localhost:8000";
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -88,42 +114,28 @@ export default function Chat(props) {
       conversationId: currentConversation._id,
       sender: props.user.userId,
     };
-    fetch(address + "/new-message", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(reqData),
-      mode: "cors",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setMessages([...messages, data]);
-        document.getElementById("chatMessage").value = "";
-      })
-      .catch((err) => console.log(err));
+
+    try {
+      const res = await axios.post(address + "/new-message", reqData);
+      socket.current.emit("sendMessage", {
+        receiverId: currentChatter._id,
+        message: res.data,
+      });
+      document.getElementById("chatMessage").value = "";
+    } catch (error) {
+      console.log(error);
+    }
   }
   // handling showing the options
   function handleShowOptions(id) {
     setShowOptions(id);
   }
   //deleting message
-  function handleDeleteMessage(messageId) {
+  function handleDeleteMessage(message) {
     const address =
-      "http://localhost:8000/delete-message?messageId=" + messageId;
-    fetch(address, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      mode: "cors",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setMessages(() => {
-          const tempMessageHolder = messages.filter((m) => {
-            return m._id !== messageId;
-          });
-          return tempMessageHolder;
-        });
-      })
-      .catch((err) => console.log(err));
+      "http://localhost:8000/delete-message?messageId=" + message._id;
+    const res = axios.get(address);
+    socket.current.emit("deleteMessage", message);
   }
   function markRead(conv) {
     props.markConversationRead(conv);
