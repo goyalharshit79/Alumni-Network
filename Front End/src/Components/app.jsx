@@ -9,7 +9,6 @@ import Explore from "./explore";
 import Chat from "./chat";
 import axios from "axios";
 import Acc from "./acc";
-
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([
     "userClicked",
@@ -123,16 +122,16 @@ function App() {
   useEffect(() => {
     const getConversations = async () => {
       const address =
-        "http://localhost:8000/conversation/" + cookies.user.userId;
+        "http://localhost:8000/conversation/" + cookies.user?.userId;
       const res = await axios.get(address);
       setConversations(res.data);
     };
     getConversations();
   }, [cookies]);
-  ////getting and filtering all the messages of all the conversations to find out unread messages
+  ////getting and filtering all the messages of all the conversations to find out unread messages\
+  // handleLogout();
   useEffect(() => {
     console.log("-------------------------------------");
-
     const getAllMessages = async () => {
       conversations?.forEach(async (conv) => {
         const address = "http://localhost:8000/get-messages/" + conv._id;
