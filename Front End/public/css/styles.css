@@ -33,6 +33,56 @@
 body {
   height: 100%;
 }
+.landing-image {
+  object-fit: cover;
+  height: 100vh;
+  width: 70vw;
+  /* width: calc(0.66666667 * 100vw); */
+  /* border-right: 1px solid #03401d; */
+}
+.image-wrapper {
+  display: flex;
+  position: relative;
+
+  /* -webkit-clip-path: polygon(0% 0%, 100% 0%, 0% 600%, 0% 0%);
+  clip-path: polygon(0% 0%, 100% 0%, 0% 600%, 0% 0%); */
+}
+
+.inside-container {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -70px;
+  transform: skew(350deg);
+  transform-origin: right;
+  background-color: ;
+  box-shadow: 18px 0rem 2rem 5px rgb(0 0 0 / 58%);
+}
+.landing-container {
+  background-color: #cef2bd;
+  overflow: auto;
+  height: 100vh;
+  display: flex;
+}
+.image-container {
+  flex: 4;
+}
+.details-container {
+  flex: 2;
+}
+.details-wrapper {
+  margin-top: 30%;
+  padding: 2rem;
+  justify-content: center;
+}
+.landing-pic {
+  object-fit: cover;
+}
+.details-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 #flexSwitchCheckChecked {
   width: 5em;
   height: 2em;
@@ -458,6 +508,7 @@ textarea {
 .conversation:hover {
   background-color: #cef2bd;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+  transition: all o.5s ease;
 }
 .chat-search-input {
   border: 1px solid #03401d !important;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import LogIn from "./login";
 import Details from "./details";
 import SignUp from "./signup";
+import Det from "./det";
 
 function LandingPage(props) {
   const [wantsToLogin, setWantsToLogin] = useState(false);
@@ -34,7 +35,8 @@ function LandingPage(props) {
         <Details loginShow={loginShow} signupShow={signupShow} />
       </div>
     ) : (
-      <Details loginShow={loginShow} signupShow={signupShow} />
+      <Det />
+      // <Details loginShow={loginShow} signupShow={signupShow} />
     )
   ) : (
     <div>
