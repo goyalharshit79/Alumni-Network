@@ -35,8 +35,8 @@ function LandingPage(props) {
         <Details loginShow={loginShow} signupShow={signupShow} />
       </div>
     ) : (
-      <Det />
-      // <Details loginShow={loginShow} signupShow={signupShow} />
+      // <Det />
+      <Details loginShow={loginShow} signupShow={signupShow} />
     )
   ) : (
     <div>

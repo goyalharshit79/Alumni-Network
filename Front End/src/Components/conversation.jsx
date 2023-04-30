@@ -5,6 +5,7 @@ import _ from "lodash";
 export default function Conversation(props) {
   const [friend, setFriend] = useState();
   const [unreadMessages, setUnreadMessages] = useState([]);
+  const [isOnline, setIsOnline] = useState(false);
   useEffect(() => {
     const friendId = props.conversation.members.filter(
       (m) => m !== props.currentUser.userId
@@ -39,6 +40,17 @@ export default function Conversation(props) {
   }, [props]);
   // console.log(props.unreadMessages);
 
+  useEffect(() => {
+    const checkOnline = () => {
+      props.onlineUsers.forEach((ou) => {
+        if (ou.userId === friend?._id) {
+          setIsOnline(true);
+        }
+      });
+    };
+    checkOnline();
+  }, [friend, props.onlineUsers]);
+
   return (
     <>
       <div className="conversation">
@@ -48,7 +60,7 @@ export default function Conversation(props) {
             src={friend?.pic.length ? friend.pic : "defaultPic.jpg"}
             alt=""
           />
-          <div className="online-badge"></div>
+          {isOnline ? <div className="online-badge"></div> : <></>}
         </div>
         <span className="conversation-text fw-bold text-color-main">
           {_.startCase(friend?.fName + " " + friend?.lName)}

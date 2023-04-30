@@ -3,7 +3,7 @@ import Conversation from "./conversation";
 import Message from "./message";
 import { useState, useEffect } from "react";
 import _ from "lodash";
-import axios from "axios";
+import { io } from "socket.io-client";
 
 export default function Chat(props) {
   const scrollRef = useRef();
@@ -128,7 +128,6 @@ export default function Chat(props) {
   function markRead(conv) {
     props.markConversationRead(conv);
   }
-  // console.log(areMessagesRead);
   return (
     <>
       <div
@@ -161,6 +160,7 @@ export default function Chat(props) {
                   }}
                 >
                   <Conversation
+                    onlineUsers={props.onlineUsers}
                     unreadMessages={props.unreadMessages}
                     conversation={conversation}
                     currentUser={props.user}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Home from "./home";
 import LandingPage from "./landing-page";
 import NavBar from "./navbar";
@@ -9,6 +9,8 @@ import Explore from "./explore";
 import Chat from "./chat";
 import axios from "axios";
 import Acc from "./acc";
+import { io } from "socket.io-client";
+
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([
     "userClicked",
@@ -65,6 +67,8 @@ function App() {
   const [usersFound, setUsersFound] = useState();
   const [conversations, setConversations] = useState();
   const [unreadMessages, setUnreadMessages] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const socket = useRef();
   //login and cookie stuff
   useEffect(() => {
     if (isLoggedIn && !cookies.user) {
@@ -131,19 +135,15 @@ function App() {
   ////getting and filtering all the messages of all the conversations to find out unread messages\
   // handleLogout();
   useEffect(() => {
-    console.log("-------------------------------------");
     const getAllMessages = async () => {
       conversations?.forEach(async (conv) => {
         const address = "http://localhost:8000/get-messages/" + conv._id;
         const res = await axios.get(address);
-        console.log(conv);
         res.data.forEach((m) => {
           let alreadyThere = false;
           unreadMessages.forEach((um) => {
             if (um._id === m._id) {
               alreadyThere = true;
-              console.log(m._id);
-              console.log("----");
             }
           });
           !alreadyThere &&
@@ -157,7 +157,6 @@ function App() {
     };
     getAllMessages();
   }, [conversations, cookies]);
-  // console.log(unreadMessages);
   ////when the user reads a msg, reducing it from the array of unread messages
   function markConversationRead(conv) {
     let updatedUnreadMessages = [];
@@ -176,6 +175,19 @@ function App() {
     setConversations(updatedConversations);
   }
 
+  //socket stuff
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+  }, []);
+  useEffect(() => {
+    if (loggedIn && cookies.user) {
+      socket.current.emit("addUser", cookies.user.userId);
+      socket.current.on("getUsers", (users) => {
+        // console.log(users);
+        setOnlineUsers(users);
+      });
+    }
+  }, [cookies]);
   //changing the tab as per tab clicked in the nav bar
   function goToTab(element, data) {
     if (element === "Account") {
@@ -360,6 +372,7 @@ function App() {
           markConversationRead={markConversationRead}
           unreadMessages={unreadMessages}
           user={cookies.user}
+          onlineUsers={onlineUsers}
         />
       </>
     ) : (

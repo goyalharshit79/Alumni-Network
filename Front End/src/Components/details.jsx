@@ -1,29 +1,25 @@
 import React from "react";
-import $ from "jquery";
 
-function Details(props) {
+export default function Det(props) {
   return (
-    <div
-      className="scroll-enable bg-color text-center position-relative"
-      id="landing-container"
-    >
-      <div className="left">
+    <div className="landing-container">
+      <div className="image-container">
         <div className="image-wrapper">
-          <img src="try.jpg" className="landing-pic" alt="" />
+          <div className="inside-container">
+            <img src="try.jpg" className="landing-image" alt="" />
+          </div>
         </div>
       </div>
-      <div className="right">
-        <div className="position-absolute top-50 start-50 translate-middle">
-          <h1 className="display-5 fw-bold mb-4 text-color-main">
-            Alumni Network
-          </h1>
+      <div className="details-container">
+        <div className="details-wrapper">
+          <h1 className="fw-bold mb-4 text-color-main">Alumni Network</h1>
           <p className="fs-5 mb-4 text-color-sec">
             This is a place for Alumni to connect back with their Alma Mater.
             Here students can connect with their predecesors and learn from
             their experiences. Also this will allow the institute to search
             amongst the large number of alumni.
           </p>
-          <div className="gap-4 d-sm-flex justify-content-sm-center">
+          <div className="details-buttons">
             <button
               type="button"
               className="btn btn-color-1 btn-lg px-5 rounded-5"
@@ -44,4 +40,3 @@ function Details(props) {
     </div>
   );
 }
-export default Details;
