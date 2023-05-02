@@ -687,34 +687,39 @@ app.post("/search-user", (req, res) => {
   });
 });
 
-app.post("/get-user-details", (req, res) => {
-  User.find({ email: req.body.email }, (err, userFound) => {
-    if (userFound[0].user === "Student") {
-      Student.find({ email: req.body.email }, (err, userDetailsFound) => {
-        res.send({
-          msg: "900",
-          user: userFound[0].email,
-          userDetails: userDetailsFound[0],
+app.post("/get-user-details", async (req, res) => {
+  try {
+    console.log(req.body);
+    User.find({ email: req.body.email }, (err, userFound) => {
+      if (userFound[0].user === "Student") {
+        Student.find({ email: req.body.email }, (err, userDetailsFound) => {
+          res.send({
+            msg: "900",
+            user: userFound[0].email,
+            userDetails: userDetailsFound[0],
+          });
         });
-      });
-    } else if (userFound[0].user === "Teacher") {
-      Teacher.find({ email: req.body.email }, (err, userDetailsFound) => {
-        res.send({
-          msg: "900",
-          user: userFound[0].email,
-          userDetails: userDetailsFound[0],
+      } else if (userFound[0].user === "Teacher") {
+        Teacher.find({ email: req.body.email }, (err, userDetailsFound) => {
+          res.send({
+            msg: "900",
+            user: userFound[0].email,
+            userDetails: userDetailsFound[0],
+          });
         });
-      });
-    } else if (userFound[0].user === "Alumni") {
-      Alumni.find({ email: req.body.email }, (err, userDetailsFound) => {
-        res.send({
-          msg: "900",
-          user: userFound[0].email,
-          userDetails: userDetailsFound[0],
+      } else if (userFound[0].user === "Alumni") {
+        Alumni.find({ email: req.body.email }, (err, userDetailsFound) => {
+          res.send({
+            msg: "900",
+            user: userFound[0].email,
+            userDetails: userDetailsFound[0],
+          });
         });
-      });
-    }
-  });
+      }
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 app.post("/new-conversation", async (req, res) => {
@@ -800,6 +805,14 @@ app.get("/mark-read/:messageId", async (req, res) => {
     } else {
       res.status(200).json();
     }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+app.get("/get-user-post/:email", async (req, res) => {
+  try {
+    const user = await User.find({ email: req.params.email });
+    res.status(200).json(user[0]);
   } catch (error) {
     res.status(500).json(error);
   }
