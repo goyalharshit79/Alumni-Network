@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import _ from "lodash";
+import _, { add } from "lodash";
 import Carousel from "./carousel";
 import Comment from "./comment";
 import axios from "axios";
@@ -119,6 +119,16 @@ function Post(props) {
       })
       .catch((err) => console.log(err));
   }
+  function handleShowClickedProfile(email) {
+    props.postToProfile(email);
+    // try {
+    //   const address = "http://localhost:8000/get-user-post/" + email;
+    //   const res = await axios.get(address);
+    //   console.log(res.data);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }
   return (
     <>
       {props.posts.map((post) => {
@@ -138,13 +148,21 @@ function Post(props) {
                             ? profilePics[post.postNumber]
                             : "defaultPic.jpg"
                         }
-                        className="img photo-post"
+                        className="img photo-post post-img"
+                        onClick={() => {
+                          handleShowClickedProfile(post.email);
+                        }}
                       />
                     </>
                   ) : (
                     <></>
                   )}
-                  <span className="h6 text-color-main">
+                  <span
+                    className="h6 text-color-main post-name"
+                    onClick={() => {
+                      handleShowClickedProfile(post.email);
+                    }}
+                  >
                     {_.startCase(post.name)}
                   </span>
                 </div>

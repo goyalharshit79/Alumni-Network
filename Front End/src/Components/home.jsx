@@ -45,6 +45,7 @@ function Home(props) {
   function handleShowOptions(id) {
     setShowOptions(id);
   }
+
   return (
     <>
       <div
@@ -76,6 +77,7 @@ function Home(props) {
                 {posts ? (
                   <>
                     <Post
+                      postToProfile={props.postToProfile}
                       showOptions={showOptions}
                       handleShowOptions={handleShowOptions}
                       getPosts={getPosts}

@@ -619,6 +619,12 @@ textarea {
   font-family: Exo;
   margin-left: 10px;
 }
+.post-name {
+  cursor: pointer;
+}
+.post-img {
+  cursor: pointer;
+}
 
 /* utility classes */
 
@@ -654,7 +660,7 @@ textarea {
   color: white !important;
 }
 .my-input {
-  border: 1px solid #cef2bd;
+  border: 0 !important;
   color: var(--sec-text-color) !important;
 }
 .my-input:focus {

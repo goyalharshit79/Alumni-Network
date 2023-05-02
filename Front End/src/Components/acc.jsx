@@ -56,7 +56,6 @@ function Acc(props) {
   //scrolling to the end of the page
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("running");
   });
   function deleteSection(e) {
     const address = "http://localhost:8000";

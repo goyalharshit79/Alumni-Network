@@ -193,7 +193,7 @@ function App() {
     if (isLoggedIn && cookies.user) {
       socket.current.emit("addUser", cookies.user.userId);
       socket.current.on("getUsers", (users) => {
-        console.log(users);
+        // console.log(users);
         setOnlineUsers(users);
       });
     }
@@ -226,10 +226,10 @@ function App() {
       setExploreClicked(true);
     } else if (element === "Chat") {
       setChatClicked(true);
+      removeCookie("userClicked");
       setHomeClicked(false);
       setAccountClicked(false);
       setExploreClicked(false);
-      removeCookie("userClicked");
       setCookie("page", "Chat");
     }
   }
@@ -281,9 +281,15 @@ function App() {
         }
       });
   }
+  function postToProfile(email) {
+    setCookie("userClicked", email);
+    setCookie("page", "Explore");
+    setHomeClicked(false);
+    setAccountClicked(false);
+    setExploreClicked(true);
+  }
   useEffect(() => {
     if (cookies.userClicked && !userClicked) {
-      console.log("putin");
       getClickedUserDetails();
     }
   });
@@ -308,7 +314,11 @@ function App() {
           tabChange={goToTab}
           logout={handleLogout}
         />
-        {cookies.user ? <Home user={cookies.user} /> : <></>}
+        {cookies.user ? (
+          <Home postToProfile={postToProfile} user={cookies.user} />
+        ) : (
+          <></>
+        )}
       </>
     ) : homeClicked ? (
       <>
@@ -318,7 +328,11 @@ function App() {
           tabChange={goToTab}
           logout={handleLogout}
         />
-        {cookies.user ? <Home user={cookies.user} /> : <></>}
+        {cookies.user ? (
+          <Home postToProfile={postToProfile} user={cookies.user} />
+        ) : (
+          <></>
+        )}
       </>
     ) : accountClicked ? (
       userDetails ? (
