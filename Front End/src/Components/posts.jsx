@@ -1,11 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 import Carousel from "./carousel";
 import Comment from "./comment";
+import axios from "axios";
+import { io } from "socket.io-client";
 
 function Post(props) {
   const [profilePics, setProfilePics] = useState();
   const [showComment, setShowComment] = useState([]);
+  const [likes, setLikes] = useState();
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getLikes", (data) => {
+      setLikes((prev) => {
+        return {
+          ...prev,
+          [data.postId]: data.likes,
+        };
+      });
+    });
+  }, []);
+  useEffect(() => {
+    props.posts.forEach((post) => {
+      setLikes((prev) => {
+        return {
+          ...prev,
+          [post._id]: post.likes,
+        };
+      });
+    });
+  }, [props]);
   function getPhoto(post) {
     const address = "http://localhost:8000";
     const reqPayload = {
@@ -30,8 +56,21 @@ function Post(props) {
       })
       .catch((err) => console.log(err));
   }
-  function handleLike() {
-    console.log(" i wanna like");
+  async function handleLike(postId) {
+    try {
+      const address = "http://localhost:8000/toggle-like";
+      const reqData = {
+        postId: postId,
+        userId: props.user.userId,
+      };
+      const res = await axios.post(address, reqData);
+      socket.current.emit("updateLikes", {
+        likes: res.data.likes,
+        postId: res.data._id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
   function handleShowCommentSection(postId) {
     var alreadyOpen = false;
@@ -181,10 +220,17 @@ function Post(props) {
                 {/* liking the posts */}
                 <div className="col-sm-12 mt-2">
                   <div className="row mx-auto">
+                    {}
                     <img
-                      src="thumbUp.svg"
+                      src={
+                        likes[post._id].includes(props.user.userId)
+                          ? "likesThumbUp.svg"
+                          : "thumbUp.svg"
+                      }
                       className="like-btn col-sm-3"
-                      onClick={handleLike}
+                      onClick={() => {
+                        handleLike(post._id);
+                      }}
                       alt=""
                     />
                     <img
@@ -196,6 +242,13 @@ function Post(props) {
                       alt=""
                     />
                   </div>
+                </div>
+                <div className="like-count">
+                  {likes[post._id].length ? (
+                    <>{likes[post._id].length} Likes</>
+                  ) : (
+                    <></>
+                  )}
                 </div>
 
                 {/* comment stuff */}

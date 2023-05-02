@@ -57,4 +57,8 @@ io.on("connection", (socket) => {
   socket.on("deleteMessage", (message) => {
     io.emit("updateDeleteMessage", message);
   });
+
+  socket.on("updateLikes", (data) => {
+    io.emit("getLikes", data);
+  });
 });

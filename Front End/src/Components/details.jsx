@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Det(props) {
   return (
-    <div className="landing-container">
+    <div className="landing-container bg-color">
       <div className="image-container">
         <div className="image-wrapper">
           <div className="inside-container">

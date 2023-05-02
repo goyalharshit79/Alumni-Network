@@ -613,6 +613,13 @@ textarea {
   cursor: default;
 }
 
+.like-count {
+  font-size: 15px;
+  color: #03401d;
+  font-family: Exo;
+  margin-left: 10px;
+}
+
 /* utility classes */
 
 .bg-color {

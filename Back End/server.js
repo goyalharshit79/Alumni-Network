@@ -71,6 +71,7 @@ const postSchema = {
   title: String,
   about: String,
   image: [],
+  likes: [],
 };
 const Post = mongoose.model("Post", postSchema);
 
@@ -507,6 +508,7 @@ app.post("/add-post", (req, res) => {
         title: req.body.postTitle,
         about: req.body.postAbout,
         image: req.body.pics,
+        likes: [],
       });
       newPost.save();
       res.send({ msg: "900" });
@@ -608,6 +610,31 @@ app.post("/get-reply-details", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+});
+
+app.post("/toggle-like", async (req, res) => {
+  try {
+    const post = await Post.find({ _id: req.body.postId });
+    let alreadyLiked = false;
+    if (post[0].likes.length) {
+      post[0].likes.forEach((like) => {
+        if (like === req.body.userId) {
+          alreadyLiked = true;
+        }
+      });
+      if (!alreadyLiked) {
+        post[0].likes.push(req.body.userId);
+      } else {
+        post[0].likes = post[0].likes.filter((l) => l !== req.body.userId);
+      }
+    } else {
+      post[0].likes = [req.body.userId];
+    }
+    post[0].save();
+    res.status(200).json(post[0]);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -735,7 +762,6 @@ app.get("/get-messages/:conversationId", async (req, res) => {
     const messages = await Message.find({
       conversationId: req.params.conversationId,
     });
-    console.log(messages);
     res.status(200).json(messages);
   } catch (error) {
     res.status(500).json(error);
@@ -777,23 +803,6 @@ app.get("/mark-read/:messageId", async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-});
-
-//experimental stuff
-async function getMessages(id) {
-  const messages = await Message.find({ conversationId: id });
-  return messages;
-}
-
-app.get("/get-all-messages/:userId", async (req, res) => {
-  const conversations = await Conversation.find({
-    memers: { $in: req.param.userId },
-  });
-  res.status(200);
-  console.log(conversations);
-  let allMessages = [];
-  conversations.map((conv) => {});
-  console.log("all: ", allMessages);
 });
 
 //to search users
