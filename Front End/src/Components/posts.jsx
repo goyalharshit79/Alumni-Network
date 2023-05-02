@@ -13,6 +13,8 @@ function Post(props) {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
+  }, []);
+  useEffect(() => {
     socket.current.on("getLikes", (data) => {
       setLikes((prev) => {
         return {
@@ -21,7 +23,7 @@ function Post(props) {
         };
       });
     });
-  }, []);
+  }, [likes]);
   useEffect(() => {
     props.posts.forEach((post) => {
       setLikes((prev) => {
