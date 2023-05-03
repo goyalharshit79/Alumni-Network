@@ -42,6 +42,7 @@ export default function Conversation(props) {
 
   useEffect(() => {
     const checkOnline = () => {
+      setIsOnline(false);
       props.onlineUsers.forEach((ou) => {
         if (ou.userId === friend?._id) {
           setIsOnline(true);
@@ -50,7 +51,6 @@ export default function Conversation(props) {
     };
     checkOnline();
   }, [friend, props.onlineUsers]);
-
   return (
     <>
       <div className="conversation">
