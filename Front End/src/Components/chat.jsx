@@ -29,34 +29,6 @@ export default function Chat(props) {
       setShowTyping(data);
     });
   }, []);
-  // useEffect(() => {
-  //   if (showTyping) {
-  //     if (
-  //       showTyping?.conversation?._id === currentConversation?._id &&
-  //       showTyping?.userId !== props.user.userId
-  //     ) {
-  //       const d = {
-  //         _id: messages[0]._id,
-  //         conversationId: showTyping?.conversation?._id,
-  //         sender: showTyping?.userId,
-  //         text: "Typing...",
-  //         read: true,
-  //       };
-  //       let alreadyThere = false;
-  //       messages.forEach((m) => {
-  //         if (m.text === "trying") {
-  //           console.log("first");
-  //           alreadyThere = true;
-  //         }
-  //       });
-  //       if (!alreadyThere) {
-  //         console.log("setting");
-  //         setMessages((prev) => [...prev, d]);
-  //       }
-  //     }
-  //   }
-  // }, [showTyping, currentConversation]);
-  // console.log(messages);
   useEffect(() => {
     // currentConversation?.members.includes(props.user.userId) &&
     // currentConversation?.members.includes(arrivalMessage.sender) &&
