@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
   socket.on("updateLikes", (data) => {
     io.emit("getLikes", data);
   });
-  socket.on("typing", () => {
-    io.emit("showTyping");
+  socket.on("typing", (data) => {
+    io.emit("showTyping", data);
   });
 });

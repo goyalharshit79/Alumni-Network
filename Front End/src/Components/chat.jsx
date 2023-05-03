@@ -5,9 +5,11 @@ import { useState, useEffect } from "react";
 import _ from "lodash";
 import { io } from "socket.io-client";
 import axios from "axios";
+import Typing from "./typing";
 
 export default function Chat(props) {
   const scrollRef = useRef();
+  const scrollRefTyping = useRef();
   const socket = useRef();
   const [conversations, setConversations] = useState([]);
   const [currentConversation, setCurrentConversation] = useState(null);
@@ -15,7 +17,7 @@ export default function Chat(props) {
   const [currentChatter, setCurrentChatter] = useState();
   const [showOptions, setShowOptions] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-
+  const [showTyping, setShowTyping] = useState(null);
   //socket stuff
   ////setting the socket connection
   useEffect(() => {
@@ -23,8 +25,38 @@ export default function Chat(props) {
     socket.current.on("getMessage", (data) => {
       setArrivalMessage(data);
     });
-    socket.current.on("showTyping", () => {});
+    socket.current.on("showTyping", (data) => {
+      setShowTyping(data);
+    });
   }, []);
+  // useEffect(() => {
+  //   if (showTyping) {
+  //     if (
+  //       showTyping?.conversation?._id === currentConversation?._id &&
+  //       showTyping?.userId !== props.user.userId
+  //     ) {
+  //       const d = {
+  //         _id: messages[0]._id,
+  //         conversationId: showTyping?.conversation?._id,
+  //         sender: showTyping?.userId,
+  //         text: "Typing...",
+  //         read: true,
+  //       };
+  //       let alreadyThere = false;
+  //       messages.forEach((m) => {
+  //         if (m.text === "trying") {
+  //           console.log("first");
+  //           alreadyThere = true;
+  //         }
+  //       });
+  //       if (!alreadyThere) {
+  //         console.log("setting");
+  //         setMessages((prev) => [...prev, d]);
+  //       }
+  //     }
+  //   }
+  // }, [showTyping, currentConversation]);
+  // console.log(messages);
   useEffect(() => {
     // currentConversation?.members.includes(props.user.userId) &&
     // currentConversation?.members.includes(arrivalMessage.sender) &&
@@ -40,7 +72,6 @@ export default function Chat(props) {
       });
     });
   }, []);
-
   // getting the conversations of the logged in user
   useEffect(() => {
     const getConversation = async () => {
@@ -104,6 +135,9 @@ export default function Chat(props) {
   }, [currentConversation, props.user]);
   //scrolling to the end of the messages
   useEffect(() => {
+    scrollRefTyping?.current?.scrollIntoView({ behavior: "smooth" });
+  });
+  useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
   // function to send the messaged
@@ -124,6 +158,11 @@ export default function Chat(props) {
         message: res.data,
         conversationId: currentConversation._id,
       });
+      socket.current.emit("typing", {
+        text: "",
+        conversation: currentConversation._id,
+        userId: props.user.userId,
+      });
       document.getElementById("chatMessage").value = "";
     } catch (error) {
       console.log(error);
@@ -143,8 +182,12 @@ export default function Chat(props) {
   function markRead(conv) {
     props.markConversationRead(conv);
   }
-  function handleShowTyping() {
-    socket.current.emit("typing");
+  function handleShowTyping(e) {
+    socket.current.emit("typing", {
+      text: e.target.value,
+      conversation: currentConversation._id,
+      userId: props.user.userId,
+    });
   }
   return (
     <>
@@ -202,7 +245,7 @@ export default function Chat(props) {
                     }
                     alt=""
                   />
-                  <span className=" conversation-text fw-bold text-color-main">
+                  <span className="conversation-text fw-bold text-color-main">
                     {_.startCase(
                       currentChatter?.fName + " " + currentChatter?.lName
                     )}
@@ -230,6 +273,16 @@ export default function Chat(props) {
                       )
                     );
                   })}
+                  {showTyping &&
+                    showTyping.conversation === currentConversation._id &&
+                    showTyping.userId !== props.user.userId &&
+                    showTyping.text !== "" && (
+                      <>
+                        <div ref={scrollRefTyping}>
+                          <Typing sender={showTyping.userId} />
+                        </div>
+                      </>
+                    )}
                 </div>
                 <form className="chat-bottom" onSubmit={handleSendMessage}>
                   <textarea
