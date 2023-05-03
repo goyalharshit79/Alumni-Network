@@ -48,10 +48,10 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 
-  socket.on("sendMessage", ({ receiverId, message }) => {
+  socket.on("sendMessage", ({ receiverId, message, conversationId }) => {
     const user = getUser(receiverId);
     // console.log("in the event: ", user.socketId);
-    io.emit("getMessage", message);
+    io.emit("getMessage", { message, conversationId });
   });
 
   socket.on("deleteMessage", (message) => {
@@ -60,5 +60,8 @@ io.on("connection", (socket) => {
 
   socket.on("updateLikes", (data) => {
     io.emit("getLikes", data);
+  });
+  socket.on("typing", () => {
+    io.emit("showTyping");
   });
 });

@@ -178,7 +178,7 @@ function App() {
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
-      data.sender !== cookies.user.userId &&
+      data.message.sender !== cookies.user.userId &&
         setUnreadMessages((prev) => {
           return [...prev, data];
         });

@@ -23,12 +23,14 @@ export default function Chat(props) {
     socket.current.on("getMessage", (data) => {
       setArrivalMessage(data);
     });
+    socket.current.on("showTyping", () => {});
   }, []);
-
   useEffect(() => {
+    // currentConversation?.members.includes(props.user.userId) &&
+    // currentConversation?.members.includes(arrivalMessage.sender) &&
     arrivalMessage &&
-      currentConversation?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
+      currentConversation._id === arrivalMessage.conversationId &&
+      setMessages((prev) => [...prev, arrivalMessage.message]);
   }, [arrivalMessage, currentConversation]);
   //handling the deletion of a message
   useEffect(() => {
@@ -120,6 +122,7 @@ export default function Chat(props) {
       socket.current.emit("sendMessage", {
         receiverId: currentChatter._id,
         message: res.data,
+        conversationId: currentConversation._id,
       });
       document.getElementById("chatMessage").value = "";
     } catch (error) {
@@ -139,6 +142,9 @@ export default function Chat(props) {
   }
   function markRead(conv) {
     props.markConversationRead(conv);
+  }
+  function handleShowTyping() {
+    socket.current.emit("typing");
   }
   return (
     <>
@@ -205,17 +211,23 @@ export default function Chat(props) {
                 <div className="chat-top">
                   {messages.map((m) => {
                     return (
-                      <div ref={scrollRef}>
-                        <Message
-                          markRead={markRead}
-                          currentConversation={currentConversation}
-                          handleDeleteMessage={handleDeleteMessage}
-                          message={m}
-                          handleShowOptions={handleShowOptions}
-                          showOptions={showOptions}
-                          own={m.sender === props?.user.userId ? true : false}
-                        />
-                      </div>
+                      m && (
+                        <>
+                          <div ref={scrollRef}>
+                            <Message
+                              markRead={markRead}
+                              currentConversation={currentConversation}
+                              handleDeleteMessage={handleDeleteMessage}
+                              message={m}
+                              handleShowOptions={handleShowOptions}
+                              showOptions={showOptions}
+                              own={
+                                m?.sender === props?.user.userId ? true : false
+                              }
+                            />
+                          </div>
+                        </>
+                      )
                     );
                   })}
                 </div>
@@ -224,6 +236,7 @@ export default function Chat(props) {
                     name="chatMessage"
                     id="chatMessage"
                     className="chat-message-input"
+                    onChange={handleShowTyping}
                   ></textarea>
                   <button className="chat-message-send btn btn-color-2">
                     Send
