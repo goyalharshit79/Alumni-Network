@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { format } from "timeago.js";
 
 export default function Message(props) {
   const [sender, setSender] = useState();
@@ -79,7 +80,9 @@ export default function Message(props) {
           {props.message.text}
         </span>
       </div>
-      <div className="message-bottom text-color-main">{"1 hour ago"}</div>
+      <div className="message-bottom me-2 text-color-main">
+        {format(props.message.createdAt)}
+      </div>
     </div>
   );
 }
