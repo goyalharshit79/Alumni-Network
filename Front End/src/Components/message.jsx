@@ -80,7 +80,7 @@ export default function Message(props) {
           {props.message.text}
         </span>
       </div>
-      <div className="message-bottom me-2 text-color-main">
+      <div className="message-bottom me-2 ms-5 text-color-main">
         {format(props.message.createdAt)}
       </div>
     </div>

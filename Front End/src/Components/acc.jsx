@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 // import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import axios from "axios";
+import Alert from "./alert";
 function Acc(props) {
   const scrollRef = useRef();
   const [profilePic, setProfilePic] = useState();
   const [user, setUser] = useState();
   const [showOptions, setShowOptions] = useState();
   const [keys, setKeys] = useState([]);
+  const [conversationExists, setConversationExists] = useState(false);
 
   //getting photo of the user
   useEffect(() => {
@@ -167,11 +169,28 @@ function Acc(props) {
         senderId: props.loggedIn.userId,
         receiverId: props.userClicked.email,
       });
+      if (res.data.msg === "201") {
+        // console.log("already exsits");
+        setConversationExists(true);
+      }
     } catch (error) {}
   };
   return props.from === "explore" ? (
     user ? (
       <div id="my-container" className="scroll-enable" ref={scrollRef}>
+        {conversationExists && (
+          <>
+            <Alert
+              type="warning"
+              message="A conversation with this user already exists, go to chat page to get in touch with them!"
+              closeAlert={() => {
+                setTimeout(() => {
+                  setConversationExists(false);
+                }, 100);
+              }}
+            />
+          </>
+        )}
         <div className="container-fluid p-5">
           <div className="row">
             {/* the background div */}
