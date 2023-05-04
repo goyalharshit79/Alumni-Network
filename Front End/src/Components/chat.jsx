@@ -18,6 +18,8 @@ export default function Chat(props) {
   const [showOptions, setShowOptions] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [showTyping, setShowTyping] = useState(null);
+  const [searchedUser, setSearchedUser] = useState();
+  const [allUsers, setAllUsers] = useState();
   //socket stuff
   ////setting the socket connection
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function Chat(props) {
     // currentConversation?.members.includes(props.user.userId) &&
     // currentConversation?.members.includes(arrivalMessage.sender) &&
     arrivalMessage &&
-      currentConversation._id === arrivalMessage.conversationId &&
+      currentConversation?._id === arrivalMessage.conversationId &&
       setMessages((prev) => [...prev, arrivalMessage.message]);
   }, [arrivalMessage, currentConversation]);
   //handling the deletion of a message
@@ -112,6 +114,8 @@ export default function Chat(props) {
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const getUserSearched = async () => {};
   // function to send the messaged
   async function handleSendMessage(e) {
     const address = "http://localhost:8000";
@@ -173,18 +177,20 @@ export default function Chat(props) {
       >
         <div className="contacts-container">
           <div className="contacts-wrapper">
-            <div className="form-floating">
+            <div className="form-floating mb-3">
               <input
                 type="text"
                 className="form-control chat-search-input"
                 id="searchChat"
                 name="searchChat"
-                placeholder="Search for a char"
+                placeholder="Search"
+                onChange={getUserSearched}
               />
               <label htmlFor="addComment" className="mx-2">
                 Search for a chat
               </label>
             </div>
+            <div className="fs-5 text-color-main ms-2">Conversations</div>
             {conversations?.map((conversation) => {
               return (
                 <div

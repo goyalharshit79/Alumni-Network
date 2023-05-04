@@ -262,25 +262,6 @@ function App() {
   function handleUserClicked(email) {
     setCookie("userClicked", email);
   }
-  function getClickedUserDetails() {
-    const address = "http://localhost:8000";
-    const reqData = {
-      email: cookies.userClicked,
-    };
-    fetch(address + "/get-user-details", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(reqData),
-      mode: "cors",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.msg === "900") {
-          setCookie("userClicked", data.user);
-          setUserClicked(data.userDetails);
-        }
-      });
-  }
   function postToProfile(email) {
     setCookie("userClicked", email);
     setCookie("page", "Explore");
@@ -289,10 +270,41 @@ function App() {
     setExploreClicked(true);
   }
   useEffect(() => {
-    if (cookies.userClicked && !userClicked) {
+    const getClickedUserDetails = () => {
+      const address = "http://localhost:8000";
+      const reqData = {
+        email: cookies.userClicked,
+      };
+      fetch(address + "/get-user-details", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reqData),
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.msg === "900") {
+            setCookie("userClicked", data.user);
+            setUserClicked(data.userDetails);
+          }
+        });
+    };
+    if (cookies.userClicked) {
       getClickedUserDetails();
     }
-  });
+  }, [cookies.userClicked]);
+  // const handleStartConversation = async (friendId) => {
+  //   try {
+  //     const address = "http://localhost:8000/new-conversation";
+  //     const res = axios.post(address, {
+  //       senderId: friendId,
+  //       receiverId: cookies.user.userId,
+  //     });
+  //     console.log(res.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
@@ -364,6 +376,8 @@ function App() {
             logout={handleLogout}
           />
           <Acc
+            // handleStartConversation={handleStartConversation}
+            loggedIn={cookies.user}
             user={cookies.userClicked}
             userClicked={userClicked}
             from="explore"

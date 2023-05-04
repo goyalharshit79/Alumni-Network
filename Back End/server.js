@@ -723,15 +723,29 @@ app.post("/get-user-details", async (req, res) => {
 });
 
 app.post("/new-conversation", async (req, res) => {
-  const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId],
-  });
-
   try {
+    let receiverId, senderId;
+    if (req.body.receiverId.includes("@")) {
+      const receiver = await User.find({ email: req.body.receiverId });
+      receiverId = receiver[0]._id;
+    } else {
+      receiverId = req.body.receiverId;
+    }
+    if (req.body.senderId.includes("@")) {
+      const sender = await User.find({ email: req.body.receiverId });
+      senderId = sender[0]._id;
+    } else {
+      senderId = req.body.senderId;
+    }
+    receiverId = receiverId.toString();
+    console.log(receiverId);
+    const newConversation = new Conversation({
+      members: [senderId, receiverId],
+    });
     const savedConversation = await newConversation.save();
     res.status(200).json(savedConversation);
   } catch (error) {
-    res.status(500).json(error);
+    // res.status(500).json(error);
   }
 });
 

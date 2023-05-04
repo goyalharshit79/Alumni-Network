@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import _ from "lodash";
 // import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
-
+import axios from "axios";
 function Acc(props) {
   const scrollRef = useRef();
   const [profilePic, setProfilePic] = useState();
@@ -160,7 +160,15 @@ function Acc(props) {
       setShowOptions(false);
     }
   }
-
+  const handleStartConversation = async () => {
+    try {
+      const address = "http://localhost:8000/new-conversation";
+      const res = await axios.post(address, {
+        senderId: props.loggedIn.userId,
+        receiverId: props.userClicked.email,
+      });
+    } catch (error) {}
+  };
   return props.from === "explore" ? (
     user ? (
       <div id="my-container" className="scroll-enable" ref={scrollRef}>
@@ -182,7 +190,18 @@ function Acc(props) {
               )}
             </div>
             <div className="col-md-1"></div>
-            <div className="col-md-8"></div>
+            <div className="col-md-8">
+              <div className="row">
+                {props.userClicked?.email !== props.loggedIn.email && (
+                  <button
+                    className="edit-btn col-sm-12 btn btn-lg rounded-3 btn-color-2"
+                    onClick={handleStartConversation}
+                  >
+                    Start Conversation
+                  </button>
+                )}
+              </div>
+            </div>
             {/* stuff after image */}
             <div className="col-md-3 text-center after-photo mb-3 bg-color text-color-sec">
               <div className="row">
@@ -203,7 +222,7 @@ function Acc(props) {
                 </div>
                 {keys ? (
                   props.userClicked ? (
-                    keys.map((key) => {
+                    keys?.map((key) => {
                       return (
                         <div className="list-group">
                           <div className="list-group-item mb-2 list-group-item-action d-flex gap-3">
@@ -401,7 +420,7 @@ function Acc(props) {
                   <div className="col-md-12 h2 heading text-center text-color-main">
                     {user.user}
                   </div>
-                  {keys.map((key) => {
+                  {keys?.map((key) => {
                     return (
                       <div className="list-group">
                         <div className="list-group-item mb-2 list-group-item-action d-flex gap-3">
