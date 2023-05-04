@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Alert from "./alert";
 
 function LogIn(props) {
   function handleLogin(event) {
@@ -24,6 +25,8 @@ function LogIn(props) {
           props.loggedIn(data.email);
           props.firstLogin();
           props.closeSignin();
+        } else if (data.msg === "901") {
+          props.  ();
         }
       })
       .catch((err) => console.log(err));

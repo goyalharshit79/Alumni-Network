@@ -10,7 +10,7 @@ import Chat from "./chat";
 import axios from "axios";
 import Acc from "./acc";
 import { io } from "socket.io-client";
-
+// import Alert from "./alert";
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies([
     "userClicked",
@@ -305,6 +305,7 @@ function App() {
   //     console.log(error);
   //   }
   // };
+
   return isLoggedIn ? (
     isFirstLogin ? (
       <>
