@@ -741,8 +741,20 @@ app.post("/new-conversation", async (req, res) => {
     const conversation = await Conversation.find({
       members: { $in: receiverId },
     });
+
     if (conversation.length) {
-      res.status(200).json({ msg: "201" });
+      console.log("here");
+      const conv = await Conversation.find({ members: { $in: senderId } });
+      if (conv.length) {
+        console.log("iner");
+        res.status(200).json({ msg: "201" });
+      } else {
+        const newConversation = new Conversation({
+          members: [senderId, receiverId],
+        });
+        const savedConversation = await newConversation.save();
+        res.status(200).json(savedConversation);
+      }
     } else {
       const newConversation = new Conversation({
         members: [senderId, receiverId],

@@ -170,8 +170,10 @@ function Acc(props) {
         receiverId: props.userClicked.email,
       });
       if (res.data.msg === "201") {
-        // console.log("already exsits");
+        console.log("already exsits");
         setConversationExists(true);
+      } else {
+        console.log("first");
       }
     } catch (error) {}
   };
