@@ -6,7 +6,7 @@ export default function Det(props) {
       <div className="image-container">
         <div className="image-wrapper">
           <div className="inside-container">
-            <img src="try.jpg" className="landing-image" alt="" />
+            <img src="IMG_0550.jpg" className="landing-image" alt="" />
           </div>
         </div>
       </div>
